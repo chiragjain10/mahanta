@@ -1,0 +1,564 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    color: #222;
+    background: #ffffff;
+}
+
+
+/* ==========================================================
+   HERO SLIDER WRAPPER
+========================================================== */
+.hero-slider {
+    position: relative;
+    height: 100vh;
+    min-height: 780px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+/* ==========================================================
+   SLIDE BACKGROUNDS
+========================================================== */
+.slides-container {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.slide-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.07);
+    filter: brightness(0.9) contrast(0.95) saturate(1.05);
+    transition: opacity 1.3s ease, transform 1.3s ease;
+}
+
+.slide-bg.active {
+    opacity: 1;
+    transform: scale(1.0);
+}
+
+
+/* ==========================================================
+   HERO COLOR OVERLAY
+========================================================== */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+        135deg,
+        rgba(17, 116, 214, 0.25),
+        rgba(0, 0, 0, 0.78) 55%,
+        rgba(17,116,214,0.12)
+    );
+}
+
+
+/* ==========================================================
+   FLOATING SHAPES
+========================================================== */
+.hero-shapes {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(17, 116, 214, 0.15);
+    filter: blur(0.3px);
+    animation: floatShape 7s ease-in-out infinite;
+}
+
+.shape-1 { width: 260px; height: 260px; left: 4%; top: 8%; }
+.shape-2 { width: 180px; height: 180px; right: 8%; top: 58%; animation-delay: 1s; }
+.shape-3 { width: 140px; height: 140px; left: 15%; bottom: 18%; animation-delay: 2.5s; }
+
+@keyframes floatShape {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(140deg); }
+}
+
+
+/* ==========================================================
+   HERO CONTENT
+========================================================== */
+.hero-content {
+    position: relative;
+    z-index: 3;
+    padding-top: 40px;
+    text-align: center;
+}
+
+/* BADGE */
+.premium-badge {
+    display: inline-block;
+    padding: 7px 20px;
+    border-radius: 30px;
+    background: linear-gradient(135deg,#1174d6,#0d5bb0);
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.7px;
+    margin-bottom: 24px;
+}
+
+/* MAIN TITLE */
+.title-large {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.04;
+    color: #fff;
+    margin-bottom: 18px;
+    text-shadow: 1px 3px 20px rgba(0,0,0,0.55);
+}
+
+@media(max-width: 768px) {
+    .title-large { font-size: 2.4rem; }
+}
+
+/* ==========================================================
+   ANIMATED TEXT (fixed blur)
+========================================================== */
+.cd-words-wrapper {
+    position: relative;
+    display: inline-block;
+    min-width: 9ch;
+}
+
+.item-text {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    transition: opacity .35s ease-in-out;
+    filter: none !important;
+    -webkit-font-smoothing: antialiased !important;
+    font-smooth: always !important;
+    transform: translateZ(0) !important;
+    text-shadow: none !important;
+}
+
+.item-text.is-visible {
+    position: relative;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Subtitle */
+.subtitle {
+    color: rgba(255,255,255,0.92);
+    max-width: 720px;
+    margin: 0 auto 25px;
+    line-height: 1.7;
+    font-size: 1.08rem;
+}
+
+
+/* ==========================================================
+   PREMIUM SEARCH BOX (COMPACT + GLASS + RESPONSIVE)
+========================================================== */
+.premium-search {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(18px);
+    border-radius: 18px;
+    padding: 26px 30px;
+    margin-top: 38px;
+    border: 1px solid rgba(255,255,255,0.45);
+    box-shadow: 0 14px 40px rgba(17,116,214,0.22);
+}
+
+
+/* Tabs */
+.nav-tab-form.style-1 {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.nav-link-item {
+    padding: 11px 30px;
+    border-radius: 30px;
+    border: 2px solid #dcdcdc;
+    background: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.nav-link-item.active,
+.nav-link-item:hover {
+    background: linear-gradient(135deg,#1174d6,#0d5bb0);
+    color: #fff;
+    border-color: #1174d6;
+    box-shadow: 0 10px 30px rgba(17,116,214,0.25);
+}
+
+
+/* ==========================================================
+   INPUT GRID (Compact)
+========================================================== */
+.inner-group {
+    display: grid;
+    grid-template-columns: 1.1fr 1.7fr 1.1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+@media(max-width: 768px) {
+    .inner-group {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+}
+
+/* Labels */
+.form-style label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #222;
+    font-size: 14px;
+}
+
+/* Inputs */
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1.5px solid #e4e6ea;
+    font-size: 15px;
+    transition: 0.25s ease;
+    background: #ffffff;
+}
+
+.form-control:focus {
+    border-color: #1174d6;
+    box-shadow: 0 0 0 3px rgba(17,116,214,0.18);
+}
+
+/* Location Icon */
+.group-ip {
+    position: relative;
+}
+.group-ip .icon-location {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #1174d6;
+    font-size: 18px;
+}
+
+
+/* ==========================================================
+   BUTTON ROW
+========================================================== */
+.box-btn-advanced {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.tf-btn {
+    padding: 11px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-line {
+    border: 2px solid #1174d6;
+    background: transparent;
+    color: #1174d6;
+}
+
+.btn-line:hover {
+    background: #1174d6;
+    color: #fff;
+}
+
+.premium-search-btn {
+    background: linear-gradient(135deg,#1174d6,#0d5bb0);
+    color: #fff;
+    border: none;
+}
+
+/* ==========================================================
+   ADVANCED SECTION
+========================================================== */
+.advanced-search-expanded {
+    margin-top: 24px;
+    padding-top: 22px;
+    border-top: 1px solid #dcdcdc;
+    animation: slideDown .4s ease-out;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Range Sliders */
+.premium-slider {
+    width: 100%;
+    height: 6px;
+    background: #e3e3e3;
+    border-radius: 4px;
+}
+
+.premium-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1174d6;
+    border: 3px solid #fff;
+}
+
+/* Amenities */
+.group-amenities {
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    gap: 12px;
+}
+
+@media(max-width:768px) {
+    .group-amenities {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+.premium-checkbox {
+    transform: scale(1.25);
+    accent-color: #1174d6;
+}
+
+
+/* ==========================================================
+   CUSTOM CURSOR
+========================================================== */
+.custom-cursor {
+    position: fixed;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #1174d6;
+    pointer-events: none;
+    transform: translate(-50%,-50%);
+    transition: transform .15s ease, background .15s ease;
+    z-index: 9999;
+}
+
+.custom-cursor.hover {
+    transform: translate(-50%,-50%) scale(1.5);
+    background: #0d5bb0;
+}
+
+@media(max-width:768px) {
+    .custom-cursor {
+        display: none;
+    }
+}
+
+
+/* ==========================================================
+   SCROLL INDICATOR
+========================================================== */
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #fff;
+}
+
+.scroll-line {
+    width: 3px;
+    height: 42px;
+    background: rgba(255,255,255,0.6);
+    margin: 0 auto 10px;
+    animation: scrollLine 2s infinite;
+}
+
+@keyframes scrollLine {
+    0%,100% { opacity: .5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(10px); }
+}
+
+
+/* ==========================================================
+   WELCOME SECTION
+========================================================== */
+.welcome-section {
+    background: #fafbfc;
+    padding: 60px 0;
+}
+
+.welcome-title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    position: relative;
+}
+
+.welcome-title::after {
+    content: "";
+    width: 70px;
+    height: 4px;
+    background: #1174d6;
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+}
+
+.welcome-text {
+    color: #666;
+    line-height: 1.7;
+}
+
+/* Welcome Image */
+.welcome-logo {
+    border-radius: 16px;
+    box-shadow: 0 16px 45px rgba(0,0,0,0.15);
+    transition: .3s ease;
+}
+
+.welcome-logo:hover {
+    transform: translateY(-8px);
+}
+
+
+/* NEW clean animation classes (no conflicts) */
+
+.hero-animated-heading {
+    position: relative;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.hero-word-switch {
+    position: relative;
+    display: inline-block;
+    min-width: 7ch; /* prevents layout shift */
+}
+
+.hero-word {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    font-weight: 800;
+    background: linear-gradient(135deg,#1174d6,#0d5bb0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+/* word visible class */
+.hero-word.visible {
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+}
+/* -------------------------------------------------------
+   PREMIUM HERO TABS – CLEAN, COMPACT & NO CONFLICT
+------------------------------------------------------- */
+
+/* wrapper */
+.hero-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+}
+
+/* each li */
+.hero-tab-item {
+    margin: 0;
+}
+
+/* button styling */
+.hero-tab-btn {
+    padding: 9px 26px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border-radius: 30px;
+    border: 2px solid #d8dfea;
+    background: #ffffffdd;
+    color: #555;
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* hover */
+.hero-tab-btn:hover {
+    border-color: #1174d6;
+    color: #1174d6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(17,116,214,0.22);
+}
+
+/* ACTIVE state */
+.hero-tab-btn.active {
+    background: linear-gradient(135deg,#1174d6,#0d5bb0);
+    color: #fff;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(17,116,214,0.32);
+}
+
+/* responsive */
+@media (max-width: 480px) {
+    .hero-tab-btn {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+        border-radius: 22px;
+    }
+    .hero-tabs {
+        gap: 8px;
+        margin-bottom: 14px;
+    }
+}
+
+.wd-find-select{
+    text-align: left;
+}
+
+.wd-find-select label{
+    margin-top: 20px;
+    margin-bottom: 0;
+}
