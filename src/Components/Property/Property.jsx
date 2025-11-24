@@ -1,5 +1,5 @@
 import React from "react";
-import "./property.css";
+import "./Property.css";
 import { FaSearch, FaMapMarkerAlt, FaBath, FaBed, FaRulerCombined } from "react-icons/fa";
 import { FiTarget, FiSliders } from "react-icons/fi";
 
