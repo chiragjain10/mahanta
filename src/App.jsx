@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import CustomCursor from './Components/Common/CustomCursor';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFoundPage from './Components/404/NotFound';
 import ScrollToTop from './Components/ScrollToTop';
@@ -14,7 +15,8 @@ import Home from './Components/Homepage/Home';
 import About from './Components/About/About';
 import Service from "./Components/Services/Service";
 import Contact from './Components/Contact/Contact';
-import Gallery from "./Components/Gallery/Gallery";
+import Gallery from './Components/Gallary/Gallery';
+import ProjectGallery from './Components/Project/Gallery'
 import PropertyListing from "./Components/Property/Property";
 import BlogPage from "./Components/Blog/Blog";
 import AdminPanel from './Components/Admin/AdminPanel';
@@ -25,6 +27,19 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Initialize AOS lazily if available
+    let aos;
+    (async () => {
+      try {
+        const mod = await import('aos');
+        await import('aos/dist/aos.css');
+        aos = mod.default;
+        aos.init({ duration: 700, easing: 'ease-out-quart', once: true, offset: 40 });
+      } catch (_) {
+        // AOS not installed; skip silently
+      }
+    })();
+
     const preloadAssets = async () => {
       try {
         const images = [
@@ -60,6 +75,8 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />   
+      {/* Global custom cursor */}
+      <CustomCursor />
       {/* Preloader */}
       {loading && <PremiumPreloader />}
 
@@ -72,7 +89,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Service />} />
-          <Route path="/gellery" element={<Gallery />} />
+          <Route path="/projectgallery" element={<ProjectGallery />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/property" element={<PropertyListing />} />
           <Route path="/property/:id" element={<PropertyDetail />} />

@@ -9,9 +9,9 @@ function Breadcrumb() {
                         <ul className="breadcrumb">
                             <li><Link to="/" className="text-white">Home</Link></li>
                             <li className="text-white">/ Pages</li>
-                            <li className="text-white">/ Running Projects</li>
+                            <li className="text-white">/  Projects</li>
                         </ul>
-                        <h1 className="text-center text-white title">Running Projects</h1>
+                        <h1 className="text-center text-white title"> Projects</h1>
                     </div>
                 </div>
             </section>

@@ -1,0 +1,143 @@
+.homepage-projects {
+    padding: 2rem 0;
+    background: #f1f5f9;
+}
+
+.projects-header {
+    margin-bottom: 2rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* Card Base */
+.projects-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    transition: all 0.25s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.projects-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Section */
+.projects-card-image {
+    position: relative;
+    height: 200px;
+}
+
+.projects-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Badge */
+.projects-card-badge {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+/* Card Body */
+.projects-card-body {
+    padding: 1.2rem;
+    text-align: left;
+}
+
+.projects-card-body h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.projects-card-body p {
+    margin: 0.5rem 0 1rem;
+    color: #475569;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Link */
+.projects-card-link {
+    font-weight: 600;
+    color: #0284c7;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.projects-card-link::after {
+    content: '→';
+    transition: transform 0.2s ease;
+}
+
+.projects-card-link:hover::after {
+    transform: translateX(3px);
+}
+
+/* Muted text */
+.projects-card-muted {
+    color: #94a3b8;
+    font-size: 0.85rem;
+}
+
+/* STATES */
+.projects-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: #475569;
+    font-size: 1rem;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .homepage-projects {
+        padding: 1.5rem 0;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .projects-card-image {
+        height: 180px;
+    }
+
+    .projects-card-body {
+        padding: 1rem;
+    }
+
+    .projects-card-body h3 {
+        font-size: 1.1rem;
+    }
+}   
+

@@ -8,6 +8,8 @@ import PropertyCategories from './PropertyCategories'
 import ChooseUs from './ChooseUs'
 import TestimonialSection from './Testimonial'
 import Welcome from './Welcome'
+import ProjectsSection from './Projects'
+import BlogsSpotlight from './Blogs'
 
 function Home() {
 
@@ -27,6 +29,8 @@ function Home() {
 
       <Welcome />
       <PropertyListings />
+      <ProjectsSection />
+      <BlogsSpotlight />
 
 
 

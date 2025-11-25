@@ -31,13 +31,9 @@ const ExploreCities = () => {
   return (
     <section className="flat-section">
       <div className="container">
-        <div
-          className="box-title text-center wow fadeInUpSmall"
-          data-wow-delay=".2s"
-          data-wow-duration="2000ms"
-        >
+        <div className="box-title text-center wow fadeInUp">
           <div className="text-subtitle text-primary">Explore Cities</div>
-          <h3 className="title mt-4">Our Services</h3>
+          <h3 className="mt-4 title">Our Services</h3>
         </div>
 
         <div

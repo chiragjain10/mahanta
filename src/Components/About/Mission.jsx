@@ -1,48 +1,39 @@
-import React from "react";
-// import "./MissionVision.css";
-import { FaBullseye, FaEye } from "react-icons/fa";
+import React from 'react';
+import { FaBullseye, FaEye } from 'react-icons/fa';
+import './About.css';
 
 const MissionVision = () => {
   return (
-    <section className="mv-section">
-      <div className="mv-container">
-        <div className="mv-header">
-          <h2>Our Mission & Vision</h2>
+    <section className="about-mission container">
+      <div className="box-title text-center wow fadeInUp">
+        <div className="text-subtitle text-primary">Mission &amp; Vision</div>
+        <h3 className="mt-4 title">Clarity, consistency, and customer-first intelligence.</h3>
+      </div>
+
+      <div className="mv-grid">
+        <article className="mv-card">
+          <div className="mv-icon">
+            <FaBullseye />
+          </div>
+          <h3>Our Mission</h3>
           <p>
-            At Mahanta Group, we believe in building more than properties — 
-            we build trust, value, and long-lasting relationships.
+            Our mission is to redefine the real estate experience in Indore. We leverage our deep local market
+            expertise and client-centric solutions to ensure your property journey is transparent, reliable, and easy.
+            We partner with you every step of the way to turn your property dreams into a lasting reality.
           </p>
-        </div>
+        </article>
 
-        <div className="mv-grid">
-          {/* Mission */}
-          <div className="mv-card">
-            <div className="mv-icon">
-              <FaBullseye />
-            </div>
-            <h3>Our Mission</h3>
-            <p>
-              To deliver high-quality real estate solutions that combine 
-              innovation, transparency, and customer-centric service. 
-              Our mission is to provide properties that elevate lifestyles 
-              and offer sustainable value to individuals, families, and businesses.
-            </p>
+        <article className="mv-card">
+          <div className="mv-icon">
+            <FaEye />
           </div>
-
-          {/* Vision */}
-          <div className="mv-card">
-            <div className="mv-icon">
-              <FaEye />
-            </div>
-            <h3>Our Vision</h3>
-            <p>
-              To become one of the most trusted and leading real estate 
-              brands in the nation by setting new benchmarks in design, 
-              quality, affordability, and commitment — shaping a better 
-              future for modern living.
-            </p>
-          </div>
-        </div>
+          <h3>Our Vision</h3>
+          <p>
+            Our vision is clear: to become the most trusted and preferred name in Indore’s competitive real estate
+            industry. We aim to create a platform where every family and business can easily find the best property
+            options that perfectly suit their unique needs and aspirations.
+          </p>
+        </article>
       </div>
     </section>
   );

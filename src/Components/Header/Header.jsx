@@ -152,10 +152,17 @@ const PremiumHeader = () => {
                                                     <div className="dropdown-desc">Our Story & Vision</div>
                                                 </div>
                                             </Link>
-                                            <Link to="/gallary" className="dropdown-link">
+                                            <Link to="/gallery" className="dropdown-link">
                                                 <span className="dropdown-icon">🖼️</span>
                                                 <div>
                                                     <div className="dropdown-title">Gallery</div>
+                                                    <div className="dropdown-desc">Project Showcase</div>
+                                                </div>
+                                            </Link>
+                                            <Link to="/projectgallery" className="dropdown-link">
+                                                <span className="dropdown-icon">🖼️</span>
+                                                <div>
+                                                    <div className="dropdown-title">Project Gallery</div>
                                                     <div className="dropdown-desc">Project Showcase</div>
                                                 </div>
                                             </Link>

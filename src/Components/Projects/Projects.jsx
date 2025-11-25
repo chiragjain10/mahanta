@@ -24,8 +24,11 @@ export default function RunningProjects() {
 
   return (
     <div className="projects-section py-5">
-      <div className="container text-center mb-5">
-        <h2 className="section-title fw-bold">RUNNING PROJECTS</h2>
+      <div className="container">
+        <div className="box-title text-center wow fadeInUp">
+          <div className="text-subtitle text-primary">Running Projects</div>
+          <h3 className="mt-4 title">RUNNING PROJECTS</h3>
+        </div>
       </div>
 
       <div className="container">

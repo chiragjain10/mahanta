@@ -130,22 +130,11 @@ const HeroSlider = () => {
     const toggleAdvanced = () => {
         setShowAdvanced(!showAdvanced);
     };
-
-    const cursorEnter = () => setCursorVariant('hover');
-    const cursorLeave = () => setCursorVariant('default');
-
+    // No-op cursor handlers since global cursor is used now
+    const cursorEnter = () => {};
+    const cursorLeave = () => {};
     return (
         <>
-            {/* Custom Cursor */}
-            <div
-                ref={cursorRef}
-                className={`custom-cursor ${cursorVariant}`}
-                style={{
-                    left: `${mousePosition.x}px`,
-                    top: `${mousePosition.y}px`
-                }}
-            />
-
             {/* Hero Section */}
             <section className="hero-slider">
                 {/* Background Slides */}

@@ -1,0 +1,123 @@
+/* ---------- Main Page ---------- */
+.gallery-page {
+  padding: 3rem 0;
+  background: #f5f7fb;
+}
+
+.gallery-header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.gallery-header p {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+@media (max-width: 992px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+
+/* ---------- Premium Card ---------- */
+.premium-card {
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+  position: relative;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.12);
+  filter: brightness(1.05);
+}
+
+.gallery-card-image {
+  height: 240px;
+}
+
+.gallery-card-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Modal (Premium) ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 9999;
+  animation: fadeIn .25s ease;
+}
+
+.modal-premium {
+  position: relative;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  padding: 0;
+  border-radius: 22px;
+  max-width: 900px;
+  width: 95%;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0,0,0,.35);
+  animation: zoomIn .35s ease;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  font-size: 1.6rem;
+  padding: .2rem .5rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background .2s ease;
+}
+
+.modal-close-btn:hover {
+  background: white;
+}
+
+.modal-content {
+  padding: 0;
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 18px;
+}
+
+/* ---------- Animations ---------- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

@@ -10,11 +10,9 @@ function ChooseUs() {
                             src="images/banner/img-w-text1.jpg" alt=""/>
                     </div>
                     <div className="content-right">
-                        <div className="box-title wow fadeInUp">
+                        <div className="box-title text-center wow fadeInUp">
                             <div className="text-subtitle text-primary">Our Benifit</div>
-                            <h3 className="title mt-4">Why Choose Mahanta Group</h3>
-                            <p className="desc text-variant-1">Our seasoned team excels in real estate with years of
-                                successful market <br/> navigation, offering informed decisions and optimal results.</p>
+                            <h3 className="mt-4 title">Why Choose Mahanta Group</h3>
                         </div>
                         <div className="flat-service wow fadeInUp" data-wow-delay=".2s">
                             <a href="#" className="box-benefit hover-btn-view">

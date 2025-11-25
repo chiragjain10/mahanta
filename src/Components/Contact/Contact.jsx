@@ -6,12 +6,12 @@ const ContactSection = () => {
   return (
     <div>
       <Breadcrumb />
-      <section className="flat-contact-section py-5">
+      <section className="flat-contact-section py-5" data-aos="fade-up">
         <div className="container">
           <div className="row g-5">
             
             {/* LEFT FORM */}
-            <div className="col-lg-8">
+            <div className="col-lg-8" data-aos="fade-right" data-aos-delay="100">
               <div className="contact-content shadow-lg p-5 rounded-4 bg-white position-relative overflow-hidden">
                 {/* Premium decorative element */}
                 <div className="position-absolute top-0 end-0 bg-primary bg-opacity-10 rounded-bottom-start-5" 
@@ -23,15 +23,15 @@ const ContactSection = () => {
                       <i className="bi bi-chat-left-text-fill text-primary fs-4"></i>
                     </div>
                     <div>
-                      <h4 className="contact-title mb-1 fw-bold">Drop Us A Line</h4>
+                      <h4 className="contact-title mb-1 fw-bold">Contact Us</h4>
                       <p className="text-muted mb-0 premium-subtitle">
-                        We'd love to hear from you
+                        We are always interested in looking at the possibilities together.
                       </p>
                     </div>
                   </div>
 
                   <p className="text-muted mb-4 premium-text">
-                    Have questions about our services? Reach out to our team and we'll get back to you within 24 hours.
+                    If you have any questions or would like general information, please do not hesitate to contact us. We are happy to talk to you.
                   </p>
 
                   <form
@@ -70,7 +70,7 @@ const ContactSection = () => {
                           type="email"
                           className="form-control premium-input border-start-0"
                           name="email"
-                          placeholder="your.email@example.com"
+                          placeholder="info@mahanta.org.in"
                           required
                         />
                       </div>
@@ -88,7 +88,7 @@ const ContactSection = () => {
                           type="text"
                           className="form-control premium-input border-start-0"
                           name="phone"
-                          placeholder="+1 (555) 123-4567"
+                          placeholder="0731-4909915"
                           required
                         />
                       </div>
@@ -138,21 +138,21 @@ const ContactSection = () => {
             </div>
 
             {/* RIGHT INFO */}
-            <div className="col-lg-4">
+            <div className="col-lg-4" data-aos="fade-left" data-aos-delay="150">
               <div className="contact-info card border-0 shadow-lg p-4 rounded-4 h-100 premium-info-card">
                 <div className="d-flex align-items-center mb-4">
                   <div className="bg-primary bg-opacity-10 rounded-3 p-3 me-3">
                     <i className="bi bi-geo-alt-fill text-primary fs-4"></i>
                   </div>
                   <div>
-                    <h4 className="contact-title mb-1 fw-bold">Contact Us</h4>
-                    <p className="text-muted mb-0 premium-subtitle">Get in touch</p>
+                    <h4 className="contact-title mb-1 fw-bold">Get In Touch</h4>
+                    <p className="text-muted mb-0 premium-subtitle">We are happy to talk to you</p>
                   </div>
                 </div>
 
                 <ul className="list-unstyled info-list">
                   
-                  <li className="mb-4 pb-3 border-bottom border-light">
+                  <li className="mb-4 pb-3 border-bottom border-light" data-aos="fade-up" data-aos-delay="200">
                     <div className="d-flex">
                       <div className="me-3 mt-1">
                         <i className="bi bi-geo-alt text-primary fs-5"></i>
@@ -160,8 +160,8 @@ const ContactSection = () => {
                       <div>
                         <h6 className="fw-bold premium-info-title">Our Location</h6>
                         <p className="text-muted mb-0 premium-info-text">
-                          101 E 129th St, East Chicago<br />
-                          IN 46312, United States
+                          405 - Shagun Tower, Above Apna Sweets,<br />
+                          AB Road, Vijay Nagar, Indore, 452001
                         </p>
                       </div>
                     </div>
@@ -175,23 +175,8 @@ const ContactSection = () => {
                       <div>
                         <h6 className="fw-bold premium-info-title">Contact Information</h6>
                         <p className="text-muted mb-1 premium-info-text">
-                          <span className="d-block">1-333-345-6868</span>
-                          <span className="d-block">hi.themesflat@gmail.com</span>
-                        </p>
-                      </div>
-                    </div>
-                  </li>
-
-                  <li className="mb-4 pb-3 border-bottom border-light">
-                    <div className="d-flex">
-                      <div className="me-3 mt-1">
-                        <i className="bi bi-clock text-primary fs-5"></i>
-                      </div>
-                      <div>
-                        <h6 className="fw-bold premium-info-title">Business Hours</h6>
-                        <p className="text-muted mb-0 premium-info-text">
-                          <span className="d-block">Mon - Fri: 8:00 AM - 8:00 PM</span>
-                          <span className="d-block">Sat - Sun: 10:00 AM - 6:00 PM</span>
+                          <span className="d-block">Call Us: 0731-4909915</span>
+                          <span className="d-block">Email Us: info@mahanta.org.in</span>
                         </p>
                       </div>
                     </div>

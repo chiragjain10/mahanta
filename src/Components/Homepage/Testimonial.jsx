@@ -50,12 +50,9 @@ export default function TestimonialPremiumLight() {
     <section className="premium-testimonial-light">
       <div className="container">
         {/* Section Header */}
-        <div className="box-title px-15 text-center">
+        <div className="box-title text-center wow fadeInUp">
           <div className="text-subtitle text-primary">Our Testimonials</div>
-          <h3 className="title mt-4">What’s people say’s</h3>
-          <p className="desc text-variant-1">
-            Our seasoned team excels in real estate with years of successful market navigation, offering informed decisions and optimal results.
-          </p>
+          <h3 className="mt-4 title">What's people say's</h3>
         </div>
 
         {/* Premium Swiper */}

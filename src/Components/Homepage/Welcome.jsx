@@ -9,9 +9,9 @@ function Welcome() {
 
                         <div className="content-right">
                             <div className="">
-                                <div className="box-title wow fadeInUp">
+                                <div className="box-title text-center wow fadeInUp">
                                     <div className="text-subtitle text-primary">Welcome</div>
-                                    <h3 className="title mt-4">Welcome to Mahanta Group</h3>
+                                    <h3 className="mt-4 title">Welcome to Mahanta Group</h3>
                                 </div>
 
                                 <p className="welcome-text mb-3">

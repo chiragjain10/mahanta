@@ -75,11 +75,9 @@ const ServiceList = () => {
 
       <div className="container">
         {/* Section Title */}
-        <div className="text-center mb-5">
-          <h6 className="text-uppercase fw-bold" style={{ color: primaryColor }}>
-            ● Our Services ●
-          </h6>
-          <h2 className="fw-bold mt-2">What We Offer You</h2>
+        <div className="box-title text-center wow fadeInUp mb-5">
+          <div className="text-subtitle text-primary">Our Services</div>
+          <h3 className="mt-4 title">What We Offer You</h3>
         </div>
 
         {/* Service Cards */}

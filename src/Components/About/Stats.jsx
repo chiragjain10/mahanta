@@ -45,11 +45,9 @@ function Stats() {
                             </div>
                         </div>
                         <div class="content-right">
-                            <div class="box-title wow fadeInUpSmall" data-wow-delay=".2s" data-wow-duration="2000ms">
+                            <div class="box-title text-center wow fadeInUp">
                                 <div class="text-subtitle text-primary">Our Benifit</div>
-                                <h3 class="title mt-4">Discover what sets our Real Estate expertise apart</h3>
-                                <p class="desc text-variant-1">Our seasoned professionals, armed with extensive market
-                                    knowledge, walk alongside you through every phase of your property endeavor.</p>
+                                <h3 class="mt-4 title">Discover what sets our Real Estate expertise apart</h3>
                             </div>
                             <div class="flat-service">
                                 <a href="#" class="box-benefit hover-btn-view">

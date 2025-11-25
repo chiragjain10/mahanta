@@ -44,13 +44,9 @@ const FaqSection = () => {
       <div className="container">
         <div className="tf-faq">
           {/* Section Title */}
-          <div
-            className="box-title style-1 text-center wow fadeInUpSmall"
-            data-wow-delay=".2s"
-            data-wow-duration="2000ms"
-          >
+          <div className="box-title text-center wow fadeInUp">
             <div className="text-subtitle text-primary">Faqs</div>
-            <h3 className="title mt-4">Frequently Asked Questions</h3>
+            <h3 className="mt-4 title">Frequently Asked Questions</h3>
           </div>
 
           {/* FAQ List */}

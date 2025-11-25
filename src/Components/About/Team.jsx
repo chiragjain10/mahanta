@@ -39,14 +39,9 @@ const Team = () => {
       <div className="container">
 
         {/* Title Section */}
-        <div className="text-center mb-5">
-          <p className="text-primary fw-semibold mb-1" style={{ fontSize: "18px" }}>
-            Our Teams
-          </p>
-          <h2 className="fw-bold">Meet Our Agents</h2>
-          <p className="text-muted mt-2" style={{ maxWidth: "600px", margin: "0 auto" }}>
-            Our experienced and dedicated team is committed to helping you find the perfect property.
-          </p>
+        <div className="box-title text-center wow fadeInUp mb-5">
+          <div className="text-subtitle text-primary">Our Teams</div>
+          <h3 className="mt-4 title">Meet Our Agents</h3>
         </div>
 
         {/* Swiper Slider */}
