@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../Firebase/Firebase';
 import './Projects.css';
-import { ChevronLeft, ChevronRight, MapPin, Calendar, Ruler, Users, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MapPin, Calendar, Ruler, Users, ArrowRight, Home, Clock } from 'lucide-react';
 
 // Helper function from old component
 const formatLocationSummary = (location) => {
@@ -179,9 +179,8 @@ const Projects = () => {
             <section className="slider-section">
                 <div className="head container">
                     <div className="head-content">
-                        <div className="section-label">OUR PORTFOLIO</div>
                         <h2>Running Projects</h2>
-                        <p className="section-subtitle">Explore our current developments and ongoing construction initiatives</p>
+                        <p className="">Explore our current developments and ongoing construction initiatives</p>
                     </div>
                 </div>
                 <div className="projects-state container">
@@ -199,9 +198,8 @@ const Projects = () => {
         >
             <div className="head container">
                 <div className="head-content">
-                    <div className="section-label">OUR PORTFOLIO</div>
                     <h2>Running Projects</h2>
-                    <p className="section-subtitle">Explore our current developments and ongoing construction initiatives</p>
+                    <p className="">Explore our current developments and ongoing construction initiatives</p>
                 </div>
                 <div className="controls">
                     <div className="control-counter">
@@ -251,6 +249,14 @@ const Projects = () => {
                                 loading="lazy"
                             />
                             
+                            {/* Project Status Ribbon */}
+                            <div className="status-ribbon">
+                                <div className="ribbon-content">
+                                    <Clock size={14} />
+                                    <span>Running</span>
+                                </div>
+                            </div>
+                            
                             {/* Project Stats Badge */}
                             <div className="project-stats">
                                 {project.size && (
@@ -261,7 +267,7 @@ const Projects = () => {
                                 )}
                                 {project.units && (
                                     <div className="stat-item">
-                                        <Users size={14} />
+                                        <Home size={14} />
                                         <span>{project.units} units</span>
                                     </div>
                                 )}
@@ -269,17 +275,11 @@ const Projects = () => {
                             
                             <div className="project-card__content">
                                 <div className="project-card__header">
-                                    <div className="project-meta">
-                                        <span className="project-status">
-                                            <div className="status-indicator"></div>
-                                            {project.status || 'running'}
+                                    <div className="project-badge">
+                                        <span className="project-date">
+                                            <Calendar size={14} />
+                                            06/xx
                                         </span>
-                                        {project.completionDate && (
-                                            <span className="project-deadline">
-                                                <Calendar size={14} />
-                                                Target: {project.completionDate}
-                                            </span>
-                                        )}
                                     </div>
                                     <h3 className="project-card__title">{project.title}</h3>
                                     <div className="project-location">

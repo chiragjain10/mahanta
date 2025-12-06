@@ -1,17 +1,38 @@
-.flat-img-with-text .content-right{
+.flat-img-with-text .content-right {
     padding-top: 50px;
     padding-bottom: 0;
 }
-.chooseUs>div{
-    height: 800px;
+
+.chooseUs>div {
+    height: 700px;
 }
 
-@media (max-width: 768px){
-    .chooseUs{
+@media (max-width: 768px) {
+    .chooseUs {
         height: auto;
     }
 }
 
-.chooseUs_scroller{
+.chooseUs_scroller {
     overflow-y: auto;
+}
+
+.box-benefit .content .description {
+    font-size: 13px !important;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+@media (min-width: 992px) {
+    .box-benefit {
+        padding: 10px;
+    }
+}
+
+.flat-img-with-text .content-left img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
