@@ -6,13 +6,13 @@ import { getFirestore } from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBPYYTXH8_Lh0ITbtr4-0MbB2dPSlLzdPc",
-  authDomain: "mahanta-e7c57.firebaseapp.com",
-  projectId: "mahanta-e7c57",
-  storageBucket: "mahanta-e7c57.firebasestorage.app",
-  messagingSenderId: "803170334620",
-  appId: "1:803170334620:web:7daa97d5ef1d4b48677a59",
-  measurementId: "G-6RP5F7J8YR"
+   apiKey: "AIzaSyDjeQQ8tmvgd7aNZTCmXx0v-k-0GiHIOVI",
+  authDomain: "mahanta-group-b342f.firebaseapp.com",
+  projectId: "mahanta-group-b342f",
+  storageBucket: "mahanta-group-b342f.firebasestorage.app",
+  messagingSenderId: "658979847198",
+  appId: "1:658979847198:web:4bce685e9692682566020f",
+  measurementId: "G-QF690L6NQ0"
 };
 
 // Initialize Firebase

@@ -135,33 +135,6 @@ export default function TestimonialPremiumLight() {
           {/* Custom Pagination */}
           <div className="premium-swiper-pagination"></div>
         </div>
-
-        {/* Trust Badge */}
-        <div className="premium-trust-badge">
-          <div className="premium-trust-stats">
-            <div className="premium-stat-item">
-              <div className="premium-stat-icon">🏢</div>
-              <div className="premium-stat-content">
-                <span className="premium-stat-number">500+</span>
-                <span className="premium-stat-label">Happy Clients</span>
-              </div>
-            </div>
-            <div className="premium-stat-item">
-              <div className="premium-stat-icon">⭐</div>
-              <div className="premium-stat-content">
-                <span className="premium-stat-number">98%</span>
-                <span className="premium-stat-label">Satisfaction Rate</span>
-              </div>
-            </div>
-            <div className="premium-stat-item">
-              <div className="premium-stat-icon">📈</div>
-              <div className="premium-stat-content">
-                <span className="premium-stat-number">15+</span>
-                <span className="premium-stat-label">Years Experience</span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

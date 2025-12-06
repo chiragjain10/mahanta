@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../Firebase/Firebase';
 import AddPropertyModal from './AddPropertyModal';
 import './AdminPanel.css';
@@ -9,6 +9,9 @@ const AdminPanel = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [showProjectModal, setShowProjectModal] = useState(false);
+    const [showGalleryModal, setShowGalleryModal] = useState(false);
+    const [showBlogModal, setShowBlogModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
     // Project management state
@@ -18,12 +21,29 @@ const AdminPanel = () => {
     const [projectUploadProgress, setProjectUploadProgress] = useState(0);
     const [projectImagePreview, setProjectImagePreview] = useState('');
     const [projectFile, setProjectFile] = useState(null);
+    const [projectLogoFile, setProjectLogoFile] = useState(null);
+    const [projectLogoPreview, setProjectLogoPreview] = useState('');
     const [projectForm, setProjectForm] = useState({
         title: '',
         location: '',
         ctaUrl: '',
-        ctaLabel: 'Read More'
+        ctaLabel: 'Read More',
+        status: 'running',
+        projectName: '',
+        developer: '',
+        tagline: '',
+        projectLayout: '',
+        locationAddress: '',
+        locationAdvantages: '',
+        amenitiesInput: '',
+        configurationsInput: '',
+        pricingRateInput: '',
+        pricingElectricityInput: '',
+        pricingMaintenanceInput: '',
+        pricingPrimeInput: '',
+        pricingPlotSizeInput: ''
     });
+    const [editingProjectId, setEditingProjectId] = useState(null);
 
     // Blog management state
     const [blogItems, setBlogItems] = useState([]);
@@ -40,14 +60,34 @@ const AdminPanel = () => {
         excerpt: '',
         ctaUrl: ''
     });
+    const [editingBlogId, setEditingBlogId] = useState(null);
+
+    // Team management state
+    const [teamItems, setTeamItems] = useState([]);
+    const [teamLoading, setTeamLoading] = useState(true);
+    const [teamSaving, setTeamSaving] = useState(false);
+    const [teamUploadProgress, setTeamUploadProgress] = useState(0);
+    const [teamImagePreview, setTeamImagePreview] = useState('');
+    const [teamFile, setTeamFile] = useState(null);
+    const [showTeamModal, setShowTeamModal] = useState(false);
+    const [teamForm, setTeamForm] = useState({
+        name: '',
+        role: ''
+    });
+    const [editingTeamId, setEditingTeamId] = useState(null);
 
     // Gallery management state
     const [galleryItems, setGalleryItems] = useState([]);
     const [galleryLoading, setGalleryLoading] = useState(true);
     const [gallerySaving, setGallerySaving] = useState(false);
     const [galleryUploadProgress, setGalleryUploadProgress] = useState(0);
-    const [galleryImagePreview, setGalleryImagePreview] = useState('');
-    const [galleryFile, setGalleryFile] = useState(null);
+    const [galleryImagePreviews, setGalleryImagePreviews] = useState([]);
+    const [galleryFiles, setGalleryFiles] = useState([]);
+    const [galleryForm, setGalleryForm] = useState({
+        type: 'achievements',
+        title: ''
+    });
+    const [editingGalleryId, setEditingGalleryId] = useState(null);
 
     // Fetch properties from Firebase
     const fetchProperties = async () => {
@@ -78,40 +118,162 @@ const AdminPanel = () => {
         }
     };
 
-    // No additional metadata required for gallery images
+    // Team handlers
+    const fetchTeam = async () => {
+        try {
+            const snapshot = await getDocs(collection(db, 'team'));
+            const team = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            setTeamItems(team);
+        } catch (error) {
+            console.error('Error fetching team:', error);
+        } finally {
+            setTeamLoading(false);
+        }
+    };
 
-    const handleGalleryImageChange = (e) => {
+    const handleTeamInputChange = (e) => {
+        const { name, value } = e.target;
+        setTeamForm((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleTeamImageChange = (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
-        setGalleryFile(file);
-        setGalleryImagePreview(URL.createObjectURL(file));
+        setTeamFile(file);
+        setTeamImagePreview(URL.createObjectURL(file));
+    };
+
+    const resetTeamForm = () => {
+        setTeamForm({ name: '', role: '' });
+        setTeamFile(null);
+        setTeamImagePreview('');
+        setTeamUploadProgress(0);
+        setEditingTeamId(null);
+    };
+
+    const handleTeamSubmit = async (e) => {
+        e.preventDefault();
+        if (!teamForm.name || !teamForm.role) {
+            alert('Please provide name and role.');
+            return;
+        }
+        try {
+            setTeamSaving(true);
+            let imageUrl = null;
+            if (teamFile) {
+                imageUrl = await uploadMediaToCloudinary(teamFile, setTeamUploadProgress);
+            }
+
+            if (editingTeamId) {
+                const teamRef = doc(db, 'team', editingTeamId);
+                const payload = {
+                    name: teamForm.name,
+                    role: teamForm.role
+                };
+                if (imageUrl) {
+                    payload.image = imageUrl;
+                }
+                await updateDoc(teamRef, payload);
+                alert('Team member updated!');
+            } else {
+                if (!imageUrl) {
+                    alert('Please provide an image.');
+                    return;
+                }
+                await addDoc(collection(db, 'team'), {
+                    name: teamForm.name,
+                    role: teamForm.role,
+                    image: imageUrl,
+                    createdAt: new Date().toISOString()
+                });
+                alert('Team member added!');
+            }
+            resetTeamForm();
+            setShowTeamModal(false);
+            fetchTeam();
+        } catch (error) {
+            console.error('Error adding team member:', error);
+            alert('Unable to save team member. Please try again.');
+        } finally {
+            setTeamSaving(false);
+        }
+    };
+
+    const handleTeamDelete = async (id) => {
+        if (!window.confirm('Delete this team member?')) return;
+        try {
+            await deleteDoc(doc(db, 'team', id));
+            fetchTeam();
+        } catch (error) {
+            console.error('Error deleting team member:', error);
+            alert('Unable to delete. Please try again.');
+        }
+    };
+
+    // Gallery form handlers
+    const handleGalleryImageChange = (e) => {
+        const files = Array.from(e.target.files || []);
+        if (!files.length) return;
+        setGalleryFiles(files);
+        setGalleryImagePreviews(files.map((f) => URL.createObjectURL(f)));
+    };
+
+    const handleGalleryInputChange = (e) => {
+        const { name, value } = e.target;
+        setGalleryForm((prev) => ({ ...prev, [name]: value }));
     };
 
     const resetGalleryForm = () => {
-        setGalleryFile(null);
-        setGalleryImagePreview('');
+        setGalleryFiles([]);
+        setGalleryImagePreviews([]);
         setGalleryUploadProgress(0);
+        setGalleryForm({ type: 'achievements', title: '' });
+        setEditingGalleryId(null);
     };
 
     const handleGallerySubmit = async (e) => {
         e.preventDefault();
-        if (!galleryFile) {
-            alert('Please select an image to upload.');
+        if (!galleryFiles.length && !editingGalleryId) {
+            alert('Please select image(s) to upload.');
             return;
         }
         try {
             setGallerySaving(true);
-            const imageUrl = await uploadMediaToCloudinary(galleryFile, setGalleryUploadProgress);
-            await addDoc(collection(db, 'gallery'), {
-                image: imageUrl,
-                createdAt: new Date().toISOString()
-            });
+            let urls = [];
+
+            if (galleryFiles.length) {
+                for (let i = 0; i < galleryFiles.length; i++) {
+                    const file = galleryFiles[i];
+                    const url = await uploadMediaToCloudinary(file, setGalleryUploadProgress);
+                    urls.push(url);
+                }
+            }
+
+            if (editingGalleryId) {
+                const galleryRef = doc(db, 'gallery', editingGalleryId);
+                const payload = {
+                    type: galleryForm.type,
+                    title: galleryForm.title
+                };
+                if (urls.length) {
+                    payload.images = urls;
+                }
+                await updateDoc(galleryRef, payload);
+                alert('Gallery item updated!');
+            } else {
+                await addDoc(collection(db, 'gallery'), {
+                    images: urls,
+                    type: galleryForm.type,
+                    title: galleryForm.title,
+                    createdAt: new Date().toISOString()
+                });
+                alert('Images added to gallery!');
+            }
             resetGalleryForm();
             fetchGallery();
-            alert('Image added to gallery!');
         } catch (error) {
-            console.error('Error adding gallery image:', error);
-            alert('Error adding image. Please try again.');
+            console.error('Error adding gallery images:', error);
+            alert('Error saving gallery images. Please try again.');
         } finally {
             setGallerySaving(false);
         }
@@ -163,6 +325,7 @@ const AdminPanel = () => {
         fetchProjects();
         fetchBlogs();
         fetchGallery();
+        fetchTeam();
     }, []);
 
     // Delete property
@@ -181,10 +344,10 @@ const AdminPanel = () => {
     const uploadMediaToCloudinary = async (file, onProgress) => {
         const data = new FormData();
         data.append('file', file);
-        data.append('upload_preset', 'Mahirash');
+        data.append('upload_preset', 'Mahanta_group');
 
         const response = await axios.post(
-            'https://api.cloudinary.com/v1_1/djmfxpemz/image/upload',
+            'https://api.cloudinary.com/v1_1/dlsbj8nug/image/upload',
             data,
             {
                 onUploadProgress: (event) => {
@@ -196,6 +359,104 @@ const AdminPanel = () => {
         );
 
         return response.data.secure_url;
+    };
+
+    const parseListInput = (value = '') => {
+        return value
+            .split('\n')
+            .map(item => item.trim())
+            .filter(Boolean);
+    };
+
+    const parseKeyValueInput = (value = '', { numeric = true } = {}) => {
+        const result = {};
+        value.split('\n').forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.includes(':')) return;
+            const [key, ...rest] = trimmed.split(':');
+            const rawVal = rest.join(':');
+            if (!key || !rawVal) return;
+            const cleaned = rawVal.trim();
+            if (!cleaned) return;
+            let finalValue = cleaned;
+            if (numeric) {
+                const numericValue = Number(cleaned);
+                if (!Number.isNaN(numericValue)) {
+                    finalValue = numericValue;
+                }
+            }
+            result[key.trim()] = finalValue;
+        });
+        return result;
+    };
+
+    const parseConfigurationsInput = (value = '') => {
+        const result = {};
+        value.split('\n').forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.includes(':')) return;
+            const [type, ...rest] = trimmed.split(':');
+            const sizesString = rest.join(':');
+            if (!type || !sizesString) return;
+            const sizes = sizesString
+                .split(',')
+                .map(size => size.trim())
+                .filter(Boolean)
+                .map(size => {
+                    const numericValue = Number(size);
+                    return Number.isNaN(numericValue) ? size : numericValue;
+                });
+            if (sizes.length) {
+                result[type.trim()] = { sizes_sqft: sizes };
+            }
+        });
+        return result;
+    };
+
+    const parsePlotSizeInput = (value = '') => {
+        const result = {};
+        value.split('\n').forEach(line => {
+            const trimmed = line.trim();
+            if (!trimmed || !trimmed.includes(':')) return;
+            const [type, ...rest] = trimmed.split(':');
+            const sizesString = rest.join(':');
+            if (!type || !sizesString) return;
+            const sizes = sizesString
+                .split(',')
+                .map(size => size.trim())
+                .filter(Boolean)
+                .map(size => {
+                    const numericValue = Number(size);
+                    return Number.isNaN(numericValue) ? size : numericValue;
+                });
+            if (sizes.length) {
+                result[type.trim()] = sizes;
+            }
+        });
+        return result;
+    };
+
+    const buildPricingPayload = () => {
+        const pricing = {};
+        const rate = parseKeyValueInput(projectForm.pricingRateInput, { numeric: true });
+        const electricity = parseKeyValueInput(projectForm.pricingElectricityInput, { numeric: true });
+        const maintenance = parseKeyValueInput(projectForm.pricingMaintenanceInput, { numeric: true });
+        const prime = parseKeyValueInput(projectForm.pricingPrimeInput, { numeric: false });
+        const plotSizes = parsePlotSizeInput(projectForm.pricingPlotSizeInput);
+
+        if (Object.keys(rate).length) pricing.rate_per_sqft = rate;
+        if (Object.keys(electricity).length) pricing.electricity_charge = electricity;
+        if (Object.keys(maintenance).length) pricing.maintenance = maintenance;
+        if (Object.keys(prime).length) pricing.prime_location_charges = prime;
+        if (Object.keys(plotSizes).length) pricing.plot_size_sqft = plotSizes;
+
+        return Object.keys(pricing).length ? pricing : undefined;
+    };
+
+    const extractProjectLocation = (project) => {
+        if (!project?.location) return '';
+        if (typeof project.location === 'string') return project.location;
+        return project.location.summary || project.location.address || '';
     };
 
     const handleProjectInputChange = (e) => {
@@ -215,50 +476,136 @@ const AdminPanel = () => {
         setProjectImagePreview(previewUrl);
     };
 
+    const handleProjectLogoChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) {
+            setProjectLogoFile(null);
+            setProjectLogoPreview('');
+            return;
+        }
+        setProjectLogoFile(file);
+        const previewUrl = URL.createObjectURL(file);
+        setProjectLogoPreview(previewUrl);
+    };
+
     const resetProjectForm = () => {
         setProjectForm({
             title: '',
             location: '',
             ctaUrl: '',
-            ctaLabel: 'Read More'
+            ctaLabel: 'Read More',
+            status: 'running',
+            projectName: '',
+            developer: '',
+            tagline: '',
+            projectLayout: '',
+            locationAddress: '',
+            locationAdvantages: '',
+            amenitiesInput: '',
+            configurationsInput: '',
+            pricingRateInput: '',
+            pricingElectricityInput: '',
+            pricingMaintenanceInput: '',
+            pricingPrimeInput: '',
+            pricingPlotSizeInput: ''
         });
         setProjectFile(null);
         setProjectImagePreview('');
         setProjectUploadProgress(0);
+        setProjectLogoFile(null);
+        setProjectLogoPreview('');
+        setEditingProjectId(null);
     };
 
     const handleProjectSubmit = async (e) => {
         e.preventDefault();
 
         if (!projectForm.title || !projectForm.location) {
-            alert('Please provide a project title and location.');
-            return;
-        }
-
-        if (!projectFile) {
-            alert('Please upload a project cover image.');
+            alert('Please provide a project title and short location summary.');
             return;
         }
 
         try {
             setProjectSaving(true);
-            const imageUrl = await uploadMediaToCloudinary(projectFile, setProjectUploadProgress);
+            let imageUrl = null;
+            if (projectFile) {
+                imageUrl = await uploadMediaToCloudinary(projectFile, setProjectUploadProgress);
+            }
+            let logoUrl = null;
+            if (projectLogoFile) {
+                // Logo upload is optional; we don't track progress bar for this
+                logoUrl = await uploadMediaToCloudinary(projectLogoFile);
+            }
 
-            await addDoc(collection(db, 'projects'), {
+            const locationPayload = {
+                summary: projectForm.location
+            };
+            if (projectForm.locationAddress) {
+                locationPayload.address = projectForm.locationAddress;
+            }
+            const locationAdvantages = parseListInput(projectForm.locationAdvantages);
+            if (locationAdvantages.length) {
+                locationPayload.advantages = locationAdvantages;
+            }
+
+            const amenities = parseListInput(projectForm.amenitiesInput);
+            const configurations = parseConfigurationsInput(projectForm.configurationsInput);
+            const pricing = buildPricingPayload();
+
+            const baseProject = {
                 title: projectForm.title,
-                location: projectForm.location,
+                project_name: projectForm.projectName || projectForm.title,
+                developer: projectForm.developer || '',
+                tagline: projectForm.tagline || '',
+                project_layout: projectForm.projectLayout || '',
+                status: projectForm.status,
+                location: locationPayload,
                 ctaUrl: projectForm.ctaUrl,
-                ctaLabel: projectForm.ctaLabel || 'Read More',
-                image: imageUrl,
+                ctaLabel: projectForm.ctaLabel || 'Read More'
+            };
+
+            if (imageUrl) {
+                baseProject.image = imageUrl;
+            }
+            if (logoUrl) {
+                baseProject.logo = logoUrl;
+            }
+
+            const newProject = {
+                ...baseProject,
                 createdAt: new Date().toISOString()
-            });
+            };
+
+            if (amenities.length) {
+                newProject.amenities = amenities;
+            }
+
+            if (Object.keys(configurations).length) {
+                newProject.configurations = configurations;
+            }
+
+            if (pricing) {
+                if (editingProjectId) {
+                    baseProject.pricing = pricing;
+                } else {
+                    newProject.pricing = pricing;
+                }
+            }
+
+            if (editingProjectId) {
+                const projectRef = doc(db, 'projects', editingProjectId);
+                await updateDoc(projectRef, baseProject);
+                alert('Project updated successfully!');
+            } else {
+                await addDoc(collection(db, 'projects'), newProject);
+                alert('Project added successfully!');
+            }
 
             resetProjectForm();
             fetchProjects();
-            alert('Project added successfully!');
         } catch (error) {
             console.error('Error adding project:', error);
-            alert('Error adding project. Please try again.');
+            alert('Error saving project. Please try again.');
         } finally {
             setProjectSaving(false);
         }
@@ -305,39 +652,64 @@ const AdminPanel = () => {
         setBlogFile(null);
         setBlogImagePreview('');
         setBlogUploadProgress(0);
+        setEditingBlogId(null);
     };
 
     const handleBlogSubmit = async (e) => {
         e.preventDefault();
 
+        // Required fields (image removed)
         if (!blogForm.title || !blogForm.author || !blogForm.excerpt) {
             alert('Please fill in the required blog fields.');
             return;
         }
 
-        if (!blogFile) {
-            alert('Please upload a blog cover image.');
-            return;
-        }
-
         try {
             setBlogSaving(true);
-            const imageUrl = await uploadMediaToCloudinary(blogFile, setBlogUploadProgress);
-            await addDoc(collection(db, 'blogs'), {
-                ...blogForm,
-                image: imageUrl,
-                createdAt: new Date().toISOString()
-            });
+
+            let imageUrl = null;
+
+            // Upload only if user selected a new file
+            if (blogFile) {
+                imageUrl = await uploadMediaToCloudinary(blogFile, setBlogUploadProgress);
+            }
+
+            if (editingBlogId) {
+                // UPDATE BLOG
+                const blogRef = doc(db, 'blogs', editingBlogId);
+
+                const payload = {
+                    ...blogForm
+                };
+
+                // Only update image if user uploaded new one
+                if (imageUrl) {
+                    payload.image = imageUrl;
+                }
+
+                await updateDoc(blogRef, payload);
+                alert('Blog updated successfully!');
+            } else {
+                // ADD NEW BLOG
+                await addDoc(collection(db, 'blogs'), {
+                    ...blogForm,
+                    image: imageUrl || null, // Image optional
+                    createdAt: new Date().toISOString()
+                });
+
+                alert('Blog added successfully!');
+            }
+
             resetBlogForm();
             fetchBlogs();
-            alert('Blog added successfully!');
         } catch (error) {
-            console.error('Error adding blog:', error);
-            alert('Error adding blog. Please try again.');
+            console.error('Error saving blog:', error);
+            alert('Error saving blog. Please try again.');
         } finally {
             setBlogSaving(false);
         }
     };
+
 
     const handleBlogDelete = async (id) => {
         if (!window.confirm('Delete this blog post?')) {
@@ -372,7 +744,7 @@ const AdminPanel = () => {
                         </h1>
                         <p className="admin-subtitle">Manage all your properties from one place</p>
                     </div>
-                    <button 
+                    <button
                         className="admin-add-btn"
                         onClick={() => setShowModal(true)}
                     >
@@ -432,7 +804,7 @@ const AdminPanel = () => {
                                     <h3>No properties found</h3>
                                     <p>{searchTerm ? 'Try a different search term' : 'Add your first property to get started'}</p>
                                     {!searchTerm && (
-                                        <button 
+                                        <button
                                             className="admin-add-btn"
                                             onClick={() => setShowModal(true)}
                                         >
@@ -445,8 +817,8 @@ const AdminPanel = () => {
                                     {filteredProperties.map(property => (
                                         <div key={property.id} className="admin-property-card">
                                             <div className="admin-card-image">
-                                                <img 
-                                                    src={property.images?.[0] || property.image || '/images/home/house-1.jpg'} 
+                                                <img
+                                                    src={property.images?.[0] || property.image || '/images/home/house-1.jpg'}
                                                     alt={property.title}
                                                 />
                                                 <div className="admin-card-badges">
@@ -460,23 +832,34 @@ const AdminPanel = () => {
                                                 <h3 className="admin-card-title">{property.title}</h3>
                                                 <p className="admin-card-location">📍 {property.location}</p>
                                                 <div className="admin-card-details">
-                                                    <span>🛏️ {property.beds} Beds</span>
-                                                    <span>🚿 {property.baths} Baths</span>
-                                                    <span>📐 {property.sqft} Sqft</span>
+                                                    {(property.type === 'plot' || property.plot_category) ? (
+                                                        <>
+                                                            <span>🧱 {(property.plot_category || 'residential').charAt(0).toUpperCase() + (property.plot_category || 'residential').slice(1)} plot</span>
+                                                            {property.contact_phone && <span>📞 {property.contact_phone}</span>}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span>🛏️ {property.beds} Beds</span>
+                                                            <span>🚿 {property.baths} Baths</span>
+                                                            <span>📐 {property.sqft} Sqft</span>
+                                                        </>
+                                                    )}
                                                 </div>
                                                 <div className="admin-card-footer">
                                                     <div className="admin-card-agent">
-                                                        <img 
-                                                            src={property.avatar || '/images/avatar/avt-png1.png'} 
-                                                            alt={property.agent}
+                                                        <img
+                                                            src={property.avatar || '/images/avatar/avt-png1.png'}
+                                                            alt={property.agent || property.contact_name}
                                                             className="admin-agent-avatar"
                                                         />
-                                                        <span>{property.agent}</span>
+                                                        <span>{property.agent || property.contact_name}</span>
                                                     </div>
-                                                    <div className="admin-card-price">{property.price}</div>
+                                                    <div className="admin-card-price">
+                                                        {property.price || ((property.type === 'plot' || property.plot_category) ? 'Contact for price' : '')}
+                                                    </div>
                                                 </div>
                                                 <div className="admin-card-actions">
-                                                    <button 
+                                                    <button
                                                         className="admin-btn-delete"
                                                         onClick={() => handleDelete(property.id)}
                                                     >
@@ -489,102 +872,21 @@ const AdminPanel = () => {
                                 </div>
                             )}
                         </div>
-                        <div>
-                            <h2 className="admin-projects-title">
-                                <span className="admin-icon">🚧</span>
-                                Project Showcase
-                            </h2>
-                            <p className="admin-subtitle">Add and curate the projects that appear on the website.</p>
+                        <div className="admin-projects-header">
+                            <div>
+                                <h2 className="admin-projects-title">
+                                    <span className="admin-icon">🚧</span>
+                                    Project Showcase
+                                </h2>
+                                <p className="admin-subtitle">Add and curate the projects that appear on the website.</p>
+                            </div>
+                            <button className="admin-add-btn" type="button" onClick={() => setShowProjectModal(true)}>+ Add Project</button>
                         </div>
                     </>
                 )}
-                
+
                 {/* Projects Grid */}
                 <div className="admin-projects-grid">
-                    <form className="project-form-card" onSubmit={handleProjectSubmit}>
-                        <h3>Upload new project</h3>
-                        <div className="form-group">
-                            <label>Project Title *</label>
-                            <input
-                                type="text"
-                                name="title"
-                                placeholder="e.g., Rudraaksh Aangan"
-                                value={projectForm.title}
-                                onChange={handleProjectInputChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Location / Short Description *</label>
-                            <input
-                                type="text"
-                                name="location"
-                                placeholder="Located at Sanwer, Ujjain Road"
-                                value={projectForm.location}
-                                onChange={handleProjectInputChange}
-                            />
-                        </div>
-
-                        {/* <div className="form-row">
-                            <div className="form-group">
-                                <label>Read More URL</label>
-                                <input
-                                    type="url"
-                                    name="ctaUrl"
-                                    placeholder="https://example.com/project"
-                                    value={projectForm.ctaUrl}
-                                    onChange={handleProjectInputChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>CTA Label</label>
-                                <input
-                                    type="text"
-                                    name="ctaLabel"
-                                    placeholder="Read More"
-                                    value={projectForm.ctaLabel}
-                                    onChange={handleProjectInputChange}
-                                />
-                            </div>
-                        </div> */}
-
-                        <div className="form-group">
-                            <label>Cover Image *</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleProjectImageChange}
-                            />
-                        </div>
-
-                        {projectImagePreview && (
-                            <div className="project-preview">
-                                <img src={projectImagePreview} alt="Project preview" />
-                            </div>
-                        )}
-
-                        {projectSaving && (
-                            <div className="project-upload-progress">
-                                <div className="progress-bar">
-                                    <div
-                                        className="progress-fill"
-                                        style={{ width: `${projectUploadProgress}%` }}
-                                    ></div>
-                                </div>
-                                <p>Uploading image... {projectUploadProgress}%</p>
-                            </div>
-                        )}
-
-                        <div className="project-form-actions">
-                            <button type="button" className="btn-cancel" onClick={resetProjectForm} disabled={projectSaving}>
-                                Reset
-                            </button>
-                            <button type="submit" className="btn-submit" disabled={projectSaving}>
-                                {projectSaving ? 'Saving...' : 'Add Project'}
-                            </button>
-                        </div>
-                    </form>
-
                     <div className="project-list-card">
                         <div className="project-list-header">
                             <h3>Live cards</h3>
@@ -603,18 +905,25 @@ const AdminPanel = () => {
                                 <p>Add your first project to showcase it on the homepage.</p>
                             </div>
                         ) : (
-                            <div className="project-card-grid">
+                            <ul className="admin-list">
                                 {projectItems.map((project) => (
-                                    <div key={project.id} className="project-card">
-                                        <div className="project-card-image">
+                                    <li key={project.id} className="admin-list-item">
+                                        <div className="list-media">
                                             <img
-                                                src={project.image || '/images/home/house-1.jpg'}
+                                                src={project.logo || project.image || '/images/home/house-1.jpg'}
                                                 alt={project.title}
                                             />
                                         </div>
-                                        <div className="project-card-body">
-                                            <h4>{project.title}</h4>
-                                            <p>{project.location}</p>
+                                        <div className="list-main">
+                                            <div className="list-title">{project.title}</div>
+                                            <div className="list-sub">{extractProjectLocation(project)}</div>
+                                        </div>
+                                        <div className="list-meta">
+                                            {project.status && (
+                                                <span className={`project-status-tag ${project.status}`}>
+                                                    {project.status === 'running' ? 'Running' : 'Completed'}
+                                                </span>
+                                            )}
                                             {project.ctaUrl && (
                                                 <a
                                                     href={project.ctaUrl}
@@ -626,16 +935,74 @@ const AdminPanel = () => {
                                                 </a>
                                             )}
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="admin-btn-delete"
-                                            onClick={() => handleProjectDelete(project.id)}
-                                        >
-                                            🗑️ Delete
-                                        </button>
-                                    </div>
+                                        <div className="list-right">
+                                            <button
+                                                type="button"
+                                                className="admin-btn-secondary"
+                                                onClick={() => {
+                                                    setEditingProjectId(project.id);
+                                                    setProjectForm({
+                                                        title: project.title || '',
+                                                        location: extractProjectLocation(project) || '',
+                                                        ctaUrl: project.ctaUrl || '',
+                                                        ctaLabel: project.ctaLabel || 'Read More',
+                                                        status: project.status || 'running',
+                                                        projectName: project.project_name || '',
+                                                        developer: project.developer || '',
+                                                        tagline: project.tagline || '',
+                                                        projectLayout: project.project_layout || '',
+                                                        locationAddress: project.location?.address || '',
+                                                        locationAdvantages: (project.location?.advantages || []).join('\n'),
+                                                        amenitiesInput: (project.amenities || []).join('\n'),
+                                                        configurationsInput: Object.entries(project.configurations || {})
+                                                            .map(([type, cfg]) => `${type}: ${(cfg.sizes_sqft || []).join(', ')}`)
+                                                            .join('\n'),
+                                                        pricingRateInput: project.pricing?.rate_per_sqft
+                                                            ? Object.entries(project.pricing.rate_per_sqft)
+                                                                .map(([k, v]) => `${k}: ${v}`)
+                                                                .join('\n')
+                                                            : '',
+                                                        pricingElectricityInput: project.pricing?.electricity_charge
+                                                            ? Object.entries(project.pricing.electricity_charge)
+                                                                .map(([k, v]) => `${k}: ${v}`)
+                                                                .join('\n')
+                                                            : '',
+                                                        pricingMaintenanceInput: project.pricing?.maintenance
+                                                            ? Object.entries(project.pricing.maintenance)
+                                                                .map(([k, v]) => `${k}: ${v}`)
+                                                                .join('\n')
+                                                            : '',
+                                                        pricingPrimeInput: project.pricing?.prime_location_charges
+                                                            ? Object.entries(project.pricing.prime_location_charges)
+                                                                .map(([k, v]) => `${k}: ${v}`)
+                                                                .join('\n')
+                                                            : '',
+                                                        pricingPlotSizeInput: project.pricing?.plot_size_sqft
+                                                            ? Object.entries(project.pricing.plot_size_sqft)
+                                                                .map(([k, v]) => `${k}: ${v.join(', ')}`)
+                                                                .join('\n')
+                                                            : ''
+                                                    });
+                                                    setProjectImagePreview(project.image || '');
+                                                    setProjectFile(null);
+                                                    setProjectLogoPreview(project.logo || '');
+                                                    setProjectLogoFile(null);
+                                                    setShowProjectModal(true);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                type="button"
+                                                className="admin-btn-delete"
+                                                onClick={() => handleProjectDelete(project.id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </div>
                 </div>
@@ -654,34 +1021,6 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="admin-projects-grid">
-                    <form className="project-form-card" onSubmit={handleGallerySubmit}>
-                        <h3>Upload new image</h3>
-                        {/* Only image input required */}
-                        <div className="form-group">
-                            <label>Image *</label>
-                            <input type="file" accept="image/*" onChange={handleGalleryImageChange} />
-                        </div>
-
-                        {galleryImagePreview && (
-                            <div className="project-preview">
-                                <img src={galleryImagePreview} alt="Preview" />
-                            </div>
-                        )}
-
-                        {gallerySaving && (
-                            <div className="project-upload-progress">
-                                <div className="progress-bar">
-                                    <div className="progress-fill" style={{ width: `${galleryUploadProgress}%` }}></div>
-                                </div>
-                                <p>Uploading... {galleryUploadProgress}%</p>
-                            </div>
-                        )}
-
-                        <button type="submit" className="admin-add-btn" disabled={gallerySaving}>
-                            {gallerySaving ? 'Saving...' : 'Add to Gallery'}
-                        </button>
-                    </form>
-
                     <div className="project-list-card">
                         <h3>Gallery Images</h3>
                         {galleryLoading ? (
@@ -689,25 +1028,100 @@ const AdminPanel = () => {
                         ) : galleryItems.length === 0 ? (
                             <div className="admin-empty"><p>No images yet. Upload one to get started.</p></div>
                         ) : (
-                            <div className="admin-properties-grid">
+                            <ul className="admin-list">
                                 {galleryItems.map(item => (
-                                    <div key={item.id} className="admin-property-card">
-                                        <div className="admin-card-image">
-                                            <img src={item.image} alt={'Gallery image'} />
+                                    <li key={item.id} className="admin-list-item">
+                                        <div className="list-media">
+                                            <img src={(item.images && item.images[0]) || item.image} alt={'Gallery image'} />
                                         </div>
-                                        <div className="admin-card-content">
-                                            <div className="admin-card-actions">
-                                                <button className="admin-btn-delete" onClick={() => handleGalleryDelete(item.id)}>
-                                                    🗑️ Delete
-                                                </button>
-                                            </div>
+                                        <div className="list-main">
+                                            <div className="list-title">{item.title || 'Gallery Item'}</div>
+                                            <div className="list-sub">{(item.type || '').toString().replace('_', ' ')}</div>
+                                            <div className="list-sub">{new Date(item.createdAt || Date.now()).toLocaleString()}</div>
                                         </div>
-                                    </div>
+                                        <div className="list-right">
+                                            <button
+                                                type="button"
+                                                className="admin-btn-secondary"
+                                                onClick={() => {
+                                                    setEditingGalleryId(item.id);
+                                                    setGalleryForm({
+                                                        type: item.type || 'achievements',
+                                                        title: item.title || ''
+                                                    });
+                                                    setGalleryFiles([]);
+                                                    setGalleryImagePreviews([]);
+                                                    setShowGalleryModal(true);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button className="admin-btn-delete" onClick={() => handleGalleryDelete(item.id)}>Delete</button>
+                                        </div>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </div>
                 </div>
+                <button className="admin-add-btn" type="button" onClick={() => setShowGalleryModal(true)}>+ Add Image</button>
+            </section>
+
+            {/* Team Section */}
+            <section className="admin-projects-section">
+                <div className="admin-projects-header">
+                    <div>
+                        <h2 className="admin-projects-title">
+                            <span className="admin-icon">👥</span>
+                            Team Manager
+                        </h2>
+                        <p className="admin-subtitle">Add and manage team members displayed on the About page.</p>
+                    </div>
+                </div>
+
+                <div className="admin-projects-grid">
+                    <div className="project-list-card">
+                        <h3>Team Members</h3>
+                        {teamLoading ? (
+                            <div className="admin-loading"><div className="loading-spinner"></div><p>Loading...</p></div>
+                        ) : teamItems.length === 0 ? (
+                            <div className="admin-empty"><p>No team members yet. Add one to get started.</p></div>
+                        ) : (
+                            <ul className="admin-list">
+                                {teamItems.map(member => (
+                                    <li key={member.id} className="admin-list-item">
+                                        <div className="list-media"><img src={member.image || '/images/agents/agent-1.jpg'} alt={member.name} /></div>
+                                        <div className="list-main">
+                                            <div className="list-title">{member.name}</div>
+                                            <div className="list-sub">{member.role}</div>
+                                            <div className="list-sub">{new Date(member.createdAt || Date.now()).toLocaleString()}</div>
+                                        </div>
+                                        <div className="list-right">
+                                            <button
+                                                type="button"
+                                                className="admin-btn-secondary"
+                                                onClick={() => {
+                                                    setEditingTeamId(member.id);
+                                                    setTeamForm({
+                                                        name: member.name || '',
+                                                        role: member.role || ''
+                                                    });
+                                                    setTeamImagePreview(member.image || '');
+                                                    setTeamFile(null);
+                                                    setShowTeamModal(true);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button className="admin-btn-delete" onClick={() => handleTeamDelete(member.id)}>Delete</button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+                <button className="admin-add-btn" type="button" onClick={() => setShowTeamModal(true)}>+ Add Team Member</button>
             </section>
 
             {/* Blogs Section */}
@@ -723,118 +1137,11 @@ const AdminPanel = () => {
                 </div>
 
                 <div className="admin-blogs-grid">
-                    <form className="blog-form-card" onSubmit={handleBlogSubmit}>
-                        <h3>Write a new article</h3>
-                        <div className="form-group">
-                            <label>Title *</label>
-                            <input
-                                type="text"
-                                name="title"
-                                placeholder="Headline for the blog"
-                                value={blogForm.title}
-                                onChange={handleBlogInputChange}
-                            />
-                        </div>
-
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Author *</label>
-                                <input
-                                    type="text"
-                                    name="author"
-                                    placeholder="Author name"
-                                    value={blogForm.author}
-                                    onChange={handleBlogInputChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Category</label>
-                                <input
-                                    type="text"
-                                    name="category"
-                                    placeholder="e.g., Investment"
-                                    value={blogForm.category}
-                                    onChange={handleBlogInputChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-row">
-                            <div className="form-group">
-                                <label>Publish Date</label>
-                                <input
-                                    type="date"
-                                    name="date"
-                                    value={blogForm.date}
-                                    onChange={handleBlogInputChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Read More URL</label>
-                                <input
-                                    type="url"
-                                    name="ctaUrl"
-                                    placeholder="Optional external link"
-                                    value={blogForm.ctaUrl}
-                                    onChange={handleBlogInputChange}
-                                />
-                            </div>
-                        </div>
-
-                        <div className="form-group">
-                            <label>Excerpt *</label>
-                            <textarea
-                                name="excerpt"
-                                rows="4"
-                                placeholder="Short summary that appears on the cards"
-                                value={blogForm.excerpt}
-                                onChange={handleBlogInputChange}
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <label>Cover Image *</label>
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleBlogImageChange}
-                            />
-                        </div>
-
-                        {blogImagePreview && (
-                            <div className="blog-preview">
-                                <img src={blogImagePreview} alt="Blog preview" />
-                            </div>
-                        )}
-
-                        {blogSaving && (
-                            <div className="blog-upload-progress">
-                                <div className="progress-bar">
-                                    <div
-                                        className="progress-fill"
-                                        style={{ width: `${blogUploadProgress}%` }}
-                                    ></div>
-                                </div>
-                                <p>Uploading image... {blogUploadProgress}%</p>
-                            </div>
-                        )}
-
-                        <div className="blog-form-actions">
-                            <button type="button" className="btn-cancel" onClick={resetBlogForm} disabled={blogSaving}>
-                                Reset
-                            </button>
-                            <button type="submit" className="btn-submit" disabled={blogSaving}>
-                                {blogSaving ? 'Publishing...' : 'Publish Blog'}
-                            </button>
-                        </div>
-                    </form>
-
                     <div className="blog-list-card">
                         <div className="blog-list-header">
                             <h3>Published posts</h3>
                             <span>{blogItems.length} blog(s)</span>
                         </div>
-
                         {blogLoading ? (
                             <div className="admin-loading project-loading">
                                 <div className="loading-spinner"></div>
@@ -844,37 +1151,50 @@ const AdminPanel = () => {
                             <div className="admin-empty">
                                 <div className="empty-icon">📰</div>
                                 <h3>No blog posts</h3>
-                                <p>Use the form to publish your first article.</p>
+                                <p>Use the Add Blog button to publish your first article.</p>
                             </div>
                         ) : (
-                            <div className="blog-card-grid">
+                            <ul className="admin-list">
                                 {blogItems.map((blog) => (
-                                    <div key={blog.id} className="blog-card-admin">
-                                        <div className="blog-card-image">
-                                            <img src={blog.image || '/images/blog/blog-1.jpg'} alt={blog.title} />
+                                    <li key={blog.id} className="admin-list-item">
+                                        <div className="list-media"><img src={blog.image || '/images/blog/blog-1.jpg'} alt={blog.title} /></div>
+                                        <div className="list-main">
+                                            <div className="list-title">{blog.title}</div>
+                                            <div className="list-sub">{blog.author} • {blog.category}</div>
                                         </div>
-                                        <div className="blog-card-body">
-                                            <p className="blog-meta">
-                                                <span>{blog.author}</span>
-                                                <span>{blog.category}</span>
-                                            </p>
-                                            <h4>{blog.title}</h4>
-                                            <p className="blog-excerpt">{blog.excerpt}</p>
-                                            {blog.date && <span className="blog-date-tag">{blog.date}</span>}
+                                        <div className="list-meta">
+                                            {blog.date && <span className="tag">{blog.date}</span>}
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="admin-btn-delete"
-                                            onClick={() => handleBlogDelete(blog.id)}
-                                        >
-                                            🗑️ Delete
-                                        </button>
-                                    </div>
+                                        <div className="list-right">
+                                            <button
+                                                type="button"
+                                                className="admin-btn-secondary"
+                                                onClick={() => {
+                                                    setEditingBlogId(blog.id);
+                                                    setBlogForm({
+                                                        title: blog.title || '',
+                                                        author: blog.author || '',
+                                                        category: blog.category || '',
+                                                        date: blog.date || '',
+                                                        excerpt: blog.excerpt || '',
+                                                        ctaUrl: blog.ctaUrl || ''
+                                                    });
+                                                    setBlogImagePreview(blog.image || '');
+                                                    setBlogFile(null);
+                                                    setShowBlogModal(true);
+                                                }}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button type="button" className="admin-btn-delete" onClick={() => handleBlogDelete(blog.id)}>Delete</button>
+                                        </div>
+                                    </li>
                                 ))}
-                            </div>
+                            </ul>
                         )}
                     </div>
                 </div>
+                <button className="admin-add-btn" type="button" onClick={() => setShowBlogModal(true)}>+ Add Blog</button>
             </section>
 
             {/* Add Property Modal */}
@@ -887,9 +1207,475 @@ const AdminPanel = () => {
                     }}
                 />
             )}
+
+            {/* Project Modal */}
+            {showProjectModal && (
+                <div className="admin-modal-overlay" onClick={() => setShowProjectModal(false)}>
+                    <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="admin-modal-header">
+                            <h3>{editingProjectId ? 'Edit project' : 'Upload new project'}</h3>
+                            <button className="admin-modal-close" onClick={() => setShowProjectModal(false)}>✕</button>
+                        </div>
+                        <form onSubmit={handleProjectSubmit}>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Project Status *</label>
+                                    <select
+                                        name="status"
+                                        value={projectForm.status}
+                                        onChange={handleProjectInputChange}
+                                    >
+                                        <option value="running">Running</option>
+                                        <option value="completed">Completed</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Project Name / Code</label>
+                                    <input
+                                        type="text"
+                                        name="projectName"
+                                        placeholder="Optional internal identifier"
+                                        value={projectForm.projectName}
+                                        onChange={handleProjectInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Project Title *</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    placeholder="e.g., Rudraaksh Aangan"
+                                    value={projectForm.title}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Developer</label>
+                                    <input
+                                        type="text"
+                                        name="developer"
+                                        placeholder="e.g., Triveni Construction"
+                                        value={projectForm.developer}
+                                        onChange={handleProjectInputChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Project Layout / Plan</label>
+                                    <input
+                                        type="text"
+                                        name="projectLayout"
+                                        placeholder="e.g., Indore-Ujjain 4 Lane..."
+                                        value={projectForm.projectLayout}
+                                        onChange={handleProjectInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Tagline</label>
+                                <textarea
+                                    name="tagline"
+                                    rows="2"
+                                    placeholder="Short marketing statement"
+                                    value={projectForm.tagline}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Location / Short Description *</label>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    placeholder="Located at Sanwer, Ujjain Road"
+                                    value={projectForm.location}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Location Address</label>
+                                <input
+                                    type="text"
+                                    name="locationAddress"
+                                    placeholder="Full address used on detail page"
+                                    value={projectForm.locationAddress}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Location Advantages (one per line)</label>
+                                <textarea
+                                    name="locationAdvantages"
+                                    rows="3"
+                                    placeholder="e.g., 5 mins from Aurobindo Hospital"
+                                    value={projectForm.locationAdvantages}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Amenities (one per line)</label>
+                                <textarea
+                                    name="amenitiesInput"
+                                    rows="3"
+                                    placeholder="Club House&#10;Kids Play Zone"
+                                    value={projectForm.amenitiesInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Configurations</label>
+                                <textarea
+                                    name="configurationsInput"
+                                    rows="3"
+                                    placeholder="1BHK: 620, 626&#10;2BHK: 950, 1019"
+                                    value={projectForm.configurationsInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                                <small>Format: TYPE: size1, size2 ...</small>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Pricing - Rate per sqft</label>
+                                <textarea
+                                    name="pricingRateInput"
+                                    rows="2"
+                                    placeholder="1BHK: 2691&#10;2BHK: 2691"
+                                    value={projectForm.pricingRateInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Pricing - Electricity charge</label>
+                                <textarea
+                                    name="pricingElectricityInput"
+                                    rows="2"
+                                    placeholder="1BHK: 50000"
+                                    value={projectForm.pricingElectricityInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Pricing - Maintenance</label>
+                                <textarea
+                                    name="pricingMaintenanceInput"
+                                    rows="2"
+                                    placeholder="1BHK: 1.5"
+                                    value={projectForm.pricingMaintenanceInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Pricing - Prime location charges</label>
+                                <textarea
+                                    name="pricingPrimeInput"
+                                    rows="2"
+                                    placeholder="1BHK: Yes&#10;2BHK: No"
+                                    value={projectForm.pricingPrimeInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Pricing - Plot sizes (one line per type)</label>
+                                <textarea
+                                    name="pricingPlotSizeInput"
+                                    rows="2"
+                                    placeholder="residential_plots: 600, 750, 1000"
+                                    value={projectForm.pricingPlotSizeInput}
+                                    onChange={handleProjectInputChange}
+                                />
+                                <small>Format: TYPE: size1, size2 ...</small>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Cover Image (optional)</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleProjectImageChange}
+                                />
+                            </div>
+
+                            {projectImagePreview && (
+                                <div className="project-preview">
+                                    <img src={projectImagePreview} alt="Project preview" />
+                                </div>
+                            )}
+
+                            <div className="form-group">
+                                <label>Logo image (optional)</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleProjectLogoChange}
+                                />
+                            </div>
+
+                            {projectLogoPreview && (
+                                <div className="project-preview" style={{ maxWidth: '220px' }}>
+                                    <img src={projectLogoPreview} alt="Logo preview" />
+                                </div>
+                            )}
+
+                            {projectSaving && (
+                                <div className="project-upload-progress">
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{ width: `${projectUploadProgress}%` }}
+                                        ></div>
+                                    </div>
+                                    <p>Uploading image... {projectUploadProgress}%</p>
+                                </div>
+                            )}
+
+                            <div className="project-form-actions">
+                                <button type="button" className="btn-cancel" onClick={resetProjectForm} disabled={projectSaving}>
+                                    Reset
+                                </button>
+                                <button type="submit" className="btn-submit" disabled={projectSaving}>
+                                    {projectSaving ? 'Saving...' : editingProjectId ? 'Save Changes' : 'Add Project'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Team Modal */}
+            {showTeamModal && (
+                <div className="admin-modal-overlay" onClick={() => setShowTeamModal(false)}>
+                    <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="admin-modal-header">
+                            <h3>{editingTeamId ? 'Edit team member' : 'Add team member'}</h3>
+                            <button className="admin-modal-close" onClick={() => setShowTeamModal(false)}>✕</button>
+                        </div>
+                        <form onSubmit={handleTeamSubmit}>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Name *</label>
+                                    <input type="text" name="name" value={teamForm.name} onChange={handleTeamInputChange} placeholder="Full name" />
+                                </div>
+                                <div className="form-group">
+                                    <label>Role *</label>
+                                    <input type="text" name="role" value={teamForm.role} onChange={handleTeamInputChange} placeholder="e.g., Administrative Staff" />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Photo {editingTeamId ? '(leave empty to keep existing)' : '*'}</label>
+                                <input type="file" accept="image/*" onChange={handleTeamImageChange} />
+                            </div>
+
+                            {teamImagePreview && (
+                                <div className="project-preview">
+                                    <img src={teamImagePreview} alt="Preview" />
+                                </div>
+                            )}
+
+                            {teamSaving && (
+                                <div className="project-upload-progress">
+                                    <div className="progress-bar">
+                                        <div className="progress-fill" style={{ width: `${teamUploadProgress}%` }}></div>
+                                    </div>
+                                    <p>Uploading... {teamUploadProgress}%</p>
+                                </div>
+                            )}
+
+                            <div className="project-form-actions">
+                                <button type="button" className="btn-cancel" onClick={resetTeamForm} disabled={teamSaving}>Reset</button>
+                                <button type="submit" className="btn-submit" disabled={teamSaving}>{teamSaving ? 'Saving...' : editingTeamId ? 'Save Changes' : 'Add Member'}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Gallery Modal */}
+            {showGalleryModal && (
+                <div className="admin-modal-overlay" onClick={() => setShowGalleryModal(false)}>
+                    <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="admin-modal-header">
+                            <h3>{editingGalleryId ? 'Edit gallery item' : 'Upload gallery images'}</h3>
+                            <button className="admin-modal-close" onClick={() => setShowGalleryModal(false)}>✕</button>
+                        </div>
+                        <form onSubmit={handleGallerySubmit}>
+                            <div className="form-group">
+                                <label>Images {editingGalleryId ? '(optional)' : '*'}</label>
+                                <input type="file" accept="image/*" multiple onChange={handleGalleryImageChange} />
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Type *</label>
+                                    <select name="type" value={galleryForm.type} onChange={handleGalleryInputChange}>
+                                        <option value="achievements">Achievements</option>
+                                        <option value="anniversaries">Anniversaries</option>
+                                        <option value="corporate_meetings">Corporate Meetings</option>
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Title</label>
+                                    <input type="text" name="title" placeholder="Optional title" value={galleryForm.title} onChange={handleGalleryInputChange} />
+                                </div>
+                            </div>
+
+                            {galleryImagePreviews && galleryImagePreviews.length > 0 && (
+                                <div className="project-preview" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px' }}>
+                                    {galleryImagePreviews.map((src, i) => (
+                                        <img key={i} src={src} alt={`Preview ${i + 1}`} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px' }} />
+                                    ))}
+                                </div>
+                            )}
+
+                            {gallerySaving && (
+                                <div className="project-upload-progress">
+                                    <div className="progress-bar">
+                                        <div className="progress-fill" style={{ width: `${galleryUploadProgress}%` }}></div>
+                                    </div>
+                                    <p>Uploading... {galleryUploadProgress}%</p>
+                                </div>
+                            )}
+
+                            <div className="blog-form-actions">
+                                <button type="button" className="btn-cancel" onClick={resetGalleryForm} disabled={gallerySaving}>Reset</button>
+                                <button type="submit" className="btn-submit" disabled={gallerySaving}>
+                                    {gallerySaving ? 'Saving...' : editingGalleryId ? 'Save Changes' : 'Add to Gallery'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Blog Modal */}
+            {showBlogModal && (
+                <div className="admin-modal-overlay" onClick={() => setShowBlogModal(false)}>
+                    <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="admin-modal-header">
+                            <h3>{editingBlogId ? 'Edit article' : 'Write a new article'}</h3>
+                            <button className="admin-modal-close" onClick={() => setShowBlogModal(false)}>✕</button>
+                        </div>
+                        <form className="blog-form-card" onSubmit={handleBlogSubmit}>
+                            <div className="form-group">
+                                <label>Title *</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    placeholder="Headline for the blog"
+                                    value={blogForm.title}
+                                    onChange={handleBlogInputChange}
+                                />
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Author *</label>
+                                    <input
+                                        type="text"
+                                        name="author"
+                                        placeholder="Author name"
+                                        value={blogForm.author}
+                                        onChange={handleBlogInputChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Category</label>
+                                    <input
+                                        type="text"
+                                        name="category"
+                                        placeholder="e.g., Investment"
+                                        value={blogForm.category}
+                                        onChange={handleBlogInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Publish Date</label>
+                                    <input
+                                        type="date"
+                                        name="date"
+                                        value={blogForm.date}
+                                        onChange={handleBlogInputChange}
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Read More URL</label>
+                                    <input
+                                        type="url"
+                                        name="ctaUrl"
+                                        placeholder="Optional external link"
+                                        value={blogForm.ctaUrl}
+                                        onChange={handleBlogInputChange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Excerpt *</label>
+                                <textarea
+                                    name="excerpt"
+                                    rows="4"
+                                    placeholder="Short summary that appears on the cards"
+                                    value={blogForm.excerpt}
+                                    onChange={handleBlogInputChange}
+                                />
+                            </div>
+
+                            <div className="form-group">
+                                <label>Cover Image {editingBlogId ? '(leave empty to keep existing)' : '*'}</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleBlogImageChange}
+                                />
+                            </div>
+
+                            {blogImagePreview && (
+                                <div className="blog-preview">
+                                    <img src={blogImagePreview} alt="Blog preview" />
+                                </div>
+                            )}
+
+                            {blogSaving && (
+                                <div className="blog-upload-progress">
+                                    <div className="progress-bar">
+                                        <div
+                                            className="progress-fill"
+                                            style={{ width: `${blogUploadProgress}%` }}
+                                        ></div>
+                                    </div>
+                                    <p>Uploading image... {blogUploadProgress}%</p>
+                                </div>
+                            )}
+
+                            <div className="blog-form-actions">
+                                <button type="button" className="btn-cancel" onClick={resetBlogForm} disabled={blogSaving}>
+                                    Reset
+                                </button>
+                                <button type="submit" className="btn-submit" disabled={blogSaving}>
+                                    {blogSaving ? 'Publishing...' : editingBlogId ? 'Save Changes' : 'Publish Blog'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
 
 export default AdminPanel;
-

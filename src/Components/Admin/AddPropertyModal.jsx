@@ -7,8 +7,8 @@ import './AddPropertyModal.css';
 const uploadToCloudinary = async (file) => {
     const data = new FormData();
     data.append('file', file);
-    data.append('upload_preset', 'Mahirash');
-    const res = await axios.post('https://api.cloudinary.com/v1_1/djmfxpemz/image/upload', data);
+    data.append('upload_preset', 'Mahanta_group');
+    const res = await axios.post('https://api.cloudinary.com/v1_1/dlsbj8nug/image/upload', data);
     return res.data.secure_url;
 };
 
@@ -16,84 +16,44 @@ const AddPropertyModal = ({ onClose, onSuccess }) => {
     const [formData, setFormData] = useState({
         title: '',
         location: '',
-        price: '',
-        beds: '',
-        baths: '',
-        sqft: '',
-        agent: '',
-        description: '',
-        propertyType: 'apartment',
-        featured: false,
-        forSale: true,
-        // Apartment specific
-        floorNumber: '',
-        buildingName: '',
-        hasElevator: false,
-        parkingSpaces: '',
-        // Villa specific
-        plotSize: '',
-        numberOfFloors: '',
-        gardenArea: '',
-        hasSwimmingPool: false,
-        // Studio specific
-        studioType: '',
-        isFurnished: false,
-        kitchenType: '',
-        // House specific
-        hasGarden: false,
-        hasGarage: false,
-        // Office specific
-        officeSpaceType: '',
-        workstations: '',
-        meetingRooms: ''
+        contactName: '',
+        contactPhone: '',
+        contactEmail: '',
+        plotCategory: 'residential' // residential | commercial | investment
     });
 
-    const [images, setImages] = useState([]);
-    const [imagePreviews, setImagePreviews] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState('');
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
 
-    // Handle input changes
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         }));
     };
 
-    // Handle image selection
-    const handleImageSelect = (e) => {
-        const files = Array.from(e.target.files);
-        setImages(prev => [...prev, ...files]);
-        
-        // Create previews
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreviews(prev => [...prev, reader.result]);
-            };
-            reader.readAsDataURL(file);
-        });
-    };
-
-    // Remove image
-    const removeImage = (index) => {
-        setImages(prev => prev.filter((_, i) => i !== index));
-        setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    const handleImageChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) {
+            setImageFile(null);
+            setImagePreview('');
+            return;
+        }
+        setImageFile(file);
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result);
+        reader.readAsDataURL(file);
     };
 
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!formData.title || !formData.location || !formData.price) {
-            alert('Please fill in all required fields');
-            return;
-        }
 
-        if (images.length === 0) {
-            alert('Please upload at least one image');
+        if (!formData.title || !formData.location || !formData.contactName || !formData.contactPhone) {
+            alert('Please fill in plot name, contact name, contact phone, and location.');
             return;
         }
 
@@ -101,43 +61,38 @@ const AddPropertyModal = ({ onClose, onSuccess }) => {
         setUploadProgress(0);
 
         try {
-            // Upload all images to Cloudinary
-            const uploadedImages = [];
-            const totalImages = images.length;
-
-            for (let i = 0; i < images.length; i++) {
-                const url = await uploadToCloudinary(images[i]);
-                uploadedImages.push(url);
-                setUploadProgress(((i + 1) / totalImages) * 100);
+            let uploadedImageUrl = null;
+            if (imageFile) {
+                uploadedImageUrl = await uploadToCloudinary(imageFile);
+                setUploadProgress(100);
             }
 
-            // Prepare property data
+            // Prepare simplified plot data
             const propertyData = {
-                ...formData,
-                images: uploadedImages,
-                image: uploadedImages[0], // Main image for backward compatibility
-                avatar: uploadedImages[0] || '/images/avatar/avt-png1.png', // Default avatar
-                beds: formData.propertyType !== 'office' ? parseInt(formData.beds) || 0 : 0,
-                baths: formData.propertyType !== 'office' ? parseInt(formData.baths) || 0 : 0,
-                sqft: parseInt(formData.sqft),
-                floorNumber: formData.floorNumber ? parseInt(formData.floorNumber) : null,
-                parkingSpaces: formData.parkingSpaces ? parseInt(formData.parkingSpaces) : null,
-                plotSize: formData.plotSize ? parseInt(formData.plotSize) : null,
-                numberOfFloors: formData.numberOfFloors ? parseInt(formData.numberOfFloors) : null,
-                gardenArea: formData.gardenArea ? parseInt(formData.gardenArea) : null,
-                workstations: formData.workstations ? parseInt(formData.workstations) : null,
-                meetingRooms: formData.meetingRooms ? parseInt(formData.meetingRooms) : null,
+                title: formData.title,
+                location: formData.location,
+                contact_name: formData.contactName,
+                contact_phone: formData.contactPhone,
+                contact_email: formData.contactEmail || '',
+                plot_category: formData.plotCategory,
+                type: 'plot',
+                propertyType: 'plot',
                 createdAt: new Date().toISOString()
             };
 
-            // Save to Firebase
+            if (uploadedImageUrl) {
+                propertyData.images = [uploadedImageUrl];
+                propertyData.image = uploadedImageUrl;
+                propertyData.avatar = uploadedImageUrl || '/images/avatar/avt-png1.png';
+            }
+
             await addDoc(collection(db, 'properties'), propertyData);
-            
-            alert('Property added successfully!');
+
+            alert('Plot added successfully!');
             onSuccess();
         } catch (error) {
             console.error('Error adding property:', error);
-            alert('Error adding property. Please try again.');
+            alert('Error adding plot. Please try again.');
         } finally {
             setUploading(false);
             setUploadProgress(0);
@@ -154,18 +109,18 @@ const AddPropertyModal = ({ onClose, onSuccess }) => {
 
                 <form onSubmit={handleSubmit} className="property-form">
                     <div className="form-grid">
-                        {/* Basic Information */}
+                        {/* Plot details */}
                         <div className="form-section">
-                            <h3 className="form-section-title">Basic Information</h3>
-                            
+                            <h3 className="form-section-title">Plot details</h3>
+
                             <div className="form-group">
-                                <label>Property Title *</label>
+                                <label>Plot name *</label>
                                 <input
                                     type="text"
                                     name="title"
                                     value={formData.title}
                                     onChange={handleChange}
-                                    placeholder="e.g., Munim Ji State"
+                                    placeholder="e.g., Rudraksh Investment Plot"
                                     required
                                 />
                             </div>
@@ -177,432 +132,105 @@ const AddPropertyModal = ({ onClose, onSuccess }) => {
                                     name="location"
                                     value={formData.location}
                                     onChange={handleChange}
-                                    placeholder="e.g., Indore, Madhya Pradesh, India"
+                                    placeholder="e.g., Sanwer Road, Indore"
                                     required
                                 />
                             </div>
 
                             <div className="form-row">
                                 <div className="form-group">
-                                    <label>Price *</label>
-                                    <input
-                                        type="text"
-                                        name="price"
-                                        value={formData.price}
-                                        onChange={handleChange}
-                                        placeholder="e.g., ₹35,00,000"
-                                        required
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label>Property Type *</label>
+                                    <label>Plot type *</label>
                                     <select
-                                        name="propertyType"
-                                        value={formData.propertyType}
+                                        name="plotCategory"
+                                        value={formData.plotCategory}
                                         onChange={handleChange}
                                         required
                                     >
-                                        <option value="">Select Property Type</option>
-                                        <option value="apartment">Apartment</option>
-                                        <option value="villa">Villa</option>
-                                        <option value="studio">Studio</option>
-                                        <option value="house">House</option>
-                                        <option value="office">Office</option>
+                                        <option value="residential">Residential plot</option>
+                                        <option value="commercial">Commercial plot</option>
+                                        <option value="investment">Investment plot</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Property Details - Common Fields */}
+                        {/* Contact details */}
                         <div className="form-section">
-                            <h3 className="form-section-title">Property Details</h3>
-                            
-                            {/* Common fields for all types */}
+                            <h3 className="form-section-title">Contact details</h3>
+
                             <div className="form-row">
-                                {formData.propertyType !== 'office' && (
-                                    <div className="form-group">
-                                        <label>Bedrooms *</label>
-                                        <input
-                                            type="number"
-                                            name="beds"
-                                            value={formData.beds}
-                                            onChange={handleChange}
-                                            min="1"
-                                            required={formData.propertyType !== 'office'}
-                                        />
-                                    </div>
-                                )}
-
-                                {formData.propertyType !== 'office' && (
-                                    <div className="form-group">
-                                        <label>Bathrooms *</label>
-                                        <input
-                                            type="number"
-                                            name="baths"
-                                            value={formData.baths}
-                                            onChange={handleChange}
-                                            min="1"
-                                            required={formData.propertyType !== 'office'}
-                                        />
-                                    </div>
-                                )}
-
                                 <div className="form-group">
-                                    <label>Square Feet *</label>
+                                    <label>Name *</label>
                                     <input
-                                        type="number"
-                                        name="sqft"
-                                        value={formData.sqft}
+                                        type="text"
+                                        name="contactName"
+                                        value={formData.contactName}
                                         onChange={handleChange}
-                                        min="1"
+                                        placeholder="Contact person name"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Phone *</label>
+                                    <input
+                                        type="tel"
+                                        name="contactPhone"
+                                        value={formData.contactPhone}
+                                        onChange={handleChange}
+                                        placeholder="Contact number"
                                         required
                                     />
                                 </div>
                             </div>
 
-                            {/* Apartment Specific Fields */}
-                            {formData.propertyType === 'apartment' && (
-                                <>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Floor Number</label>
-                                            <input
-                                                type="number"
-                                                name="floorNumber"
-                                                value={formData.floorNumber}
-                                                onChange={handleChange}
-                                                placeholder="e.g., 5"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Building Name</label>
-                                            <input
-                                                type="text"
-                                                name="buildingName"
-                                                value={formData.buildingName}
-                                                onChange={handleChange}
-                                                placeholder="e.g., Sky Tower"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Parking Spaces</label>
-                                            <input
-                                                type="number"
-                                                name="parkingSpaces"
-                                                value={formData.parkingSpaces}
-                                                onChange={handleChange}
-                                                min="0"
-                                                placeholder="e.g., 2"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-checkboxes">
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                name="hasElevator"
-                                                checked={formData.hasElevator}
-                                                onChange={handleChange}
-                                            />
-                                            <span>Has Elevator</span>
-                                        </label>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* Villa Specific Fields */}
-                            {formData.propertyType === 'villa' && (
-                                <>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Plot Size (sqft)</label>
-                                            <input
-                                                type="number"
-                                                name="plotSize"
-                                                value={formData.plotSize}
-                                                onChange={handleChange}
-                                                min="1"
-                                                placeholder="e.g., 5000"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Number of Floors</label>
-                                            <input
-                                                type="number"
-                                                name="numberOfFloors"
-                                                value={formData.numberOfFloors}
-                                                onChange={handleChange}
-                                                min="1"
-                                                placeholder="e.g., 2"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Garden Area (sqft)</label>
-                                            <input
-                                                type="number"
-                                                name="gardenArea"
-                                                value={formData.gardenArea}
-                                                onChange={handleChange}
-                                                min="0"
-                                                placeholder="e.g., 2000"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-checkboxes">
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                name="hasSwimmingPool"
-                                                checked={formData.hasSwimmingPool}
-                                                onChange={handleChange}
-                                            />
-                                            <span>Has Swimming Pool</span>
-                                        </label>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* Studio Specific Fields */}
-                            {formData.propertyType === 'studio' && (
-                                <>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Studio Type</label>
-                                            <select
-                                                name="studioType"
-                                                value={formData.studioType}
-                                                onChange={handleChange}
-                                            >
-                                                <option value="">Select Type</option>
-                                                <option value="efficiency">Efficiency</option>
-                                                <option value="loft">Loft</option>
-                                                <option value="micro">Micro</option>
-                                                <option value="convertible">Convertible</option>
-                                            </select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Kitchen Type</label>
-                                            <select
-                                                name="kitchenType"
-                                                value={formData.kitchenType}
-                                                onChange={handleChange}
-                                            >
-                                                <option value="">Select Type</option>
-                                                <option value="full">Full Kitchen</option>
-                                                <option value="kitchenette">Kitchenette</option>
-                                                <option value="none">No Kitchen</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="form-checkboxes">
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                name="isFurnished"
-                                                checked={formData.isFurnished}
-                                                onChange={handleChange}
-                                            />
-                                            <span>Furnished</span>
-                                        </label>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* House Specific Fields */}
-                            {formData.propertyType === 'house' && (
-                                <>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Plot Size (sqft)</label>
-                                            <input
-                                                type="number"
-                                                name="plotSize"
-                                                value={formData.plotSize}
-                                                onChange={handleChange}
-                                                min="1"
-                                                placeholder="e.g., 3000"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Number of Floors</label>
-                                            <input
-                                                type="number"
-                                                name="numberOfFloors"
-                                                value={formData.numberOfFloors}
-                                                onChange={handleChange}
-                                                min="1"
-                                                placeholder="e.g., 2"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-checkboxes">
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                name="hasGarden"
-                                                checked={formData.hasGarden}
-                                                onChange={handleChange}
-                                            />
-                                            <span>Has Garden</span>
-                                        </label>
-                                        <label className="checkbox-label">
-                                            <input
-                                                type="checkbox"
-                                                name="hasGarage"
-                                                checked={formData.hasGarage}
-                                                onChange={handleChange}
-                                            />
-                                            <span>Has Garage</span>
-                                        </label>
-                                    </div>
-                                </>
-                            )}
-
-                            {/* Office Specific Fields */}
-                            {formData.propertyType === 'office' && (
-                                <>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Office Space Type</label>
-                                            <select
-                                                name="officeSpaceType"
-                                                value={formData.officeSpaceType}
-                                                onChange={handleChange}
-                                            >
-                                                <option value="">Select Type</option>
-                                                <option value="private">Private Office</option>
-                                                <option value="shared">Shared Office</option>
-                                                <option value="coworking">Co-working Space</option>
-                                                <option value="executive">Executive Suite</option>
-                                            </select>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Number of Workstations</label>
-                                            <input
-                                                type="number"
-                                                name="workstations"
-                                                value={formData.workstations}
-                                                onChange={handleChange}
-                                                min="1"
-                                                placeholder="e.g., 10"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label>Meeting Rooms</label>
-                                            <input
-                                                type="number"
-                                                name="meetingRooms"
-                                                value={formData.meetingRooms}
-                                                onChange={handleChange}
-                                                min="0"
-                                                placeholder="e.g., 2"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="form-row">
-                                        <div className="form-group">
-                                            <label>Parking Spaces</label>
-                                            <input
-                                                type="number"
-                                                name="parkingSpaces"
-                                                value={formData.parkingSpaces}
-                                                onChange={handleChange}
-                                                min="0"
-                                                placeholder="e.g., 5"
-                                            />
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-
                             <div className="form-group">
-                                <label>Agent Name *</label>
+                                <label>Email</label>
                                 <input
-                                    type="text"
-                                    name="agent"
-                                    value={formData.agent}
+                                    type="email"
+                                    name="contactEmail"
+                                    value={formData.contactEmail}
                                     onChange={handleChange}
-                                    placeholder="e.g., Rajesh Sharma"
-                                    required
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label>Description</label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    rows="4"
-                                    placeholder="Enter property description..."
+                                    placeholder="Optional email"
                                 />
                             </div>
                         </div>
 
-                        {/* Images Upload */}
+                        {/* Image (optional) */}
                         <div className="form-section">
-                            <h3 className="form-section-title">Property Images *</h3>
-                            
+                            <h3 className="form-section-title">Image (optional)</h3>
+
                             <div className="image-upload-area">
                                 <input
                                     type="file"
                                     id="image-upload"
-                                    multiple
                                     accept="image/*"
-                                    onChange={handleImageSelect}
+                                    onChange={handleImageChange}
                                     className="image-input"
                                 />
                                 <label htmlFor="image-upload" className="image-upload-label">
                                     <span className="upload-icon">📷</span>
-                                    <span>Click to upload images</span>
-                                    <span className="upload-hint">You can select multiple images</span>
+                                    <span>Click to upload image</span>
+                                    <span className="upload-hint">Image is optional</span>
                                 </label>
                             </div>
 
-                            {imagePreviews.length > 0 && (
+                            {imagePreview && (
                                 <div className="image-previews">
-                                    {imagePreviews.map((preview, index) => (
-                                        <div key={index} className="image-preview-item">
-                                            <img src={preview} alt={`Preview ${index + 1}`} />
-                                            <button
-                                                type="button"
-                                                className="remove-image-btn"
-                                                onClick={() => removeImage(index)}
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
-                                    ))}
+                                    <div className="image-preview-item">
+                                        <img src={imagePreview} alt="Preview" />
+                                        <button
+                                            type="button"
+                                            className="remove-image-btn"
+                                            onClick={() => {
+                                                setImageFile(null);
+                                                setImagePreview('');
+                                            }}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
                                 </div>
                             )}
-                        </div>
-
-                        {/* Options */}
-                        <div className="form-section">
-                            <h3 className="form-section-title">Options</h3>
-                            
-                            <div className="form-checkboxes">
-                                <label className="checkbox-label">
-                                    <input
-                                        type="checkbox"
-                                        name="featured"
-                                        checked={formData.featured}
-                                        onChange={handleChange}
-                                    />
-                                    <span>Featured Property</span>
-                                </label>
-
-                                <label className="checkbox-label">
-                                    <input
-                                        type="checkbox"
-                                        name="forSale"
-                                        checked={formData.forSale}
-                                        onChange={handleChange}
-                                    />
-                                    <span>For Sale (uncheck for Rent)</span>
-                                </label>
-                            </div>
                         </div>
                     </div>
 

@@ -1,48 +1,173 @@
-import React from 'react'
+import React, { useEffect, useRef } from "react";
+import "./Welcome.css";
 
 function Welcome() {
-  return (
-    <div>
-         <div className="pt-5 mt-5">
-                <section className="mx-5 bg-primary-new radius-30">
-                    <div className="flat-img-with-text">
+    const imageRef = useRef(null);
+    const textRef = useRef(null);
+    const sectionRef = useRef(null);
+    const titleRef = useRef(null);
+    const descRefs = useRef([]);
 
-                        <div className="content-right">
-                            <div className="">
-                                <div className="box-title text-center wow fadeInUp">
-                                    <div className="text-subtitle text-primary">Welcome</div>
-                                    <h3 className="mt-4 title">Welcome to Mahanta Group</h3>
-                                </div>
+    /* -----------------------------
+       ENHANCED SCROLL-BASED ANIMATIONS
+    ------------------------------ */
+    useEffect(() => {
+        const handleScroll = () => {
+            const section = sectionRef.current;
+            const img = imageRef.current;
+            const text = textRef.current;
+            const title = titleRef.current;
 
-                                <p className="welcome-text mb-3">
-                                    At Mahanta Group, we believe a home is more than a structure — it’s a foundation for your dreams, your identity,
-                                    and your future. Since 2019, we have grown as a trusted name in Real Estate by delivering what truly matters:
-                                    clarity, honesty, and properties that stand the test of time.
-                                </p>
+            if (!section || !img || !text) return;
 
-                                <p className="welcome-text mb-3">
-                                    From Residential Plots to Commercial Spaces and Industrial Land, every project we offer is carefully evaluated,
-                                    verified, and curated to maximize value and long-term appreciation. We work with a commitment to transparency,
-                                    ensuring that every client receives complete guidance, genuine listings, and a stress-free buying experience.
-                                </p>
+            const rect = section.getBoundingClientRect();
+            const windowH = window.innerHeight;
+            const sectionCenter = rect.top + rect.height / 2;
+            const viewportCenter = windowH / 2;
+            const distance = (sectionCenter - viewportCenter) / viewportCenter;
+            const progress = Math.max(-0.5, Math.min(0.5, distance));
 
-                                <p className="welcome-text">
-                                    Whether you’re looking for your next home, planning an investment, or seeking the right place to build something
-                                    meaningful — Mahanta Group is here to make your journey smoother, secure, and rewarding. Join us as we continue
-                                    creating opportunities and building trust, one property at a time.
-                                </p>
+            // Smooth easing function
+            const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
-                            </div>
+            // IMAGE 3D with parallax
+            const imgProgress = easeOutCubic(1 - Math.abs(progress));
+            img.style.transform = `
+                perspective(1200px)
+                translateY(${progress * -25}px)
+                rotateY(${progress * -4}deg)
+                scale(${1 + imgProgress * 0.03})
+            `;
+
+            // TEXT parallax with fade
+            text.style.transform = `
+                translateY(${progress * 15}px)
+            `;
+
+            // Title animation
+            if (title) {
+                const titleProgress = Math.max(0, 1 - Math.abs(progress * 1.3));
+                title.style.opacity = titleProgress;
+                title.style.transform = `translateY(${(1 - titleProgress) * 10}px)`;
+            }
+
+            // Paragraph stagger animation
+            descRefs.current.forEach((desc, index) => {
+                if (desc) {
+                    const delay = index * 0.1;
+                    const descProgress = Math.max(0, 1 - Math.abs(progress * 1) - delay);
+                    desc.style.opacity = descProgress;
+                    desc.style.transform = `translateY(${(1 - descProgress) * 8}px)`;
+                }
+            });
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        handleScroll();
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    /* -----------------------------
+       ENTRY ANIMATION
+    ------------------------------ */
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if (sectionRef.current) {
+                sectionRef.current.style.opacity = "1";
+                sectionRef.current.style.transform = "translateY(0)";
+            }
+        }, 300);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    return (
+        <section className="welcome-card">
+            <div
+                className="welcome-section-wrapper container"
+                ref={sectionRef}
+                style={{
+                    opacity: 0,
+                    transform: "translateY(30px)",
+                    transition: "opacity 0.8s ease, transform 0.8s ease"
+                }}
+            >
+                <div className="welcome-grid">
+                    {/* TEXT BLOCK */}
+                    <div className="welcome-text-block" ref={textRef}>
+                        <div className="box-title text-center">
+                            <h3
+                                className="title"
+                                ref={titleRef}
+                                style={{
+                                    opacity: 0,
+                                    transform: "translateY(20px)",
+                                    transition: "all 0.6s ease 0.2s"
+                                }}
+                            >
+                                Welcome to Mahanta Group
+                            </h3>
+                            <div className="title-divider"></div>
                         </div>
-                        <div className="content-left img-animation wow">
-                            <img className="lazyload" data-src="images/img/2.jpg"
-                                src="images/banner/img-w-text1.jpg" alt="" />
+
+                        <div className="text-content">
+                            <p
+                                className="welcome-desc"
+                                ref={el => descRefs.current[0] = el}
+                                style={{
+                                    opacity: 0,
+                                    transform: "translateY(20px)",
+                                    transition: "all 0.6s ease 0.3s"
+                                }}
+                            >
+                                Mahanta Group, built and nurtured by <strong>SOS Infrabulls International Pvt. Ltd.</strong>, was established on <strong>02 June 2019</strong>. With deep expertise and a strong foundation in residential, commercial, and industrial land development, we continue to grow with purpose.
+                            </p>
+
+                            <p
+                                className="welcome-desc"
+                                ref={el => descRefs.current[1] = el}
+                                style={{
+                                    opacity: 0,
+                                    transform: "translateY(20px)",
+                                    transition: "all 0.6s ease 0.4s"
+                                }}
+                            >
+                                The Group offers secure investment and resale opportunities across <strong>Indore</strong>—India's cleanest city and the economic capital of Madhya Pradesh—ensuring every client experiences strategic value and assured long-term appreciation.
+                            </p>
+
+                            <p
+                                className="welcome-desc"
+                                ref={el => descRefs.current[2] = el}
+                                style={{
+                                    opacity: 0,
+                                    transform: "translateY(20px)",
+                                    transition: "all 0.6s ease 0.5s"
+                                }}
+                            >
+                                Carrying forward the trusted legacy of SOS Infrabulls, Mahanta Group now works with an even stronger commitment toward <strong>trust, transparency, and growth</strong>, helping you make confident and secure real estate decisions.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    {/* IMAGE BLOCK */}
+                    <div className="welcome-image-box">
+                        <div className="image-frame">
+                            <img
+                                ref={imageRef}
+                                src="images/img/img/8.JPG"
+                                alt="Mahanta Group"
+                                className="welcome-image"
+                                loading="lazy"
+                            />
+                            <div className="image-shine"></div>
                         </div>
                     </div>
-                </section>
-            </div>
-    </div>
-  )
+                </div>
+            </div >
+        </section>
+    );
 }
 
-export default Welcome
+export default Welcome;

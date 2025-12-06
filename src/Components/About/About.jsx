@@ -11,7 +11,6 @@ function About() {
       <Breadcrumb/>
         <Overview/>
         <MissionVision/>
-        <Team/>
         <Stats/>
     </div>
   )

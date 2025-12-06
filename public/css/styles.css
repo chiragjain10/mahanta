@@ -105,6 +105,10 @@ nav,
 section {
   display: block;
 }
+/* .flat-img-with-text .content-right{
+  margin: 0 !important;
+  padding: 20px 35px !important;
+} */
 
 /* Elements
 -------------------------------------------------------------- */
@@ -118,14 +122,14 @@ html {
   box-sizing: border-box;
 }
 
-body {
+/* body {
   font-family: "Manrope", sans-serif;
   font-size: 14px;
   line-height: 19.6px;
   font-weight: 400;
   color: #161e2d;
   background-color: #ffffff;
-}
+} */
 
 img {
   max-width: 100%;

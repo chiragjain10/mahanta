@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import CustomCursor from './Components/Common/CustomCursor';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFoundPage from './Components/404/NotFound';
@@ -21,6 +23,13 @@ import PropertyListing from "./Components/Property/Property";
 import BlogPage from "./Components/Blog/Blog";
 import AdminPanel from './Components/Admin/AdminPanel';
 import PropertyDetail from './Components/PropertyDetail/PropertyDetail';
+import Director from './Components/About Director/Director';
+import Complete from './Components/Project/Complete';
+import ProjectDetail from './Components/Project/ProjectDetail';
+import Terms from './Components/Legal/Terms';
+import Team from './Components/About/Team';
+import Career from './Components/Careers/Career';
+import "./App.css"
 
 function App() {
 
@@ -88,14 +97,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/aboutdirector" element={<Director />} />
           <Route path="/services" element={<Service />} />
           <Route path="/projectgallery" element={<ProjectGallery />} />
+          <Route path="/projects/:projectId" element={<ProjectDetail />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/complete" element={<Complete />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/property" element={<PropertyListing />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/career" element={<Career />} />
+          
 
           {/* 404 Page Route */}
           <Route path="*" element={<NotFoundPage />} />

@@ -1,59 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "../Firebase/Firebase";
 import Breadcrumb from "./Breadcrumb";
 
-/* -----------------------------
-   EVENT DATA
------------------------------- */
-const eventsData = [
-  {
-    id: 1,
-    title: "RUDRAAKSH AANGAN",
-    date: "August 15, 2024",
-    category: "Milestone",
-    description: "Located at Sanwer, Ujjain Road",
-    image: "./images/img/1.jpg",
-  },
-  {
-    id: 2,
-    title: "RUDRAAKSH PRIME",
-    date: "July 20, 2024",
-    category: "Corporate",
-    description: "Located at Indore-Ujjain 4 Lane to Palia Road",
-    image: "./images/img/2.jpg",
-  },
-  {
-    id: 3,
-    title: "DRUDRAAKSH PRIDE",
-    date: "June 5, 2024",
-    category: "Site Visit",
-    description: "Located at Indore-Ujjain 4 Lane to Palia Road",
-    image: "./images/img/3.jpg",
-  },
-  {
-    id: 4,
-    title: "RUDRAAKSH HOMES",
-    date: "May 10-12, 2024",
-    category: "Internal",
-    description: "Located at Indore-Ujjain 4 Lane to Palia Road",
-    image: "./images/img/4.jpg",
-  },
-  {
-    id: 5,
-    title: "RUDRAAKSH PRIDE EX.",
-    date: "April 22, 2024",
-    category: "CSR",
-    description: "Located at Indore-Ujjain 4 Lane to Palia Road",
-    image: "./images/img/5.jpg",
-  },
-  {
-    id: 6,
-    title: "RUDRAAKSH HOME EX.",
-    date: "March 1, 2024",
-    category: "Product Launch",
-    description: "Located at Indore-Ujjain 4 Lane to Palia Road",
-    image: "./images/img/6.jpg",
-  },
-];
+const formatLocationSummary = (location) => {
+  if (!location) return "";
+  if (typeof location === "string") return location;
+  return location.summary || location.address || "";
+};
 
 /* -----------------------------
    CUSTOM STYLE
@@ -218,55 +173,85 @@ const CustomStyles = () => (
   </style>
 );
 
-/* -----------------------------
-   CARD COMPONENT
------------------------------- */
-const EventCard = ({ event }) => (
+const ProjectCard = ({ project, onView }) => (
   <div className="event-card">
     <div className="image-wrapper">
-      <img src={event.image} alt={event.title} />
-      {/* <div className="category-tag">{event.category}</div> */}
-
+      <img src={project.image || "/images/home/house-1.jpg"} alt={project.title} />
       <div className="overlay-info">
-        {/* <div className="date-box">{event.date}</div> */}
-        <h4 className="overlay-title">{event.title}</h4>
+        <h4 className="overlay-title">{project.title}</h4>
       </div>
     </div>
-
     <div className="card-body">
-      <p className="desc">{event.description}</p>
-
-      <button className="btn-view premium-btn">
-        View Event Details
+      <p className="desc">{project.tagline || formatLocationSummary(project.location)}</p>
+      <button className="btn-view premium-btn" type="button" onClick={onView}>
+        View Project Details
         <span className="arrow">→</span>
       </button>
-
     </div>
   </div>
 );
 
-/* -----------------------------
-   MAIN GALLERY
------------------------------- */
 const Gallery = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const projectsRef = collection(db, "projects");
+    const unsubscribe = onSnapshot(
+      projectsRef,
+      (snapshot) => {
+        const projectData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        const runningProjects = projectData.filter(
+          (project) => (project.status || "running") === "running"
+        );
+        setProjects(runningProjects);
+        setLoading(false);
+      },
+      () => {
+        setError("Unable to load running projects.");
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, []);
+
+  const stateMessage = (() => {
+    if (loading) return "Loading running projects...";
+    if (error) return error;
+    if (projects.length === 0) return "Running projects will appear here soon.";
+    return "";
+  })();
+
   return (
     <>
-    <Breadcrumb />
+      <Breadcrumb />
       <CustomStyles />
 
       <div className="container py-5">
         <div className="text-center mb-5">
-          <h2 className="fw-bold fs-1">Our Event Gallery</h2>
-          <p className="text-muted fs-5">Relive the defining moments of our journey</p>
+          <h2 className="fw-bold fs-1">Running Project Gallery</h2>
+          <p className="text-muted fs-5">
+            {/* Explore every ongoing milestone curated by SOS Infrabulls. */}
+          </p>
         </div>
 
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-          {eventsData.map((event) => (
-            <div className="col" key={event.id}>
-              <EventCard event={event} />
-            </div>
-          ))}
-        </div>
+        {stateMessage ? (
+          <div className="text-center text-muted py-5">{stateMessage}</div>
+        ) : (
+          <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {projects.map((project) => (
+              <div className="col" key={project.id}>
+                <ProjectCard project={project} onView={() => navigate(`/projects/${project.id}`)} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );

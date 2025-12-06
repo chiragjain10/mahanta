@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 function Breadcrumb() {
     return (
         <div>
-            <section className="flat-title-page" style={{backgroundImage:'url(images/page-title/page-title-5.jpg)'}}>
+            <section className="flat-title-page" style={{backgroundImage:'url(images/home/house-1.jpg)'}}>
                 <div className="container">
                     <div className="breadcrumb-content">
                         <ul className="breadcrumb">

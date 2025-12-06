@@ -441,6 +441,33 @@
     pointer-events: none;
 }
 
+/* Scroll 3D on outer card */
+.property-card-3d {
+    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+    will-change: transform, opacity;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+}
+
+/* Mouse tilt on inner wrapper */
+.property-tilt-wrapper {
+    transition: transform 0.25s ease-out;
+    will-change: transform;
+}
+
+/* Glow hover */
+
+
+/* Smooth scroll fade */
+.property-card-3d {
+    opacity: 0.95;
+}
+
+/* Better visuals */
+.property-card-3d img {
+    border-radius: 14px;
+}
+
 /* Loading Spinner Animation */
 @keyframes spin {
     to { transform: rotate(360deg); }

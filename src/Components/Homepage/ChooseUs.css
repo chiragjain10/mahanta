@@ -1,0 +1,17 @@
+.flat-img-with-text .content-right{
+    padding-top: 50px;
+    padding-bottom: 0;
+}
+.chooseUs>div{
+    height: 800px;
+}
+
+@media (max-width: 768px){
+    .chooseUs{
+        height: auto;
+    }
+}
+
+.chooseUs_scroller{
+    overflow-y: auto;
+}

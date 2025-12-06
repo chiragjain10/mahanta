@@ -10,6 +10,8 @@ import TestimonialSection from './Testimonial'
 import Welcome from './Welcome'
 import ProjectsSection from './Projects'
 import BlogsSpotlight from './Blogs'
+import ProjectLogoCarousel from './ProjectLogoCarousel'
+import Counter from './Counter'
 
 function Home() {
 
@@ -26,22 +28,13 @@ function Home() {
     <>
 
       <HeroSlider />
-
+      <ProjectLogoCarousel />
       <Welcome />
-      <PropertyListings />
       <ProjectsSection />
-      <BlogsSpotlight />
-
-
-
-      {/* <PropertyCategories /> */}
-
-
-
       <ChooseUs />
-
-
-
+      <Counter/>
+      {/* <PropertyListings /> */}
+      <BlogsSpotlight />
       <TestimonialSection />
 
     </>
