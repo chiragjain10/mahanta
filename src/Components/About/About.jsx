@@ -8,10 +8,10 @@ import Breadcrumb from './Breadcrumb'
 function About() {
   return (
     <div>
-      <Breadcrumb/>
-        <Overview/>
-        <MissionVision/>
-        <Stats/>
+      <Breadcrumb />
+      <Overview />
+      <MissionVision />
+      <Stats />
     </div>
   )
 }

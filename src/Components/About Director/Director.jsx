@@ -2,37 +2,38 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Director() {
-
-  /* ----------------------------------------
-     EFFECTS: 3D Scroll Reveal + Hover Tilt
-  ---------------------------------------- */
   useEffect(() => {
-    // Tilt Effect
+    // Enhanced Tilt Effect with smooth easing
     const tiltElements = document.querySelectorAll(".tilt-card");
 
     tiltElements.forEach((el) => {
       el.addEventListener("mousemove", (e) => {
         const rect = el.getBoundingClientRect();
-        const x = (e.clientX - rect.left - rect.width / 2) / 10;
-        const y = (e.clientY - rect.top - rect.height / 2) / 10;
+        const x = ((e.clientX - rect.left) / rect.width - 0.5) * 20;
+        const y = ((e.clientY - rect.top) / rect.height - 0.5) * -15;
 
-        el.style.transform = `rotateX(${-(y)}deg) rotateY(${x}deg) scale(1.03)`;
+        el.style.transform = `perspective(1000px) rotateX(${y}deg) rotateY(${x}deg) scale(1.05)`;
+        el.style.transition = "transform 0.1s ease-out";
       });
 
       el.addEventListener("mouseleave", () => {
-        el.style.transform = "rotateX(0) rotateY(0) scale(1)";
+        el.style.transform = "perspective(1000px) rotateX(0) rotateY(0) scale(1)";
+        el.style.transition = "transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)";
       });
     });
 
-    // Scroll Reveal
+    // Enhanced Scroll Reveal with staggered animation
     const revealElements = document.querySelectorAll(".reveal");
 
     const handleReveal = () => {
-      revealElements.forEach((el) => {
+      revealElements.forEach((el, index) => {
         const top = el.getBoundingClientRect().top;
+        const delay = index * 100;
 
-        if (top < window.innerHeight - 80) {
-          el.classList.add("reveal-visible");
+        if (top < window.innerHeight - 100) {
+          setTimeout(() => {
+            el.classList.add("reveal-visible");
+          }, delay);
         }
       });
     };
@@ -43,212 +44,455 @@ function Director() {
     return () => window.removeEventListener("scroll", handleReveal);
   }, []);
 
-
   return (
     <>
       <style>{`
         :root {
-          --primary: #1174d6;
-          --primary-dark: #0d5fb1;
-          --primary-light: #e7f2ff;
-          --text-dark: #0f172a;
-          --text-light: #475569;
+          --primary: #0A2540;
+          --primary-dark: #061B2E;
+          --primary-light: #1A365D;
+          --accent: linear-gradient(135deg, #1174d6, #0a56a5);
+          --accent-dark: #B89446;
+          --text-dark: #1A1A1A;
+          --text-light: #4A5568;
+          --light-bg: #FAFAFA;
+          --border: rgba(10, 37, 64, 0.1);
         }
 
         /* ==========================
-           3D SCROLL REVEAL
+           PREMIUM ANIMATIONS
+        ========================== */
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-15px); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -1000px 0; }
+          100% { background-position: 1000px 0; }
+        }
+
+        /* ==========================
+           SCROLL REVEAL
         ========================== */
         .reveal {
           opacity: 0;
-          transform: perspective(900px) rotateX(35deg) translateY(50px) scale(0.95);
-          transition: 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-          transform-origin: top;
+          transform: translateY(60px) scale(0.95);
+          transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+          will-change: transform, opacity;
         }
+
         .reveal-visible {
           opacity: 1;
-          transform: perspective(900px) rotateX(0) translateY(0) scale(1);
+          transform: translateY(0) scale(1);
         }
 
         /* ==========================
-           PAGE BASE
+           PREMIUM HERO SECTION
         ========================== */
-        .director-hero {
-          padding: 4rem 0 5rem;
-        }
-
-        .director-grid {
-          display: grid;
-          grid-template-columns: 1fr 1.2fr;
-          gap: 3rem;
+        .premium-hero {
+          position: relative;
+          min-height: 50vh;
+          display: flex;
           align-items: center;
-          margin-bottom: 3rem;
+          background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+          overflow: hidden;
+          margin-top: 33px;
+        }
+
+        .premium-hero::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: 
+            radial-gradient(circle at 20% 50%, rgba(201, 169, 110, 0.15) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-content {
+          position: relative;
+          z-index: 2;
+          padding: 6rem 0;
+          text-align: center;
+        }
+
+        .hero-title {
+          font-size: 4.5rem;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+          color: white;
+          margin-bottom: 1.5rem;
+          font-family: 'Georgia', serif;
+        }
+
+        .hero-title strong {
+          font-weight: 600;
+          color: var(--accent);
+        }
+
+        .breadcrumb {
+          display: flex;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 2rem;
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .breadcrumb a {
+          color: var(--accent);
+          text-decoration: none;
+          transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+          color: white;
+          text-decoration: underline;
         }
 
         /* ==========================
-           DIRECTOR PHOTO (3D Card)
+           PREMIUM DIRECTOR SECTION
         ========================== */
+        .premium-section {
+          padding: 8rem 0;
+          background: var(--light-bg);
+          position: relative;
+        }
+
+        .premium-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .director-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 2rem;
+        }
+
+        /* ==========================
+           DIRECTOR CARD - PREMIUM
+        ========================== */
+        .director-card {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 6rem;
+          align-items: center;
+          margin-bottom: 8rem;
+          position: relative;
+        }
+
+        .director-card:nth-child(even) .director-photo {
+          order: 2;
+        }
+
+        .director-card:nth-child(even) .director-content {
+          order: 1;
+        }
+
+        /* Photo Container */
+        .director-photo-container {
+          position: relative;
+          perspective: 1000px;
+        }
+
         .director-photo {
-          border-radius: 20px;
+          position: relative;
+          border-radius: 24px;
           overflow: hidden;
-          background: rgba(255, 255, 255, 0.65);
-          backdrop-filter: blur(10px);
-          box-shadow: 0 22px 45px rgba(0,0,0,0.12);
+          box-shadow: 
+            0 30px 60px rgba(10, 37, 64, 0.15),
+            0 0 0 1px rgba(255, 255, 255, 0.1);
           transform-style: preserve-3d;
-          transition: 0.4s ease;
+          transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .director-photo::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, transparent 40%, rgba(201, 169, 110, 0.1));
+          z-index: 1;
+          pointer-events: none;
         }
 
         .director-photo img {
           width: 100%;
-          height: 420px;
+          height: 650px;
           object-fit: cover;
           object-position: top;
           display: block;
+          transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* ==========================
-           TEXT CONTENT
-        ========================== */
-        .director-title {
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: var(--text-dark);
+        .photo-frame {
+          position: absolute;
+          top: -20px;
+          left: -20px;
+          right: -20px;
+          bottom: -20px;
+          border: 2px solid var(--accent);
+          border-radius: 32px;
+          z-index: -1;
+          opacity: 0.5;
         }
 
-        .director-subtext {
-          margin-top: 0.4rem;
-          font-size: 1.15rem;
+        .photo-badge {
+          position: absolute;
+          top: 30px;
+          right: 30px;
+          background: var(--accent);
+          color: #fff;
+          padding: 0.8rem 1.5rem;
+          border-radius: 50px;
           font-weight: 600;
-          color: var(--primary-dark);
+          font-size: 0.9rem;
+          letter-spacing: 0.05em;
+          z-index: 2;
+          box-shadow: 0 10px 20px rgb(17 116 214);
         }
 
-        .director-content p {
-          margin-top: 1rem;
-          color: var(--text-light);
-          line-height: 1.7;
-          font-size: 1.05rem;
+        /* Content Styling */
+        .director-content {
+          position: relative;
         }
 
-        /* ==========================
-           QUOTE BOX (Glass Effect)
-        ========================== */
-        .director-message-box {
-          margin-top: 2rem;
-          padding: 1.7rem;
-          border-radius: 16px;
-          background: rgba(17,116,214,0.08);
-          border-left: 6px solid var(--primary);
-          box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        .director-title {
+          font-size: 3.5rem;
+          font-weight: 300;
+          color: var(--primary);
+          margin-bottom: 0.5rem;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
         }
 
-        .director-message-box p {
-          color: var(--text-dark);
-          font-size: 1.05rem;
+        .director-subtitle {
+          display: inline-block;
+          color: var(--accent);
+          font-size: 1.1rem;
           font-weight: 500;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 2.5rem;
+          position: relative;
+          padding-bottom: 0.5rem;
+        }
+
+        .director-subtitle::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 60px;
+          height: 2px;
+          background: var(--accent);
+        }
+
+        .director-text {
+          color: var(--text-light);
+          line-height: 1.8;
+          font-size: 1.15rem;
+          margin-bottom: 2rem;
+          font-weight: 300;
+        }
+
+        .director-text.highlight {
+          background: linear-gradient(120deg, rgba(17, 116, 214, 0.2) 0%, transparent 100%);
+          padding: 2rem;
+          border-radius: 16px;
+          border-left: 3px solid var(--accent);
+          font-style: italic;
         }
 
         /* ==========================
-           RESPONSIVE
+           SIGNATURE & QUOTE
         ========================== */
-        @media(max-width: 900px) {
-          .director-grid {
-            grid-template-columns: 1fr;
+        .director-signature {
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--border);
+        }
+
+        .signature-text {
+          font-family: 'Brush Script MT', cursive;
+          font-size: 2.5rem;
+          color: var(--primary);
+          margin-bottom: 0.5rem;
+        }
+
+        .signature-name {
+          color: var(--accent);
+          font-weight: 500;
+          letter-spacing: 0.05em;
+        }
+
+        /* ==========================
+           RESPONSIVE DESIGN
+        ========================== */
+        @media (max-width: 1200px) {
+          .director-title {
+            font-size: 3rem;
           }
+          
+          .director-card {
+            gap: 4rem;
+          }
+        }
+
+        @media (max-width: 992px) {
+          .director-card {
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+          }
+
+          .director-card:nth-child(even) .director-photo,
+          .director-card:nth-child(even) .director-content {
+            order: initial;
+          }
+
+          .director-photo img {
+            height: 500px;
+          }
+
+          .hero-title {
+            font-size: 3.5rem;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 2.8rem;
+          }
+
+          .director-title {
+            font-size: 2.5rem;
+          }
+
+          .premium-section {
+            padding: 4rem 0;
+          }
+
+          .director-photo img {
+            height: 400px;
+          }
+        }
+
+        /* ==========================
+           UTILITY CLASSES
+        ========================== */
+        .text-accent {
+          color: var(--accent);
+        }
+
+        .mb-3 {
+          margin-bottom: 3rem;
         }
       `}</style>
 
+      {/* ==========================
+           PREMIUM HERO
+      ========================== */}
+      <section className="premium-hero">
+        <div className="director-container">
+          <div className="hero-content reveal">
+           
+            <h1 className="hero-title">
+              Visionary <strong>Leadership</strong>
+            </h1>
+            <p className="text-white text-lg opacity-80">
+              Guiding Mahanta Group with wisdom, integrity, and forward-thinking vision
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ==========================
-             PAGE CONTENT
+           DIRECTORS SECTION
       ========================== */}
-      <section className="director-hero container">
+      <section className="premium-section">
+        <div className="director-container">
 
-        {/* Breadcrumb Section */}
-        <section
-          className="flat-title-page reveal"
-          style={{ backgroundImage: "url(images/page-title/page-title-5.jpg)" }}
-        >
-          <div className="container">
-            <div className="breadcrumb-content">
-              <ul className="breadcrumb">
-                <li><Link to="/" className="text-white">Home</Link></li>
-                <li className="text-white">/ Pages</li>
-                <li className="text-white">/ About Director</li>
-              </ul>
-              <h1 className="text-center text-white title">About Director</h1>
+          {/* Pawan Tilve */}
+          <div className="director-card reveal">
+            <div className="director-content">
+              <h2 className="director-title">Mr. Pawan Tilve</h2>
+              <div className="director-subtitle">Founder & Managing Director</div>
+
+              <p className="director-text">
+                Leading with purpose and precision, Mr. Pawan Tilve brings transformative vision to Mahanta Group. His leadership is rooted in deep industry expertise and an unwavering commitment to excellence.
+              </p>
+
+              <p className="director-text highlight">
+                "एक नए कल की शुरुआत, हमारी प्राथमिकता मध्यवर्गीय परिवार की मेहनत से एकत्र की गई जमापूँजी को एक सही जगह निवेश कराना है, ताकि वह अपने सपनों का आशियाना वहाँ बना पाएं..."
+              </p>
+
+              <p className="director-text">
+                Under his guidance, Mahanta Group has redefined real estate standards, focusing on sustainable growth, innovative solutions, and creating lasting value for stakeholders.
+              </p>
+
+              <div className="director-signature">
+                <div className="signature-text">Pawan Tilve</div>
+                <div className="signature-name">Founder & Managing Director</div>
+              </div>
             </div>
-          </div>
-        </section>
-
-
-        {/* ==========================
-            SECTION 1 — PAWAN TILVE
-        ========================== */}
-        <div className="director-grid">
-
-          {/* LEFT PHOTO */}
-          <div className="director-photo tilt-card reveal">
-            <img src="images/img/01 (1).png" alt="MD Pawan Tilve" />
-          </div>
-
-          {/* RIGHT CONTENT */}
-          <div className="director-content reveal">
-            <h2 className="director-title">Mr. Pawan Tilve</h2>
-            <div className="director-subtext">Managing Director, Mahanta Group</div>
-
-            <p>
-              एक नए कल की शुरुआत,
-              हमारी प्राथमिकता मध्यवर्गीय परिवार की मेहनत से एकत्र की गई जमापूँजी को एक सही जगह निवेश कराना है, ताकि वह अपने सपनों का आशियाना वहाँ बना पाएं एवं हमसे जुड़ी हमारी सेल्स टीम को पूर्णरूप से ईमानदारी के साथ प्रशिक्षित कर बेहतर भविष्य की ओर ले जाना ही हमारा लक्ष्य है।
-
-            </p>
-
-          </div>
-
-        </div>
-
-        {/* ==========================
-            SECTION 2 — VIKAS GARG
-        ========================== */}
-        <div className="director-grid">
-
-          {/* LEFT CONTENT */}
-          <div className="director-content reveal">
-            <h2 className="director-title">Mr. Vikas Garg</h2>
-            <div className="director-subtext">CMD, Mahanta Group</div>
-
-            <p>
-
-              सर्वप्रथम हम आपको धन्यवाद देते हैं कि आपने हमसे संपर्क (वेबसाइट पर) किया और हमारे बारे में जानने के लिए उत्सुक हैं।
-
-            </p>
-
-            <p>
-              हम कौन हैं? हम भी बिल्कुल आप ही की तरह हैं; जो ऐसा चाहते हैं कि हमारा निवेश सुरक्षित हो जिससे संपत्ति खरीदते या बेचते समय परेशानी न हो और हमारा भविष्य सुरक्षित हो सके।
-
-            </p>
-
-            <p>
-              हम क्या करते हैं? हम भी बिल्कुल आप ही की तरह निर्णय लेते हैं। पहले देखते हैं फिर सोचते हैं तब निर्णय लेते हैं कि क्या यह अवसर निवेश को गति देने के लिए सही है। 
-
-            </p>
-
-            <p>
-             हम यह क्यों करते हैं? हम यह जानते हैं कि पूरे जीवन भर की छोटी बचत जिसे "निवेश" कहते हैं वह कैसे एकत्रित होती है। जिसे बहुत आसानी से डूबाया या निवेशित नहीं किया जा सकता। बिना आपकी जरूरतों को समझें हम आपको किसी भी निवेश की सलाह या मार्गदर्शन नहीं देते हैं, क्योंकि यह हमारी वचनबद्धता है। 
-
-
-            </p>
-
-            <div className="director-message-box">
-              <p>“आप और मैं तभी तो कहलायेंगे "हम"'</p>
+            <div className="director-photo-container">
+              <div className="director-photo tilt-card">
+                <div className="photo-badge">Founder & MD</div>
+                <img src="images/img/01 (1).png" alt="MD Pawan Tilve" />
+              </div>
+              <div className="photo-frame"></div>
             </div>
           </div>
 
-          {/* RIGHT PHOTO */}
-          <div className="director-photo tilt-card reveal">
-            <img src="images/img/01 (2).png" alt="CMD Vikas Garg" />
+          {/* Vikas Garg */}
+          <div className="director-card reveal">
+            <div className="director-photo-container">
+              <div className="director-photo tilt-card">
+                <div className="photo-badge">CMD</div>
+                <img src="images/img/01 (2).png" alt="CMD Vikas Garg" />
+              </div>
+              <div className="photo-frame"></div>
+            </div>
+
+            <div className="director-content">
+              <h2 className="director-title">Mr. Vikas Garg</h2>
+              <div className="director-subtitle">Chief Managing Director</div>
+
+              <p className="director-text">
+                With strategic foresight and decades of experience, Mr. Vikas Garg shapes the future of real estate development. His philosophy centers on trust, transparency, and creating spaces that inspire.
+              </p>
+
+              <p className="director-text">
+                "सर्वप्रथम हम आपको धन्यवाद देते हैं कि आपने हमसे संपर्क किया और हमारे बारे में जानने के लिए उत्सुक हैं। हम कौन हैं? हम भी बिल्कुल आप ही की तरह हैं..."
+              </p>
+
+              <p className="director-text">
+                His approach combines meticulous planning with empathetic understanding of client needs, ensuring every project exceeds expectations while maintaining the highest ethical standards.
+              </p>
+
+              <p className="director-text highlight mb-3">
+                "आप और मैं तभी तो कहलायेंगे 'हम'"
+              </p>
+
+              <div className="director-signature">
+                <div className="signature-text">Vikas Garg</div>
+                <div className="signature-name">Chairman & Managing Director</div>
+              </div>
+            </div>
           </div>
 
         </div>
-
       </section>
     </>
   );
