@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 import CustomCursor from './Components/Common/CustomCursor';
+import FloatingWhatsApp from './Components/Common/FloatingWhatsApp';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFoundPage from './Components/404/NotFound';
 import ScrollToTop from './Components/ScrollToTop';
@@ -9,6 +10,8 @@ import ScrollToTop from './Components/ScrollToTop';
 import PremiumPreloader from './Components/Homepage/Preloader';
 
 // Layout
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
 
@@ -86,6 +89,8 @@ function App() {
       <ScrollToTop />   
       {/* Global custom cursor */}
       <CustomCursor />
+      {/* Floating WhatsApp Button */}
+      <FloatingWhatsApp />
       {/* Preloader */}
       {loading && <PremiumPreloader />}
 
