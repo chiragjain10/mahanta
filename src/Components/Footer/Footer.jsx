@@ -53,22 +53,35 @@ const PremiumFooter = () => {
                                 <span className="premium-social-title">Connect With Us</span>
                                 <div className="premium-social-icons">
                                     {[
-                                        { name: 'Facebook', icon: 'F' },
-                                        { name: 'LinkedIn', icon: 'IN' },
-                                        { name: 'Twitter', icon: 'X' },
-                                        { name: 'Instagram', icon: 'IG' },
-                                        { name: 'YouTube', icon: 'YT' }
+                                        {
+                                            name: 'Facebook',
+                                            icon: 'F',
+                                            link: 'https://www.facebook.com/profile.php?id=61581191775506'
+                                        },
+                                        {
+                                            name: 'LinkedIn',
+                                            icon: 'IN',
+                                            link: 'https://www.linkedin.com/company/mahanta-group/'
+                                        },
+                                        {
+                                            name: 'Instagram',
+                                            icon: 'IG',
+                                            link: 'https://www.instagram.com/mahantagroup/'
+                                        }
                                     ].map((social, index) => (
                                         <a
                                             key={index}
-                                            href="#"
+                                            href={social.link}
                                             className="premium-social-icon"
                                             aria-label={social.name}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         >
                                             <span>{social.icon}</span>
                                         </a>
                                     ))}
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -9,14 +9,14 @@ const ContactSection = () => {
       <section className="flat-contact-section py-5" data-aos="fade-up">
         <div className="container">
           <div className="row g-5">
-            
+
             {/* LEFT FORM */}
             <div className="col-lg-8" data-aos="fade-right" data-aos-delay="100">
               <div className="contact-content shadow-lg p-5 rounded-4 bg-white position-relative overflow-hidden">
                 {/* Premium decorative element */}
-                <div className="position-absolute top-0 end-0 bg-primary bg-opacity-10 rounded-bottom-start-5" 
-                     style={{width: '120px', height: '120px'}}></div>
-                
+                <div className="position-absolute top-0 end-0 bg-primary bg-opacity-10 rounded-bottom-start-5"
+                  style={{ width: '120px', height: '120px' }}></div>
+
                 <div className="position-relative">
                   <div className="d-flex align-items-center mb-4">
                     <div className="bg-primary bg-opacity-10 rounded-3 p-3 me-3">
@@ -151,7 +151,7 @@ const ContactSection = () => {
                 </div>
 
                 <ul className="list-unstyled info-list">
-                  
+
                   <li className="mb-4 pb-3 border-bottom border-light" data-aos="fade-up" data-aos-delay="200">
                     <div className="d-flex">
                       <div className="me-3 mt-1">
@@ -185,23 +185,56 @@ const ContactSection = () => {
                   <li>
                     <h6 className="fw-bold premium-info-title mb-3">Follow Our Journey</h6>
                     <div className="d-flex gap-3 align-items-center social-icons">
-                      <a href="#" className="social-item premium-social">
+
+                      <a
+                        href="https://www.facebook.com/profile.php?id=61581191775506"
+                        className="social-item premium-social"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Facebook"
+                      >
                         <i className="bi bi-facebook"></i>
                       </a>
-                      <a href="#" className="social-item premium-social">
+
+                      <a
+                        href="https://www.instagram.com/mahantagroup/"
+                        className="social-item premium-social"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Instagram"
+                      >
                         <i className="bi bi-instagram"></i>
                       </a>
-                      <a href="#" className="social-item premium-social">
+
+                      {/* <a
+                        href="#"
+                        className="social-item premium-social"
+                        aria-label="YouTube"
+                      >
                         <i className="bi bi-youtube"></i>
-                      </a>
-                      <a href="#" className="social-item premium-social">
+                      </a> */}
+
+                      <a
+                        href="https://www.linkedin.com/company/mahanta-group/"
+                        className="social-item premium-social"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="LinkedIn"
+                      >
                         <i className="bi bi-linkedin"></i>
                       </a>
-                      <a href="#" className="social-item premium-social">
+
+                      <a
+                        href="#"
+                        className="social-item premium-social"
+                        aria-label="Twitter"
+                      >
                         <i className="bi bi-twitter"></i>
                       </a>
+
                     </div>
                   </li>
+
 
                 </ul>
               </div>

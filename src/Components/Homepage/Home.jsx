@@ -34,7 +34,7 @@ function Home() {
       <ChooseUs />
       <Counter/>
       {/* <PropertyListings /> */}
-      <BlogsSpotlight />
+      {/* <BlogsSpotlight />  */}
       <TestimonialSection />
 
     </>

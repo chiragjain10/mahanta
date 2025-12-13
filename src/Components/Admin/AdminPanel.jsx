@@ -24,6 +24,7 @@ const AdminPanel = () => {
     const [projectLogoFile, setProjectLogoFile] = useState(null);
     const [projectLogoPreview, setProjectLogoPreview] = useState('');
     const [projectForm, setProjectForm] = useState({
+        id: '',
         title: '',
         location: '',
         ctaUrl: '',
@@ -71,10 +72,12 @@ const AdminPanel = () => {
     const [teamFile, setTeamFile] = useState(null);
     const [showTeamModal, setShowTeamModal] = useState(false);
     const [teamForm, setTeamForm] = useState({
+        id: '',
         name: '',
         role: ''
     });
     const [editingTeamId, setEditingTeamId] = useState(null);
+    const [firebaseTeamDocId, setFirebaseTeamDocId] = useState(null);
 
     // Gallery management state
     const [galleryItems, setGalleryItems] = useState([]);
@@ -84,9 +87,12 @@ const AdminPanel = () => {
     const [galleryImagePreviews, setGalleryImagePreviews] = useState([]);
     const [galleryFiles, setGalleryFiles] = useState([]);
     const [galleryForm, setGalleryForm] = useState({
+        id: '',
         type: 'achievements',
         title: ''
     });
+    const [primaryImageIndex, setPrimaryImageIndex] = useState(null);
+    const [firebaseGalleryDocId, setFirebaseGalleryDocId] = useState(null);
     const [editingGalleryId, setEditingGalleryId] = useState(null);
 
     // Fetch properties from Firebase
@@ -109,7 +115,7 @@ const AdminPanel = () => {
     const fetchGallery = async () => {
         try {
             const snapshot = await getDocs(collection(db, 'gallery'));
-            const gallery = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            const gallery = snapshot.docs.map(docSnap => ({ firebaseDocId: docSnap.id, ...docSnap.data() }));
             setGalleryItems(gallery);
         } catch (error) {
             console.error('Error fetching gallery:', error);
@@ -122,7 +128,7 @@ const AdminPanel = () => {
     const fetchTeam = async () => {
         try {
             const snapshot = await getDocs(collection(db, 'team'));
-            const team = snapshot.docs.map(docSnap => ({ id: docSnap.id, ...docSnap.data() }));
+            const team = snapshot.docs.map(docSnap => ({ firebaseDocId: docSnap.id, ...docSnap.data() }));
             setTeamItems(team);
         } catch (error) {
             console.error('Error fetching team:', error);
@@ -144,10 +150,11 @@ const AdminPanel = () => {
     };
 
     const resetTeamForm = () => {
-        setTeamForm({ name: '', role: '' });
+        setTeamForm({ id: '', name: '', role: '' });
         setTeamFile(null);
         setTeamImagePreview('');
         setTeamUploadProgress(0);
+        setFirebaseTeamDocId(null);
         setEditingTeamId(null);
     };
 
@@ -164,9 +171,10 @@ const AdminPanel = () => {
                 imageUrl = await uploadMediaToCloudinary(teamFile, setTeamUploadProgress);
             }
 
-            if (editingTeamId) {
-                const teamRef = doc(db, 'team', editingTeamId);
+            if (firebaseTeamDocId) {
+                const teamRef = doc(db, 'team', firebaseTeamDocId);
                 const payload = {
+                    id: teamForm.id,
                     name: teamForm.name,
                     role: teamForm.role
                 };
@@ -181,6 +189,7 @@ const AdminPanel = () => {
                     return;
                 }
                 await addDoc(collection(db, 'team'), {
+                    id: teamForm.id,
                     name: teamForm.name,
                     role: teamForm.role,
                     image: imageUrl,
@@ -227,7 +236,9 @@ const AdminPanel = () => {
         setGalleryFiles([]);
         setGalleryImagePreviews([]);
         setGalleryUploadProgress(0);
-        setGalleryForm({ type: 'achievements', title: '' });
+        setGalleryForm({ id: '', type: 'achievements', title: '' });
+        setPrimaryImageIndex(null);
+        setFirebaseGalleryDocId(null);
         setEditingGalleryId(null);
     };
 
@@ -235,6 +246,10 @@ const AdminPanel = () => {
         e.preventDefault();
         if (!galleryFiles.length && !editingGalleryId) {
             alert('Please select image(s) to upload.');
+            return;
+        }
+        if (!galleryForm.id) {
+            alert('Please provide a gallery item ID.');
             return;
         }
         try {
@@ -250,21 +265,27 @@ const AdminPanel = () => {
             }
 
             if (editingGalleryId) {
-                const galleryRef = doc(db, 'gallery', editingGalleryId);
+                const galleryRef = doc(db, 'gallery', firebaseGalleryDocId);
                 const payload = {
+                    id: galleryForm.id,
                     type: galleryForm.type,
                     title: galleryForm.title
                 };
                 if (urls.length) {
                     payload.images = urls;
                 }
+                if (primaryImageIndex !== null) {
+                    payload.primaryImageIndex = primaryImageIndex;
+                }
                 await updateDoc(galleryRef, payload);
                 alert('Gallery item updated!');
             } else {
                 await addDoc(collection(db, 'gallery'), {
+                    id: galleryForm.id,
                     images: urls,
                     type: galleryForm.type,
                     title: galleryForm.title,
+                    primaryImageIndex: primaryImageIndex !== null ? primaryImageIndex : 0,
                     createdAt: new Date().toISOString()
                 });
                 alert('Images added to gallery!');
@@ -490,6 +511,7 @@ const AdminPanel = () => {
 
     const resetProjectForm = () => {
         setProjectForm({
+            id: '',
             title: '',
             location: '',
             ctaUrl: '',
@@ -520,8 +542,8 @@ const AdminPanel = () => {
     const handleProjectSubmit = async (e) => {
         e.preventDefault();
 
-        if (!projectForm.title || !projectForm.location) {
-            alert('Please provide a project title and short location summary.');
+        if (!projectForm.id || !projectForm.title || !projectForm.location) {
+            alert('Please provide a project ID, title and short location summary.');
             return;
         }
 
@@ -942,6 +964,7 @@ const AdminPanel = () => {
                                                 onClick={() => {
                                                     setEditingProjectId(project.id);
                                                     setProjectForm({
+                                                        id: project.id || '',
                                                         title: project.title || '',
                                                         location: extractProjectLocation(project) || '',
                                                         ctaUrl: project.ctaUrl || '',
@@ -1032,7 +1055,22 @@ const AdminPanel = () => {
                                 {galleryItems.map(item => (
                                     <li key={item.id} className="admin-list-item">
                                         <div className="list-media">
-                                            <img src={(item.images && item.images[0]) || item.image} alt={'Gallery image'} />
+                                            <img src={(item.images && item.images[item.primaryImageIndex || 0]) || item.image || (item.images && item.images[0])} alt={'Gallery image'} />
+                                            {(item.primaryImageIndex || 0) > 0 && (
+                                                <div style={{
+                                                    position: 'absolute',
+                                                    top: '8px',
+                                                    right: '8px',
+                                                    backgroundColor: '#3b82f6',
+                                                    color: 'white',
+                                                    padding: '4px 8px',
+                                                    borderRadius: '4px',
+                                                    fontSize: '11px',
+                                                    fontWeight: 'bold'
+                                                }}>
+                                                    PRIMARY
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="list-main">
                                             <div className="list-title">{item.title || 'Gallery Item'}</div>
@@ -1044,19 +1082,22 @@ const AdminPanel = () => {
                                                 type="button"
                                                 className="admin-btn-secondary"
                                                 onClick={() => {
+                                                    setFirebaseGalleryDocId(item.firebaseDocId);
                                                     setEditingGalleryId(item.id);
                                                     setGalleryForm({
+                                                        id: item.id || '',
                                                         type: item.type || 'achievements',
                                                         title: item.title || ''
                                                     });
                                                     setGalleryFiles([]);
-                                                    setGalleryImagePreviews([]);
+                                                    setGalleryImagePreviews(item.images || []);
+                                                    setPrimaryImageIndex(item.primaryImageIndex || 0);
                                                     setShowGalleryModal(true);
                                                 }}
                                             >
                                                 Edit
                                             </button>
-                                            <button className="admin-btn-delete" onClick={() => handleGalleryDelete(item.id)}>Delete</button>
+                                            <button className="admin-btn-delete" onClick={() => handleGalleryDelete(item.firebaseDocId)}>Delete</button>
                                         </div>
                                     </li>
                                 ))}
@@ -1101,8 +1142,10 @@ const AdminPanel = () => {
                                                 type="button"
                                                 className="admin-btn-secondary"
                                                 onClick={() => {
+                                                    setFirebaseTeamDocId(member.firebaseDocId);
                                                     setEditingTeamId(member.id);
                                                     setTeamForm({
+                                                        id: member.id || '',
                                                         name: member.name || '',
                                                         role: member.role || ''
                                                     });
@@ -1113,7 +1156,7 @@ const AdminPanel = () => {
                                             >
                                                 Edit
                                             </button>
-                                            <button className="admin-btn-delete" onClick={() => handleTeamDelete(member.id)}>Delete</button>
+                                            <button className="admin-btn-delete" onClick={() => handleTeamDelete(member.firebaseDocId)}>Delete</button>
                                         </div>
                                     </li>
                                 ))}
@@ -1217,6 +1260,17 @@ const AdminPanel = () => {
                             <button className="admin-modal-close" onClick={() => setShowProjectModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleProjectSubmit}>
+                            <div className="form-group">
+                                <label>Project ID *</label>
+                                <input
+                                    type="text"
+                                    name="id"
+                                    placeholder="Unique identifier (e.g., project-001)"
+                                    value={projectForm.id}
+                                    onChange={handleProjectInputChange}
+                                />
+                            </div>
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Project Status *</label>
@@ -1458,10 +1512,21 @@ const AdminPanel = () => {
                 <div className="admin-modal-overlay" onClick={() => setShowTeamModal(false)}>
                     <div className="admin-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="admin-modal-header">
-                            <h3>{editingTeamId ? 'Edit team member' : 'Add team member'}</h3>
+                            <h3>{firebaseTeamDocId ? 'Edit team member' : 'Add team member'}</h3>
                             <button className="admin-modal-close" onClick={() => setShowTeamModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleTeamSubmit}>
+                            <div className="form-group">
+                                <label>Team Member ID (Optional)</label>
+                                <input 
+                                    type="text" 
+                                    name="id" 
+                                    value={teamForm.id} 
+                                    onChange={handleTeamInputChange} 
+                                    placeholder="Unique identifier (e.g., tm-001)"
+                                />
+                            </div>
+
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Name *</label>
@@ -1481,6 +1546,7 @@ const AdminPanel = () => {
                             {teamImagePreview && (
                                 <div className="project-preview">
                                     <img src={teamImagePreview} alt="Preview" />
+                                    {firebaseTeamDocId && !teamFile && <p style={{ textAlign: 'center', marginTop: '10px', fontSize: '12px', color: '#666' }}>Current image (no changes)</p>}
                                 </div>
                             )}
 
@@ -1495,7 +1561,7 @@ const AdminPanel = () => {
 
                             <div className="project-form-actions">
                                 <button type="button" className="btn-cancel" onClick={resetTeamForm} disabled={teamSaving}>Reset</button>
-                                <button type="submit" className="btn-submit" disabled={teamSaving}>{teamSaving ? 'Saving...' : editingTeamId ? 'Save Changes' : 'Add Member'}</button>
+                                <button type="submit" className="btn-submit" disabled={teamSaving}>{teamSaving ? 'Saving...' : firebaseTeamDocId ? 'Save Changes' : 'Add Member'}</button>
                             </div>
                         </form>
                     </div>
@@ -1511,6 +1577,17 @@ const AdminPanel = () => {
                             <button className="admin-modal-close" onClick={() => setShowGalleryModal(false)}>✕</button>
                         </div>
                         <form onSubmit={handleGallerySubmit}>
+                            <div className="form-group">
+                                <label>Gallery Item ID *</label>
+                                <input 
+                                    type="text" 
+                                    name="id" 
+                                    value={galleryForm.id} 
+                                    onChange={handleGalleryInputChange} 
+                                    placeholder="Unique identifier (e.g., gallery-001)"
+                                />
+                            </div>
+
                             <div className="form-group">
                                 <label>Images {editingGalleryId ? '(optional)' : '*'}</label>
                                 <input type="file" accept="image/*" multiple onChange={handleGalleryImageChange} />
@@ -1532,11 +1609,54 @@ const AdminPanel = () => {
                             </div>
 
                             {galleryImagePreviews && galleryImagePreviews.length > 0 && (
-                                <div className="project-preview" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px' }}>
-                                    {galleryImagePreviews.map((src, i) => (
-                                        <img key={i} src={src} alt={`Preview ${i + 1}`} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px' }} />
-                                    ))}
-                                </div>
+                                <>
+                                    <div className="form-group">
+                                        <label>Select Primary Image (appears first) *</label>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px', marginBottom: '10px' }}>
+                                            {galleryImagePreviews.map((src, i) => (
+                                                <div 
+                                                    key={i} 
+                                                    onClick={() => setPrimaryImageIndex(i)}
+                                                    style={{
+                                                        position: 'relative',
+                                                        cursor: 'pointer',
+                                                        border: primaryImageIndex === i ? '3px solid #3b82f6' : '2px solid #e2e8f0',
+                                                        borderRadius: '6px',
+                                                        overflow: 'hidden',
+                                                        transition: 'all 0.3s ease'
+                                                    }}
+                                                >
+                                                    <img 
+                                                        src={src} 
+                                                        alt={`Image ${i + 1}`} 
+                                                        style={{ width: '100%', height: '80px', objectFit: 'cover' }} 
+                                                    />
+                                                    {primaryImageIndex === i && (
+                                                        <div style={{
+                                                            position: 'absolute',
+                                                            top: '50%',
+                                                            left: '50%',
+                                                            transform: 'translate(-50%, -50%)',
+                                                            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                                                            color: 'white',
+                                                            padding: '5px 10px',
+                                                            borderRadius: '4px',
+                                                            fontSize: '12px',
+                                                            fontWeight: 'bold'
+                                                        }}>
+                                                            PRIMARY
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="project-preview" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '8px', opacity: '0.6' }}>
+                                        {galleryImagePreviews.map((src, i) => (
+                                            <img key={i} src={src} alt={`Preview ${i + 1}`} style={{ width: '100%', height: '80px', objectFit: 'cover', borderRadius: '6px' }} />
+                                        ))}
+                                    </div>
+                                </>
                             )}
 
                             {gallerySaving && (

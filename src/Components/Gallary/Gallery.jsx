@@ -17,7 +17,18 @@ const Gallery = () => {
     const unsub = onSnapshot(
       q,
       (snap) => {
-        const rec = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+        const rec = snap.docs.map((d) => ({ firebaseDocId: d.id, ...d.data() }));
+        // Sort by custom id field in ascending order
+        rec.sort((a, b) => {
+          // Try to parse as numbers first
+          const numA = parseInt(a.id) || 0;
+          const numB = parseInt(b.id) || 0;
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return numA - numB;
+          }
+          // Fall back to string comparison
+          return (a.id || '').localeCompare(b.id || '');
+        });
         setItems(rec);
         setLoading(false);
       },
@@ -92,7 +103,7 @@ const Gallery = () => {
         }
       `}</style>
       {/* Page Title Banner */}
-      <section className="premium-hero">
+      {/* <section className="premium-hero">
         <div className="director-container">
           <div className="hero-content">
             <h1 className="hero-title">
@@ -103,10 +114,10 @@ const Gallery = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Main Container */}
-      <div className="container gallery-page">
+      <div className="container gallery-page mt-5 pt-5">
         <div className="gallery-header">
           <div className="box-title text-center wow fadeInUp">
             {/* <div className="text-subtitle text-primary">Gallery</div> */}
@@ -123,17 +134,17 @@ const Gallery = () => {
           <div className="row g-4 premium-gallery-row">
             {items.map((it, idx) => (
               <div
-                key={it.id}
+                key={it.firebaseDocId}
                 className="col-lg-4 col-md-6 col-sm-12"
                 style={{ animationDelay: `${idx * 80}ms` }}
               >
                 <article
                   className="gallery-card-3d"
-                  onClick={() => { setActive(it); setActiveIndex(0); }}
+                onClick={() => { setActive(it); setActiveIndex(it.primaryImageIndex || 0); }}
                 >
                   <div className="gallery-image-wrapper">
                     <img
-                      src={(it.images && it.images[0]) || it.image}
+                      src={(it.images && it.images[it.primaryImageIndex || 0]) || it.image}
                       alt="Event"
                       className="gallery-image"
                     />

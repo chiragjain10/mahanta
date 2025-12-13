@@ -19,8 +19,26 @@ const Team = () => {
     const unsub = onSnapshot(
       q,
       (snap) => {
-        const rec = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-        setMembers(rec);
+        const rec = snap.docs.map((d) => ({ firebaseDocId: d.id, ...d.data() }));
+        
+        // Sort by custom 'id' field in ascending order (numeric then string)
+        const sorted = rec.sort((a, b) => {
+          const idA = a.id?.toString() || '';
+          const idB = b.id?.toString() || '';
+          
+          const numA = parseFloat(idA);
+          const numB = parseFloat(idB);
+          
+          // If both are valid numbers, compare numerically
+          if (!isNaN(numA) && !isNaN(numB)) {
+            return numA - numB;
+          }
+          
+          // Otherwise, compare as strings
+          return idA.localeCompare(idB);
+        });
+        
+        setMembers(sorted);
         setLoading(false);
       },
       () => setLoading(false)
@@ -134,7 +152,7 @@ const Team = () => {
             ) : members.length === 0 ? (
               <div className="text-center py-5">No team members yet.</div>
             ) : members.map((m) => (
-              <SwiperSlide key={m.id}>
+              <SwiperSlide key={m.firebaseDocId}>
                 <div className="card shadow-sm border-0 rounded-3 overflow-hidden team-card">
 
                   {/* IMAGE */}
