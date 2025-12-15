@@ -212,13 +212,6 @@ const PremiumHeader = () => {
                                         </div>
                                     </div>
                                 </li>
-
-                                <li className="premium-nav-item">
-                                    <Link to="/career" className="premium-nav-link">
-                                        <span className="nav-text">Career</span>
-                                        <span className="nav-underline"></span>
-                                    </Link>
-                                </li>
                                 <li
                                     className={`premium-nav-item premium-dropdown ${activeDropdown === 'events' ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveDropdown('events')}
@@ -254,6 +247,14 @@ const PremiumHeader = () => {
                                         </div>
                                     </div>
                                 </li>
+
+                                <li className="premium-nav-item">
+                                    <Link to="/career" className="premium-nav-link">
+                                        <span className="nav-text">Career</span>
+                                        <span className="nav-underline"></span>
+                                    </Link>
+                                </li>
+                                
 
                                 <li className="premium-nav-item">
                                     <Link to="/contact" className="premium-nav-link">

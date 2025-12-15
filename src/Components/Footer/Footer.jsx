@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
 import './Footer.css';
 
-const PremiumFooter = () => {
+const Footer = () => {
     const [email, setEmail] = useState('');
     const [isVisible, setIsVisible] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     const handleSubscribe = (e) => {
         e.preventDefault();
         console.log('Subscribed with email:', email);
+        setIsSubscribed(true);
         setEmail('');
-        // Add your subscription logic here
+
+        // Reset subscription status after 3 seconds
+        setTimeout(() => {
+            setIsSubscribed(false);
+        }, 3000);
     };
 
     useEffect(() => {
@@ -29,6 +36,43 @@ const PremiumFooter = () => {
         });
     };
 
+    const socialLinks = [
+        {
+            name: 'Facebook',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+            ),
+            link: 'https://www.facebook.com/profile.php?id=61581331928145',
+            color: '#1877F2'
+        },
+        {
+            name: 'LinkedIn',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                    <rect x="2" y="9" width="4" height="12" />
+                    <circle cx="4" cy="4" r="2" />
+                </svg>
+            ),
+            link: 'https://www.linkedin.com/company/mahanta-group/',
+            color: '#0A66C2'
+        },
+        {
+            name: 'Instagram',
+            icon: (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+            ),
+            link: 'https://www.instagram.com/mahantagroup/',
+            color: '#E4405F'
+        }
+    ];
+
     return (
         <>
             <footer className="premium-footer">
@@ -37,38 +81,23 @@ const PremiumFooter = () => {
                     <div className="container">
                         <div className="premium-footer-brand">
                             <div className="premium-footer-logo">
-                                <a href="/">
+                                <a href="/" className="premium-logo-link">
                                     <img
                                         src="images/logo/logo@2x.png"
                                         alt="Mahanta Group"
                                         width="180"
                                         height="52"
+                                        className="premium-logo-img"
                                     />
                                 </a>
                                 <p className="premium-footer-tagline">
                                     Premium Real Estate Solutions for Discerning Clients
                                 </p>
                             </div>
-                            <div className="premium-social-links">
+                            <div className="premium-social-section">
                                 <span className="premium-social-title">Connect With Us</span>
-                                <div className="premium-social-icons">
-                                    {[
-                                        {
-                                            name: 'Facebook',
-                                            icon: 'F',
-                                            link: 'https://www.facebook.com/profile.php?id=61581191775506'
-                                        },
-                                        {
-                                            name: 'LinkedIn',
-                                            icon: 'L',
-                                            link: 'https://www.linkedin.com/company/mahanta-group/'
-                                        },
-                                        {
-                                            name: 'Instagram',
-                                            icon: 'I',
-                                            link: 'https://www.instagram.com/mahantagroup/'
-                                        }
-                                    ].map((social, index) => (
+                                <div className="premium-social-icons-wrapper">
+                                    {socialLinks.map((social, index) => (
                                         <a
                                             key={index}
                                             href={social.link}
@@ -76,12 +105,13 @@ const PremiumFooter = () => {
                                             aria-label={social.name}
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            style={{ '--social-color': social.color }}
                                         >
-                                            <span>{social.icon}</span>
+                                            {social.icon}
+                                            <span className="premium-social-tooltip">{social.name}</span>
                                         </a>
                                     ))}
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -93,12 +123,14 @@ const PremiumFooter = () => {
                         <div className="premium-footer-grid">
                             {/* Contact Information */}
                             <div className="premium-footer-column">
-                                <h4 className="premium-column-title">Get In Touch</h4>
+                                <h4 className="premium-column-title">
+                                    Get In Touch
+                                </h4>
                                 <div className="premium-contact-info">
                                     <div className="premium-contact-item">
                                         <div className="premium-contact-icon">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <path d="M10 1C6.13 1 3 4.13 3 8C3 13.25 10 19 10 19C10 19 17 13.25 17 8C17 4.13 13.87 1 10 1ZM10 10.5C8.62 10.5 7.5 9.38 7.5 8C7.5 6.62 8.62 5.5 10 5.5C11.38 5.5 12.5 6.62 12.5 8C12.5 9.38 11.38 10.5 10 10.5Z" fill="currentColor" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M12 1C6.486 1 2 5.486 2 11C2 16.515 12 23 12 23C12 23 22 16.515 22 11C22 5.486 17.514 1 12 1ZM12 13C10.343 13 9 11.657 9 10C9 8.343 10.343 7 12 7C13.657 7 15 8.343 15 10C15 11.657 13.657 13 12 13Z" fill="currentColor" />
                                             </svg>
                                         </div>
                                         <div className="premium-contact-details">
@@ -107,69 +139,106 @@ const PremiumFooter = () => {
                                     </div>
                                     <div className="premium-contact-item">
                                         <div className="premium-contact-icon">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <path d="M2 3C2 2.44772 2.44772 2 3 2H5.15287C5.64171 2 6.0589 2.35341 6.13927 2.8356L6.87858 7.27147C6.95075 7.70451 6.73206 8.13397 6.3394 8.3303L4.79126 9.10437C6.00258 11.8784 8.12159 13.9974 10.8956 15.2087L11.6697 13.6606C11.866 13.2679 12.2955 13.0492 12.7285 13.1214L17.1644 13.8607C17.6466 13.9411 18 14.3583 18 14.8471V17C18 17.5523 17.5523 18 17 18H15C7.26801 18 1 11.732 1 4V3C1 2.44772 1.44772 2 2 2Z" fill="currentColor" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.68 14.91 16.08 14.82 16.43 14.94C17.55 15.31 18.76 15.51 20 15.51C20.55 15.51 21 15.96 21 16.51V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="currentColor" />
                                             </svg>
                                         </div>
                                         <div className="premium-contact-details">
-                                            <a href="tel:+917314909915">+91 73149 09915</a>
+                                            <a href="tel:+917314909915" className="premium-contact-link">
+                                                +91 73149 09915
+                                            </a>
                                         </div>
                                     </div>
-
                                     <div className="premium-contact-item">
                                         <div className="premium-contact-icon">
-                                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <path d="M2.003 5.884L10 9.882L17.997 5.884C17.967 5.374 17.744 4.895 17.372 4.545C17 4.195 16.505 4 16 4H4C3.495 4 3 4.195 2.628 4.545C2.256 4.895 2.033 5.374 2.003 5.884Z" fill="currentColor" />
-                                                <path d="M18 8.118L10 12.118L2 8.118V14C2 14.5304 2.21071 15.0391 2.58579 15.4142C2.96086 15.7893 3.46957 16 4 16H16C16.5304 16 17.0391 15.7893 17.4142 15.4142C17.7893 15.0391 18 14.5304 18 14V8.118Z" fill="currentColor" />
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 8L12 13L4 8V6L12 11L20 6V8Z" fill="currentColor" />
                                             </svg>
                                         </div>
                                         <div className="premium-contact-details">
-                                            <a href="mailto:info@mahantagroup.com" target="_blank" rel="noopener noreferrer">
+                                            <a href="mailto:info@mahantagroup.com" className="premium-contact-link">
                                                 info@mahantagroup.com
                                             </a>
-                                            <br />
-                                            <a href="mailto:support@mahantagroup.com" target="_blank" rel="noopener noreferrer">
+                                            <a href="mailto:support@mahantagroup.com" className="premium-contact-link">
                                                 support@mahantagroup.com
                                             </a>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
                             {/* Quick Links */}
-                            {/* Quick Links */}
                             <div className="premium-footer-column">
-                                <h4 className="premium-column-title">Quick Links</h4>
+                                <h4 className="premium-column-title">
+                                    <span className="premium-title-icon"></span>
+                                    Quick Links
+                                </h4>
                                 <ul className="premium-footer-links">
-                                    <li><a href="/">Home</a></li>
-                                    <li><a href="/about">About Company</a></li>
-                                    <li><a href="/aboutdirector">Director Message</a></li>
-                                    <li><a href="/services">Our Services</a></li>
-
-
-                                    <li><a href="/contact">Contact Us</a></li>
+                                    <li>
+                                        <Link to="/">
+                                            <span className="premium-link-icon"></span>Home
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/about">
+                                            <span className="premium-link-icon"></span>About Company
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/aboutdirector">
+                                            <span className="premium-link-icon"></span>Director Message
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/services">
+                                            <span className="premium-link-icon"></span>Our Services
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/contact">
+                                            <span className="premium-link-icon"></span>Contact Us
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
 
-
-                            {/* Property Categories */}
                             {/* Properties */}
                             <div className="premium-footer-column">
-                                <h4 className="premium-column-title">Properties</h4>
+                                <h4 className="premium-column-title">
+                                    <span className="premium-title-icon"></span>
+                                    Properties
+                                </h4>
                                 <ul className="premium-footer-links">
-                                    <li><a href="/projectgallery">Ongoing Projects</a></li>
-                                    <li><a href="/complete">Completed Projects</a></li>
-
-                                    <li><a href="/gallery">Gallery</a></li>
-                                    <li><a href="/blog">Blog & News</a></li>
-
+                                    <li>
+                                        <Link to="/projectgallery">
+                                            <span className="premium-link-icon"></span>Ongoing Projects
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/complete">
+                                            <span className="premium-link-icon"></span>Completed Projects
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/gallery">
+                                            <span className="premium-link-icon"></span>Gallery
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        {/* <Link to="/blog">
+                                            <span className="premium-link-icon"></span>Blog & News
+                                        </Link> */}
+                                    </li>
                                 </ul>
                             </div>
+
 
                             {/* Newsletter Subscription */}
                             <div className="premium-footer-column">
-                                <h4 className="premium-column-title">Stay Updated</h4>
+                                <h4 className="premium-column-title">
+                                    <span className="premium-title-icon">📧</span>
+                                    Stay Updated
+                                </h4>
                                 <p className="premium-newsletter-desc">
                                     Get the latest property insights and exclusive offers delivered to your inbox.
                                 </p>
@@ -184,20 +253,21 @@ const PremiumFooter = () => {
                                             required
                                         />
                                         <button type="submit" className="premium-newsletter-btn">
-                                            <span>Subscribe</span>
+                                            <span>{isSubscribed ? 'Subscribed!' : 'Subscribe'}</span>
                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                <path
-                                                    d="M5.00044 9.99935L2.72461 2.60352C8.16867 4.18685 13.3024 6.68806 17.9046 9.99935C13.3027 13.3106 8.16921 15.8118 2.72544 17.3952L5.00044 9.99935ZM5.00044 9.99935H11.2504"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
+                                                <path d="M2.5 10H17.5M17.5 10L12.5 5M17.5 10L12.5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                             </svg>
                                         </button>
                                     </div>
+                                    {isSubscribed && (
+                                        <div className="premium-subscription-success">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20 6L9 17L4 12" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                            </svg>
+                                            Thank you for subscribing!
+                                        </div>
+                                    )}
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -208,12 +278,17 @@ const PremiumFooter = () => {
                     <div className="container">
                         <div className="premium-footer-bottom-content">
                             <div className="premium-copyright">
-                                <p>© 2025 Mahanta Group. All rights reserved.</p>
+                                <p>© 2024 Mahanta Group. All rights reserved.</p>
                                 {/* <p className="premium-company-info">Premium Real Estate Services Since 2019</p> */}
                             </div>
                             <div className="premium-legal-links">
-                                <a href="/privacy">Privacy Policy</a>
-                                <a href="/terms">Terms of Service</a>
+                                
+                                <Link to="/terms">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM6 20V4H13V9H18V20H6Z" fill="currentColor" />
+                                    </svg>
+                                    Terms of Service
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -228,7 +303,7 @@ const PremiumFooter = () => {
             >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path
-                        d="M12 20L12 4M12 4L5 11M12 4L19 11"
+                        d="M12 19V5M12 5L5 12M12 5L19 12"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
@@ -240,4 +315,4 @@ const PremiumFooter = () => {
     );
 };
 
-export default PremiumFooter;
+export default Footer;

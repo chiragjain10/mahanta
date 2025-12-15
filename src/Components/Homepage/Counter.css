@@ -1,3 +1,7 @@
+html,
+body {
+    overflow-x: hidden;
+}
 /* Counter.css - Light & Compact Theme */
 
 /* Variables for Light Theme */
@@ -129,10 +133,16 @@
     transition: all 0.3s ease;
 }
 
-.compact-card:hover .icon-container {
-    transform: scale(1.1) rotate(5deg);
-    box-shadow: 0 15px 35px rgba(17, 116, 214, 0.35);
+.compact-card {
+    will-change: transform;
+    backface-visibility: hidden;
+    overflow: hidden;
 }
+.icon-glow {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 
 .icon-container i {
     font-size: 1.8rem;
@@ -312,10 +322,7 @@
     z-index: 1;
 }
 
-.compact-card:hover .card-hover-bg {
-    height: 100%;
-    opacity: 0.03;
-}
+
 
 .card-border {
     position: absolute;
@@ -332,9 +339,6 @@
     pointer-events: none;
 }
 
-.compact-card:hover .card-border {
-    opacity: 1;
-}
 
 /* Animations */
 @keyframes iconGlow {
