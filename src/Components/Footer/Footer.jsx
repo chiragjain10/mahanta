@@ -60,12 +60,12 @@ const PremiumFooter = () => {
                                         },
                                         {
                                             name: 'LinkedIn',
-                                            icon: 'IN',
+                                            icon: 'L',
                                             link: 'https://www.linkedin.com/company/mahanta-group/'
                                         },
                                         {
                                             name: 'Instagram',
-                                            icon: 'IG',
+                                            icon: 'I',
                                             link: 'https://www.instagram.com/mahantagroup/'
                                         }
                                     ].map((social, index) => (
@@ -158,7 +158,6 @@ const PremiumFooter = () => {
                             <div className="premium-footer-column">
                                 <h4 className="premium-column-title">Properties</h4>
                                 <ul className="premium-footer-links">
-                                    <li><a href="/property">Property Listings</a></li>
                                     <li><a href="/projectgallery">Ongoing Projects</a></li>
                                     <li><a href="/complete">Completed Projects</a></li>
 
@@ -198,16 +197,7 @@ const PremiumFooter = () => {
                                         </button>
                                     </div>
                                 </form>
-                                <div className="premium-trust-badges">
-                                    <div className="premium-badge-item">
-                                        <span className="premium-badge-icon">🏆</span>
-                                        <span>Premium Service</span>
-                                    </div>
-                                    <div className="premium-badge-item">
-                                        <span className="premium-badge-icon">⭐</span>
-                                        <span>Trusted Brand</span>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -218,7 +208,7 @@ const PremiumFooter = () => {
                     <div className="container">
                         <div className="premium-footer-bottom-content">
                             <div className="premium-copyright">
-                                <p>© 2024 Mahanta Group. All rights reserved.</p>
+                                <p>© 2025 Mahanta Group. All rights reserved.</p>
                                 {/* <p className="premium-company-info">Premium Real Estate Services Since 2019</p> */}
                             </div>
                             <div className="premium-legal-links">
