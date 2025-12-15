@@ -116,55 +116,154 @@ const Gallery = () => {
         </div>
       </section> */}
 
-      {/* Main Container */}
-      <div className="container gallery-page mt-5 pt-5">
-        <div className="gallery-header">
-          <div className="box-title text-center wow fadeInUp">
-            {/* <div className="text-subtitle text-primary">Gallery</div> */}
-            <h3 className="mt-4 title">Events</h3>
-          </div>
-        </div>
-
-        {/* Loading / No Data / Image Grid */}
-        {loading ? (
-          <div className="blogs-state"><p>Loading gallery...</p></div>
-        ) : items.length === 0 ? (
-          <div className="blogs-state"><p>No images yet. Add some from the Admin panel.</p></div>
-        ) : (
-          <div className="row g-4 premium-gallery-row">
-            {items.map((it, idx) => (
-              <div
-                key={it.firebaseDocId}
-                className="col-lg-4 col-md-6 col-sm-12"
-                style={{ animationDelay: `${idx * 80}ms` }}
-              >
-                <article
-                  className="gallery-card-3d"
-                onClick={() => { setActive(it); setActiveIndex(it.primaryImageIndex || 0); }}
-                >
-                  <div className="gallery-image-wrapper">
-                    <img
-                      src={(it.images && it.images[it.primaryImageIndex || 0]) || it.image}
-                      alt="Event"
-                      className="gallery-image"
-                    />
-
-                    <div className="gallery-overlay">
-                      <span>View</span>
-                    </div>
-                  </div>
-
-                  <div className="gallery-card-footer">
-                    <h5 className="gallery-title">{it.title || "Event"}</h5>
-                  </div>
-                </article>
+      {/* Gallery Render Helper */}
+      {!loading && items.length > 0 && (
+        <>
+          {/* SECTION 1: ANNIVERSARY */}
+          <div className="container gallery-page mt-5 pt-5">
+            <div className="gallery-header">
+              <div className="box-title text-center wow fadeInUp">
+                <h3 className="mt-4 title">Anniversary</h3>
               </div>
-            ))}
+            </div>
+
+            {items.filter(it => it.type === 'anniversaries').length === 0 ? (
+              <div className="blogs-state"><p>No anniversary images yet.</p></div>
+            ) : (
+              <div className="row g-4 premium-gallery-row">
+                {items.filter(it => it.type === 'anniversaries').map((it, idx) => (
+                  <div
+                    key={it.firebaseDocId}
+                    className="col-lg-4 col-md-6 col-sm-12"
+                    style={{ animationDelay: `${idx * 80}ms` }}
+                  >
+                    <article
+                      className="gallery-card-3d"
+                      onClick={() => { setActive(it); setActiveIndex(it.primaryImageIndex || 0); }}
+                    >
+                      <div className="gallery-image-wrapper">
+                        <img
+                          src={(it.images && it.images[it.primaryImageIndex || 0]) || it.image}
+                          alt="Anniversary"
+                          className="gallery-image"
+                        />
+
+                        <div className="gallery-overlay">
+                          <span>View</span>
+                        </div>
+                      </div>
+
+                      <div className="gallery-card-footer">
+                        <h5 className="gallery-title">{it.title || "Event"}</h5>
+                      </div>
+                    </article>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
+          {/* SECTION 2: CORPORATE MEETINGS */}
+          <div className="container gallery-page mt-5 pt-5">
+            <div className="gallery-header">
+              <div className="box-title text-center wow fadeInUp">
+                <h3 className="mt-4 title">Corporate Meetings</h3>
+              </div>
+            </div>
 
-        )}
-      </div>
+            {items.filter(it => it.type === 'corporate_meetings').length === 0 ? (
+              <div className="blogs-state"><p>No corporate meeting images yet.</p></div>
+            ) : (
+              <div className="row g-4 premium-gallery-row">
+                {items.filter(it => it.type === 'corporate_meetings').map((it, idx) => (
+                  <div
+                    key={it.firebaseDocId}
+                    className="col-lg-4 col-md-6 col-sm-12"
+                    style={{ animationDelay: `${idx * 80}ms` }}
+                  >
+                    <article
+                      className="gallery-card-3d"
+                      onClick={() => { setActive(it); setActiveIndex(it.primaryImageIndex || 0); }}
+                    >
+                      <div className="gallery-image-wrapper">
+                        <img
+                          src={(it.images && it.images[it.primaryImageIndex || 0]) || it.image}
+                          alt="Corporate Meeting"
+                          className="gallery-image"
+                        />
+
+                        <div className="gallery-overlay">
+                          <span>View</span>
+                        </div>
+                      </div>
+
+                      {/* No title shown for corporate meetings */}
+                      <div className="gallery-card-footer">
+                      </div>
+                    </article>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* SECTION 3: ACHIEVEMENTS */}
+          <div className="container gallery-page mt-5 pt-5">
+            <div className="gallery-header">
+              <div className="box-title text-center wow fadeInUp">
+                <h3 className="mt-4 title">Achievements</h3>
+              </div>
+            </div>
+
+            {items.filter(it => it.type === 'achievements').length === 0 ? (
+              <div className="blogs-state"><p>No achievement images yet.</p></div>
+            ) : (
+              <div className="row g-4 premium-gallery-row">
+                {items.filter(it => it.type === 'achievements').map((it, idx) => (
+                  <div
+                    key={it.firebaseDocId}
+                    className="col-lg-4 col-md-6 col-sm-12"
+                    style={{ animationDelay: `${idx * 80}ms` }}
+                  >
+                    <article
+                      className="gallery-card-3d"
+                      onClick={() => { setActive(it); setActiveIndex(it.primaryImageIndex || 0); }}
+                    >
+                      <div className="gallery-image-wrapper">
+                        <img
+                          src={(it.images && it.images[it.primaryImageIndex || 0]) || it.image}
+                          alt="Achievement"
+                          className="gallery-image"
+                        />
+
+                        <div className="gallery-overlay">
+                          <span>View</span>
+                        </div>
+                      </div>
+
+                      <div className="gallery-card-footer">
+                        <h5 className="gallery-title">{it.title || "Event"}</h5>
+                      </div>
+                    </article>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </>
+      )}
+
+      {loading && (
+        <div className="container gallery-page mt-5 pt-5">
+          <div className="blogs-state"><p>Loading gallery...</p></div>
+        </div>
+      )}
+
+      {!loading && items.length === 0 && (
+        <div className="container gallery-page mt-5 pt-5">
+          <div className="blogs-state"><p>No images yet. Add some from the Admin panel.</p></div>
+        </div>
+      )}
 
       {/* Modal Popup */}
       {active && (
