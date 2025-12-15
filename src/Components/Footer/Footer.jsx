@@ -124,6 +124,7 @@ const Footer = () => {
                             {/* Contact Information */}
                             <div className="premium-footer-column">
                                 <h4 className="premium-column-title">
+                                    <span className="premium-title-icon">📍</span>
                                     Get In Touch
                                 </h4>
                                 <div className="premium-contact-info">
@@ -210,6 +211,11 @@ const Footer = () => {
                                 </h4>
                                 <ul className="premium-footer-links">
                                     <li>
+                                        <Link to="/property">
+                                            <span className="premium-link-icon"></span>Property Listings
+                                        </Link>
+                                    </li>
+                                    <li>
                                         <Link to="/projectgallery">
                                             <span className="premium-link-icon"></span>Ongoing Projects
                                         </Link>
@@ -225,9 +231,9 @@ const Footer = () => {
                                         </Link>
                                     </li>
                                     <li>
-                                        {/* <Link to="/blog">
+                                        <Link to="/blog">
                                             <span className="premium-link-icon"></span>Blog & News
-                                        </Link> */}
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
@@ -268,6 +274,24 @@ const Footer = () => {
                                         </div>
                                     )}
                                 </form>
+                                <div className="premium-trust-badges">
+                                    <div className="premium-badge-item">
+                                        <div className="premium-badge-icon-wrapper">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" />
+                                            </svg>
+                                        </div>
+                                        <span>Premium Service</span>
+                                    </div>
+                                    <div className="premium-badge-item">
+                                        <div className="premium-badge-icon-wrapper">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                                <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z" fill="currentColor" />
+                                            </svg>
+                                        </div>
+                                        <span>Trusted Brand</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
