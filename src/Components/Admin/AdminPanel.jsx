@@ -1597,9 +1597,9 @@ const AdminPanel = () => {
                                 <div className="form-group">
                                     <label>Type *</label>
                                     <select name="type" value={galleryForm.type} onChange={handleGalleryInputChange}>
+                                        <option value="corporate_meetings">Corporate Meetings</option>
                                         <option value="achievements">Achievements</option>
                                         <option value="anniversaries">Anniversaries</option>
-                                        <option value="corporate_meetings">Corporate Meetings</option>
                                     </select>
                                 </div>
                                 <div className="form-group">

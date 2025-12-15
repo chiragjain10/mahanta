@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import './Gallery.css';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../Firebase/Firebase';
 
@@ -35,7 +35,7 @@ const GalleryCard = React.memo(({ item, onClick }) => {
 
 GalleryCard.displayName = 'GalleryCard';
 
-const GallerySection = ({ title, items, onCardClick, showTitle = true }) => {
+const GallerySection = React.forwardRef(({ title, items, onCardClick, showTitle = true }, ref) => {
   const [expanded, setExpanded] = useState(false);
   const itemsPerPage = 6;
   const displayedItems = expanded ? items : items.slice(0, itemsPerPage);
@@ -43,7 +43,7 @@ const GallerySection = ({ title, items, onCardClick, showTitle = true }) => {
 
   if (items.length === 0) {
     return (
-      <div className="container gallery-page mt-5 pt-5">
+      <div ref={ref} className="container gallery-page mt-5 pt-5">
         <div className="gallery-header">
           <div className="box-title text-center wow fadeInUp">
             <h3 className="mt-4 title">{title}</h3>
@@ -55,7 +55,7 @@ const GallerySection = ({ title, items, onCardClick, showTitle = true }) => {
   }
 
   return (
-    <div className="container gallery-page mt-5 pt-5">
+    <div ref={ref} className="container gallery-page mt-5 pt-5">
       <div className="gallery-header">
         <div className="box-title text-center wow fadeInUp">
           <h3 className="mt-4 title">{title}</h3>
@@ -96,13 +96,20 @@ const GallerySection = ({ title, items, onCardClick, showTitle = true }) => {
       )}
     </div>
   );
-};
+});
+
+GallerySection.displayName = 'GallerySection';
 
 const Gallery = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [searchParams] = useSearchParams();
+  
+  const achievementRef = useRef(null);
+  const anniversaryRef = useRef(null);
+  const corporateRef = useRef(null);
 
   useEffect(() => {
     const ref = collection(db, 'gallery');
@@ -131,6 +138,22 @@ const Gallery = () => {
 
     return () => unsub();
   }, []);
+
+  // Scroll to section based on query parameter
+  useEffect(() => {
+    const section = searchParams.get('section');
+    if (section && !loading) {
+      setTimeout(() => {
+        if (section === 'achievements' && achievementRef.current) {
+          achievementRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (section === 'anniversary' && anniversaryRef.current) {
+          anniversaryRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else if (section === 'corporate' && corporateRef.current) {
+          corporateRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }, [searchParams, loading]);
 
   // Memoize filtered items to avoid recalculation on every render
   const achievementItems = useMemo(() => items.filter(it => it.type === 'achievements'), [items]);
@@ -229,18 +252,21 @@ const Gallery = () => {
       {!loading && (
         <>
           <GallerySection 
+            ref={achievementRef}
             title="Achievements" 
             items={achievementItems} 
             onCardClick={handleCardClick}
             showTitle={true}
           />
           <GallerySection 
+            ref={anniversaryRef}
             title="Anniversary" 
             items={anniversaryItems} 
             onCardClick={handleCardClick}
             showTitle={true}
           />
           <GallerySection 
+            ref={corporateRef}
             title="Corporate Meetings" 
             items={corporateItems} 
             onCardClick={handleCardClick}

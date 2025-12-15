@@ -86,7 +86,7 @@ const BlogsSpotlight = () => {
                                     {blog.author || "Mahanta Group"} · {blog.date || "Recent update"}
                                 </p>
                                 <h3 className="blog-title">{blog.title}</h3>
-                                {/* <p className="blog-excerpt">{blog.excerpt}</p> */}
+                                
                                 <Link
                                     to={blog.ctaUrl || "/blog"}
                                     className="premium-blog-link"

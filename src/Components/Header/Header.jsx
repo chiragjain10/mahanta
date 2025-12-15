@@ -219,11 +219,40 @@ const PremiumHeader = () => {
                                         <span className="nav-underline"></span>
                                     </Link>
                                 </li>
-                                <li className="premium-nav-item">
-                                    <Link to="/gallery" className="premium-nav-link">
+                                <li
+                                    className={`premium-nav-item premium-dropdown ${activeDropdown === 'events' ? 'active' : ''}`}
+                                    onMouseEnter={() => setActiveDropdown('events')}
+                                    onMouseLeave={() => setActiveDropdown(null)}
+                                >
+                                    <div
+                                        className="premium-nav-link dropdown-toggle"
+                                        onClick={() => toggleDropdown('events')}
+                                    >
                                         <span className="nav-text">Events</span>
                                         <span className="nav-underline"></span>
-                                    </Link>
+                                        <svg className="dropdown-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                            <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <div className="premium-dropdown-menu">
+                                        <div className="dropdown-content">
+                                            <Link to="/gallery?section=achievements" className="dropdown-link">
+                                                <div>
+                                                    <div className="dropdown-title">Achievements</div>
+                                                </div>
+                                            </Link>
+                                            <Link to="/gallery?section=anniversary" className="dropdown-link">
+                                                <div>
+                                                    <div className="dropdown-title">Anniversary</div>
+                                                </div>
+                                            </Link>
+                                            <Link to="/gallery?section=corporate" className="dropdown-link">
+                                                <div>
+                                                    <div className="dropdown-title">Corporate Meetings</div>
+                                                </div>
+                                            </Link>
+                                        </div>
+                                    </div>
                                 </li>
 
                                 <li className="premium-nav-item">
@@ -383,14 +412,26 @@ const PremiumHeader = () => {
 
                             {/* Gallery */}
                             <li className="premium-mobile-nav-item">
-                                <Link
-                                    to="/gallery"
-                                    className="premium-mobile-nav-link"
-                                    onClick={closeMobileMenu}
+                                <div
+                                    className={`premium-mobile-dropdown ${activeMobileDropdown === 'events' ? 'active' : ''}`}
                                 >
-                                    <span className="mobile-nav-icon">🖼️</span>
-                                    Gallery
-                                </Link>
+                                    <div
+                                        className="mobile-dropdown-header"
+                                        onClick={() => toggleMobileDropdown('events')}
+                                    >
+                                        <span className="mobile-nav-icon">🎉</span>
+                                        Events
+                                        <svg className="mobile-dropdown-arrow" width="16" height="16">
+                                            <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                                        </svg>
+                                    </div>
+
+                                    <div className="mobile-dropdown-content">
+                                        <Link to="/gallery?section=achievements" onClick={closeMobileMenu}>Achievements</Link>
+                                        <Link to="/gallery?section=anniversary" onClick={closeMobileMenu}>Anniversary</Link>
+                                        <Link to="/gallery?section=corporate" onClick={closeMobileMenu}>Corporate Meetings</Link>
+                                    </div>
+                                </div>
                             </li>
 
                             {/* Contact */}

@@ -74,7 +74,7 @@ export default function BlogPage() {
     <>
       <Breadcrumb />
       <section className="flat-section py-5">
-        <div className="container">
+        {/* <div className="container">
 
           <div className="box-title text-center reveal mb-5">
             <div className="text-subtitle text-primary">Our Blog</div>
@@ -136,7 +136,33 @@ export default function BlogPage() {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
+        <section className="vlogs-coming-section light">
+          <div className="container">
+            <div className="vlogs-content">
+              <span className="vlogs-eyebrow">
+                User Experiences
+              </span>
+
+              <h2 className="vlogs-title">
+                Blogs are coming soon
+              </h2>
+
+              <p className="vlogs-subtitle">
+                We are preparing refined video content including
+                walkthroughs, expert insights, and on-ground experiences.
+                <br />
+                Crafted with quality. Released with purpose.
+              </p>
+
+              <div className="vlogs-divider"></div>
+
+              <span className="vlogs-note">
+                Launching Soon
+              </span>
+            </div>
+          </div>
+        </section>
       </section>
     </>
   );
