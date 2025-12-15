@@ -187,7 +187,7 @@ const ContactSection = () => {
                     <div className="d-flex gap-3 align-items-center social-icons">
 
                       <a
-                        href="https://www.facebook.com/profile.php?id=61581191775506"
+                        href="https://www.facebook.com/profile.php?id=61581331928145"
                         className="social-item premium-social"
                         target="_blank"
                         rel="noopener noreferrer"

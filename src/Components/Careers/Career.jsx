@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import "./Career.css";
 
 // IMPORTING ALL NECESSARY ICONS
-import { 
-    FaExternalLinkAlt, FaHandshake, FaBullseye, FaUserTie, 
-    FaBuilding, FaFileInvoiceDollar, FaMoneyCheckAlt, FaChartLine, 
-    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog, 
+import {
+    FaExternalLinkAlt, FaHandshake, FaBullseye, FaUserTie,
+    FaBuilding, FaFileInvoiceDollar, FaMoneyCheckAlt, FaChartLine,
+    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog,
     FaSearchDollar, FaPalette, FaFeatherAlt, FaHeadset, FaVideo, FaHeart,
     FaCoins, FaRocket, FaPaperPlane
 } from "react-icons/fa";
@@ -83,26 +83,46 @@ export default function Career() {
             `}</style>
 
             {/* HERO SECTION */}
-            <section className="premium-hero-career">
-                <div className="director-container-career">
-                    <div className="hero-content-career">
-                        <h1 className="hero-title-career">
-                            Careers at <strong> Mahanta Group</strong>
-                        </h1>
-                        <p className="text-white text-lg opacity-80" style={{ fontSize: '1.25rem', letterSpacing: '0.5px', marginBottom: '1rem' }}>
-                            Shape India's Future. Build Your Legacy.
-                            We are India's fastest-growing real estate sales powerhouse, transforming the industry with innovation, integrity, and market-leading expertise.
-                        </p>
-                    </div>
-                </div>
+            <section
+            className="mt-5 pt-3"
+                style={{
+                    position: "relative",
+                    width: "100%",
+                    height: "60vh",
+                    overflow: "hidden"
+                }}
+            >
+                {/* Background Image */}
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundImage: "url(/images/img/bnr.jpeg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center center",
+                        backgroundRepeat: "no-repeat"
+                    }}
+                />
+
+                {/* Light Overlay */}
+                <div
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                            "linear-gradient(180deg, rgba(255,255,255,0.15), rgba(0,0,0,0.15))"
+                    }}
+                />
             </section>
+
+
 
             {/* SECTION 1: JOIN AS BUSINESS PARTNER */}
             <section className="career-intro-section container">
                 <div className="intro-content text-center">
                     <h2 className="section-main-title">Join as Business Partner</h2>
                     <p className="intro-description">
-                        Join one of India’s fastest-growing real estate sales and marketing platforms. 
+                        Join one of India’s fastest-growing real estate sales and marketing platforms.
                         This is a profit-sharing partnership where your income grows with your performance.
                     </p>
                     <button className="career-toggle-btn" onClick={() => setShowPartnerJobs(!showPartnerJobs)}>
@@ -131,7 +151,7 @@ export default function Career() {
                 <div className="intro-content text-center">
                     <h2 className="section-main-title">Join as Team</h2>
                     <p className="intro-description">
-                        Are you driven and ready to elevate your career? We’re looking for dedicated professionals 
+                        Are you driven and ready to elevate your career? We’re looking for dedicated professionals
                         passionate about property goals.
                     </p>
                     <button className="career-toggle-btn" onClick={() => setShowTeamJobs(!showTeamJobs)}>

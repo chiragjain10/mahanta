@@ -36,8 +36,12 @@ export default function RunningProjects() {
           {projects.map((p) => (
             <div className="col-md-4" key={p.id}>
               <div className="project-card shadow-sm border-0 h-100">
-                <img src={p.image} alt={p.title} className="project-image" />
-                <div className="p-4">
+                                <img
+                  src={p.image || 'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"800\"><rect width=\"100%\" height=\"100%\" fill=\"%23ffffff\"/><rect x=\"1\" y=\"1\" width=\"1198\" height=\"798\" fill=\"none\" stroke=\"%23000\" stroke-width=\"2\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"Arial, Helvetica, sans-serif\" font-size=\"28\" fill=\"%23000\">No Image Available</text></svg>'}
+                  alt={p.title}
+                  className=\"project-image\"
+                  onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1200\" height=\"800\"><rect width=\"100%\" height=\"100%\" fill=\"%23ffffff\"/><rect x=\"1\" y=\"1\" width=\"1198\" height=\"798\" fill=\"none\" stroke=\"%23000\" stroke-width=\"2\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" font-family=\"Arial, Helvetica, sans-serif\" font-size=\"28\" fill=\"%23000\">No Image Available</text></svg>'; }}
+                /><div className="p-4">
                   <h4 className="fw-bold project-title">{p.title}</h4>
                   <p className="text-muted">{p.location}</p>
                   <a href="#" className="read-more">READ MORE</a>

@@ -85,7 +85,7 @@ const PremiumHeader = () => {
                                         <span className="nav-underline"></span>
                                     </Link>
                                 </li>
-{/* 
+                                {/* 
                                 <li
                                     className={`premium-nav-item premium-dropdown ${activeDropdown === 'properties' ? 'active' : ''}`}
                                     onMouseEnter={() => setActiveDropdown('properties')}
@@ -172,7 +172,7 @@ const PremiumHeader = () => {
                                                     {/* <div className="dropdown-desc">Our Story & Vision</div> */}
                                                 </div>
                                             </Link>
-                                           
+
                                             <Link to="/aboutdirector" className="dropdown-link">
                                                 <div>
                                                     <div className="dropdown-title">About Director</div>
@@ -254,7 +254,7 @@ const PremiumHeader = () => {
                                         <span className="nav-underline"></span>
                                     </Link>
                                 </li>
-                                
+
 
                                 <li className="premium-nav-item">
                                     <Link to="/contact" className="premium-nav-link">
@@ -342,7 +342,7 @@ const PremiumHeader = () => {
                             </li>
 
                             {/* Properties */}
-                            <li className="premium-mobile-nav-item">
+                            {/* <li className="premium-mobile-nav-item">
                                 <div
                                     className={`premium-mobile-dropdown ${activeMobileDropdown === 'properties' ? 'active' : ''}`}
                                 >
@@ -361,7 +361,7 @@ const PremiumHeader = () => {
                                         <Link to="/property" onClick={closeMobileMenu}>Property Listings</Link>
                                     </div>
                                 </div>
-                            </li>
+                            </li> */}
 
                             {/* Projects */}
                             <li className="premium-mobile-nav-item">
@@ -479,7 +479,10 @@ const PremiumHeader = () => {
                             <span className="contact-icon">📞</span>
                             <div>
                                 <div className="contact-label">Call Us</div>
-                                <a href="tel:1-333-345-6868" className="contact-value">+1 (333) 345-6868</a>
+                                <a href="tel:+917314909915" className="contact-value">
+                                    +91 73149 09915
+                                </a>
+
                             </div>
                         </div>
                         <div className="mobile-contact-item">
