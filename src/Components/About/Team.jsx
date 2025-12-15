@@ -130,7 +130,7 @@ const Team = () => {
           {/* Title Section */}
           <div className="box-title text-center wow fadeInUp mb-5">
             <div className="text-subtitle text-primary">Our Teams</div>
-            <h3 className="mt-4 title">Meet Our Agents</h3>
+            <h3 className="mt-4 title">Meet Our Core Leaders</h3>
           </div>
 
           {/* Swiper Slider */}
@@ -186,12 +186,7 @@ const Team = () => {
                   {/* CONTENT */}
                   <div className="card-body text-center">
                     <h5 className="fw-bold mb-1">{m.name}</h5>
-                    <p className="text-muted mb-3">{m.role}</p>
-
-                    <div className="d-flex justify-content-center gap-4 text-primary">
-                      <span className="icon icon-phone fs-5" style={{ cursor: "pointer" }}></span>
-                      <span className="icon icon-mail fs-5" style={{ cursor: "pointer" }}></span>
-                    </div>
+                    <p className="text-muted text-center mb-3">{m.role}</p>
                   </div>
 
                 </div>

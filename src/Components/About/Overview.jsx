@@ -283,21 +283,6 @@ function Overview() {
               <li>Complete Portfolio: Expert solutions for Residential, Commercial, and Industrial land.</li>
               <li>Secure Future: Dedicated to providing safe investments and high-value resale opportunities.</li>
             </ul>
-
-            <div className="about-hero__stats">
-              <div>
-                <span>2019</span>
-                <p>Established</p>
-              </div>
-              <div>
-                <span>3+</span>
-                <p>Asset classes</p>
-              </div>
-              <div>
-                <span>100%</span>
-                <p>Transparent deals</p>
-              </div>
-            </div>
           </div>
 
         </div>
