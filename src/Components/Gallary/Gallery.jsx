@@ -133,9 +133,9 @@ const Gallery = () => {
   }, []);
 
   // Memoize filtered items to avoid recalculation on every render
+  const achievementItems = useMemo(() => items.filter(it => it.type === 'achievements'), [items]);
   const anniversaryItems = useMemo(() => items.filter(it => it.type === 'anniversaries'), [items]);
   const corporateItems = useMemo(() => items.filter(it => it.type === 'corporate_meetings'), [items]);
-  const achievementItems = useMemo(() => items.filter(it => it.type === 'achievements'), [items]);
 
   const handleCardClick = (item) => {
     setActive(item);
@@ -229,6 +229,12 @@ const Gallery = () => {
       {!loading && (
         <>
           <GallerySection 
+            title="Achievements" 
+            items={achievementItems} 
+            onCardClick={handleCardClick}
+            showTitle={true}
+          />
+          <GallerySection 
             title="Anniversary" 
             items={anniversaryItems} 
             onCardClick={handleCardClick}
@@ -239,12 +245,6 @@ const Gallery = () => {
             items={corporateItems} 
             onCardClick={handleCardClick}
             showTitle={false}
-          />
-          <GallerySection 
-            title="Achievements" 
-            items={achievementItems} 
-            onCardClick={handleCardClick}
-            showTitle={true}
           />
         </>
       )}
