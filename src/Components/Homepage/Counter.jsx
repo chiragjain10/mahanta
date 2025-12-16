@@ -5,47 +5,44 @@ function Counter() {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        /* =====================================
-            1) SCROLL REVEAL ANIMATION
-        ===================================== */
-        const revealElements = document.querySelectorAll(".reveal");
+        /* ===============================
+           REVEAL ON SCROLL
+        =============================== */
+        const reveal = () => {
+            const section = document.querySelector(".compact-counter-section");
+            if (!section) return;
 
-        const handleReveal = () => {
-            revealElements.forEach((el) => {
-                const top = el.getBoundingClientRect().top;
-                if (top < window.innerHeight - 80) {
-                    el.classList.add("reveal-visible");
-                    setIsVisible(true);
-                }
-            });
+            const top = section.getBoundingClientRect().top;
+            if (top < window.innerHeight - 120) {
+                section.classList.add("reveal-visible");
+                setIsVisible(true);
+            }
         };
 
-        handleReveal();
-        window.addEventListener("scroll", handleReveal);
+        window.addEventListener("scroll", reveal);
+        reveal();
 
-        /* =====================================
-            2) COUNTER ANIMATION
-        ===================================== */
+        /* ===============================
+           COUNTER ANIMATION
+        =============================== */
         const counters = document.querySelectorAll(".counter-number");
         let started = false;
 
         const animateCounters = () => {
             const section = document.querySelector(".compact-counter-section");
-            if (!section) return;
+            if (!section || started) return;
 
             const top = section.getBoundingClientRect().top;
-
-            if (!started && top < window.innerHeight - 120) {
+            if (top < window.innerHeight - 120) {
                 started = true;
 
-                counters.forEach((counter, index) => {
-                    const target = +counter.getAttribute("data-target");
+                counters.forEach((counter, i) => {
+                    const target = +counter.dataset.target;
                     let count = 0;
-                    const duration = 1500;
-                    const increment = target / (duration / 16);
+                    const speed = target / 80;
 
                     const update = () => {
-                        count += increment;
+                        count += speed;
                         if (count < target) {
                             counter.innerText = Math.floor(count);
                             requestAnimationFrame(update);
@@ -55,7 +52,7 @@ function Counter() {
                         }
                     };
 
-                    setTimeout(update, index * 100);
+                    setTimeout(update, i * 120);
                 });
             }
         };
@@ -63,9 +60,9 @@ function Counter() {
         window.addEventListener("scroll", animateCounters);
         animateCounters();
 
-        /* =====================================
-            3) 3D TILT EFFECT (SAFE)
-        ===================================== */
+        /* ===============================
+           SAFE 3D TILT
+        =============================== */
         const cards = document.querySelectorAll(".compact-card");
 
         cards.forEach((card) => {
@@ -74,43 +71,41 @@ function Counter() {
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
+                const rotateY = ((x / rect.width) - 0.5) * 10;
+                const rotateX = ((y / rect.height) - 0.5) * -10;
 
-                const rotateY = (x - centerX) / 25;
-                const rotateX = (centerY - y) / 25;
-
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02,1.02,1.02)`;
+                card.style.transform = `
+                    perspective(800px)
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                    translateY(-6px)
+                `;
             });
 
             card.addEventListener("mouseleave", () => {
-                card.style.transform =
-                    "perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)";
+                card.style.transform = "translateY(0)";
             });
         });
 
         return () => {
-            window.removeEventListener("scroll", handleReveal);
+            window.removeEventListener("scroll", reveal);
             window.removeEventListener("scroll", animateCounters);
         };
     }, []);
 
+    const data = [
+        { icon: "users", value: 1700, label: "Satisfied Clients" },
+        { icon: "user-tie", value: 200, label: "Team Members" },
+        { icon: "calendar-alt", value: 6, label: "Years Experience" },
+        { icon: "tasks", value: 15, label: "Total Projects" }
+    ];
+
     return (
         <section className="compact-counter-section reveal">
             <div className="container">
-                <div className="box-title text-center">
-                    <h3 className="mt-4 title">
-                        Delivering excellence through measurable results
-                    </h3>
-                </div>
-
+                <h3 className="mt-4 title text-center mb-5">  Delivering excellence through measurable results</h3>
                 <div className="compact-grid">
-                    {[
-                        { icon: "users", value: 1700, label: "Satisfied Clients" },
-                        { icon: "user-tie", value: 200, label: "Team Members" },
-                        { icon: "calendar-alt", value: 6, label: "Years Experience" },
-                        { icon: "tasks", value: 15, label: "Total Projects" }
-                    ].map((item, i) => (
+                    {data.map((item, i) => (
                         <div
                             key={i}
                             className={`compact-card ${isVisible ? "card-visible" : ""}`}
@@ -119,23 +114,15 @@ function Counter() {
                                 <div className="icon-container">
                                     <i className={`fas fa-${item.icon}`}></i>
                                 </div>
-                                <div className="icon-glow"></div>
+                                <span className="icon-glow"></span>
                             </div>
 
                             <div className="card-content">
-                                <h3
-                                    className="counter-number"
-                                    data-target={item.value}
-                                >
+                                <h3 className="counter-number" data-target={item.value}>
                                     0
                                 </h3>
-                                <p className="card-label text-center mt-1 fw-bold">
-                                    {item.label}
-                                </p>
+                                <p className="card-label text-center mt-2">{item.label}</p>
                             </div>
-
-                            <div className="card-hover-bg"></div>
-                            <div className="card-border"></div>
                         </div>
                     ))}
                 </div>

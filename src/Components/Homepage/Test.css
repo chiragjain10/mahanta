@@ -150,8 +150,12 @@
 
 @media (max-width: 768px) {
   .premium-testimonial-light {
-    padding: 80px 0;
+    padding: 0px 0;
   }
+  .premium-testimonial-slider {
+  padding: 0px 20px 90px;
+}
+
 
   .premium-video-card {
     height: 440px;

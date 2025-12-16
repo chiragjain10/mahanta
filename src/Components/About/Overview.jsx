@@ -288,7 +288,7 @@ function Overview() {
         </div>
 
         {/* WHY CHOOSE */}
-        <section className="about-why container reveal">
+        {/* <section className="about-why container reveal">
           <div className="box-title text-center">
             <div className="text-subtitle text-primary">Why Choose Mahanta Group</div>
             <h3 className="mt-4 title">Secure investments, guided by experts.</h3>
@@ -315,7 +315,7 @@ function Overview() {
               <p>Dedicated to providing safe investments and high-value resale opportunities.</p>
             </article>
           </div>
-        </section>
+        </section> */}
 
         {/* OUR MISSION */}
         

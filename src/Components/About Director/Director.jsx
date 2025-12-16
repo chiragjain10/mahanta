@@ -408,7 +408,7 @@ function Director() {
           <div className="hero-content reveal">
            
             <h1 className="hero-title">
-              Visionary <strong>Leadership</strong>
+               <strong>Leadership</strong>
             </h1>
             <p className="text-white text-lg opacity-80">
               Guiding Mahanta Group with wisdom, integrity, and forward-thinking vision

@@ -1,0 +1,159 @@
+.vm-wrapper {
+  min-height: 100vh;
+  padding: 5rem 0;
+  background: linear-gradient(135deg, #f4f8ff, #e8f1ff);
+  display: flex;
+  align-items: center;
+}
+
+/* LEFT */
+.vm-left {
+  padding-right: 2rem;
+}
+
+.vm-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.vm-title-main {
+  color: #1174d6;
+  display: block;
+}
+
+.vm-title-sep {
+  color: #ff7a3d;
+  font-weight: 300;
+  margin: 0 8px;
+}
+
+.vm-title-sub {
+  color: #222;
+}
+
+.vm-desc {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  max-width: 90%;
+  margin-bottom: 1.4rem;
+}
+
+.vm-year-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #1174d6, #0d5cb6);
+  color: #fff;
+  padding: 1.4rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(17, 116, 214, 0.25);
+  margin-top: 2rem;
+}
+
+.vm-year-label {
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  opacity: 0.9;
+}
+
+.vm-year-value {
+  font-size: 2.6rem;
+  font-weight: 800;
+}
+
+/* STATS */
+.vm-stat {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  height: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: all 0.4s ease;
+  position: relative;
+}
+
+.vm-stat i {
+  font-size: 2.4rem;
+  color: #1174d6;
+  margin-bottom: 1rem;
+}
+
+.vm-stat h3 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #1174d6;
+}
+
+.vm-stat p {
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.vm-stat:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 45px rgba(17,116,214,0.2);
+}
+
+/* Highlight */
+.vm-stat.highlight {
+  background: linear-gradient(135deg, #1174d6, #0d5cb6);
+  color: #fff;
+}
+
+.vm-stat.highlight i,
+.vm-stat.highlight h3,
+.vm-stat.highlight p {
+  color: #fff;
+}
+
+/* Badge */
+.vm-badge {
+  display: inline-block;
+  background: #2ecc71;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-top: 8px;
+}
+
+/* Wide Card */
+.vm-stat.wide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, #1f1f1f, #333);
+  color: #fff;
+}
+
+.vm-stat.wide i {
+  color: #fff;
+}
+
+.vm-mini-year {
+  font-size: 2rem;
+  font-weight: 800;
+  background: rgba(255,255,255,0.15);
+  padding: 0.6rem 1.4rem;
+  border-radius: 12px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .vm-title {
+    font-size: 2.3rem;
+  }
+  .vm-wrapper{
+    padding: 0rem 0;
+  }
+
+  .vm-desc {
+    max-width: 100%;
+  }
+}

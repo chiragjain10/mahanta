@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import "./Career.css";
-
+import {
+    FaChartLine,
+    FaBullhorn,
+} from "react-icons/fa";
 // IMPORTING ALL NECESSARY ICONS
 import {
     FaExternalLinkAlt, FaHandshake, FaBullseye, FaUserTie,
-    FaBuilding, FaFileInvoiceDollar, FaMoneyCheckAlt, FaChartLine,
-    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog,
+    FaBuilding, FaFileInvoiceDollar, FaMoneyCheckAlt,
+    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog,FaFileAlt,
     FaSearchDollar, FaPalette, FaFeatherAlt, FaHeadset, FaVideo, FaHeart,
     FaCoins, FaRocket, FaPaperPlane
 } from "react-icons/fa";
@@ -82,37 +85,34 @@ export default function Career() {
                 .director-container-career { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
             `}</style>
 
-            {/* HERO SECTION */}
             <section
-            className="mt-5 pt-3"
+                className="mt-5 pt-3"
                 style={{
                     position: "relative",
-                    width: "100%",
-                    height: "60vh",
+                    width: "100%", // Keeping a mobile-friendly height
                     overflow: "hidden"
                 }}
             >
-                {/* Background Image */}
-                <div
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundImage: "url(/images/img/bnr.jpeg)",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center center",
-                        backgroundRepeat: "no-repeat"
-                    }}
+                {/* 1. The Image Element */}
+                <img
+                    src="/images/img/bnr.jpeg" // Your image source
+                    alt="Banner Background"
+                   
                 />
 
-                {/* Light Overlay */}
+                {/* 2. Light Overlay (Still needed if you want the gradient effect) */}
                 <div
                     style={{
                         position: "absolute",
                         inset: 0,
                         background:
-                            "linear-gradient(180deg, rgba(255,255,255,0.15), rgba(0,0,0,0.15))"
+                            "linear-gradient(180deg, rgba(255,255,255,0.15), rgba(0,0,0,0.15))",
+                        zIndex: 2 // Keep the overlay above the image
                     }}
                 />
+
+                {/* Optional: Content (e.g., a title) placed inside the banner */}
+                
             </section>
 
 
@@ -182,33 +182,84 @@ export default function Career() {
             {/* WHY JOIN US SECTION */}
             <section className="why-join-section">
                 <div className="container">
-                    <h2 className="section-title">Why Join Us?</h2>
+                    <h2 className="section-title">
+                        Key Reasons to Build Your Career with <span>Mahanta Group</span>
+                    </h2>
+
                     <div className="benefits-grid">
+                        {/* 1 */}
                         <div className="benefit-card">
-                            <div className="benefit-icon"><FaCoins /></div>
+                            <div className="benefit-icon">
+                                <FaFileInvoiceDollar />
+                            </div>
                             <h3>High Commission & Incentives</h3>
-                            <p>Industry-leading commission structure and bonuses.</p>
+                            <p>
+                                Industry-leading commission structure with instant performance-based
+                                incentives designed to reward top achievers.
+                            </p>
                         </div>
+
+                        {/* 2 */}
                         <div className="benefit-card">
-                            <div className="benefit-icon"><HiOutlineOfficeBuilding /></div>
-                            <h3>Premium Inventory Access</h3>
-                            <p>Work with prime residential & commercial projects.</p>
+                            <div className="benefit-icon">
+                                <HiOutlineOfficeBuilding />
+                            </div>
+                            <h3>Access to Premium Inventory</h3>
+                            <p>
+                                Work directly with a wide range of premium residential and commercial
+                                projects that give you a strong competitive advantage.
+                            </p>
                         </div>
+
+                        {/* 3 */}
                         <div className="benefit-card">
-                            <div className="benefit-icon"><FaRocket /></div>
+                            <div className="benefit-icon">
+                                <FaChartLine />
+                            </div>
                             <h3>Accelerated Career Growth</h3>
-                            <p>Clear career paths and mentorship.</p>
+                            <p>
+                                Clear career progression, internal promotions, and expert mentorship
+                                to ensure continuous and fast-paced professional growth.
+                            </p>
+                        </div>
+
+                        {/* 4 */}
+                        <div className="benefit-card">
+                            <div className="benefit-icon">
+                                <FaBullhorn />
+                            </div>
+                            <h3>Innovative Marketing Campaigns</h3>
+                            <p>
+                                Leverage cutting-edge digital marketing strategies and tools to
+                                generate consistent, high-quality leads.
+                            </p>
+                        </div>
+
+                        {/* 5 */}
+                        <div className="benefit-card">
+                            <div className="benefit-icon">
+                                <FaUsers />
+                            </div>
+                            <h3>Collaborative & Energetic Culture</h3>
+                            <p>
+                                Join a motivated, high-energy team that celebrates success and works
+                                together to achieve ambitious sales goals.
+                            </p>
                         </div>
                     </div>
 
                     <div className="cta-section">
-                        <h3>Ready to Apply?</h3>
-                        <button className="cta-button" onClick={() => window.open(googleFormUrl, "_blank")}>
+                        {/* <h3 className="text-white">Ready to Take the Next Step?</h3> */}
+                        <button
+                            className="cta-button"
+                            onClick={() => window.open(googleFormUrl, "_blank")}
+                        >
                             Apply Through Google Form <FaExternalLinkAlt />
                         </button>
                     </div>
                 </div>
             </section>
+
 
             {/* MODAL FORM */}
             {showForm && (
@@ -216,7 +267,7 @@ export default function Career() {
                     <div className="career-modal-premium" onClick={e => e.stopPropagation()}>
                         <button className="close-x" onClick={() => setShowForm(false)}>&times;</button>
                         <div className="modal-top">
-                            <div className="modal-icon-wrap"><FaPaperPlane /></div>
+                            <div className="modal-icon-wrap"><FaFileAlt /></div>
                             <h2>Application Form</h2>
                             <p className="applying-for">Post: <span>{appliedJob}</span></p>
                         </div>

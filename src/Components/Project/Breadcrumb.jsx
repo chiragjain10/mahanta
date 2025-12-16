@@ -69,7 +69,7 @@ function Breadcrumb() {
                 <div className="director-container">
                     <div className="hero-content">
                         <h1 className="hero-title">
-                            Landmark <strong>Projects</strong>
+                             <strong>Projects</strong>
                         </h1>
                         <p className="text-white text-lg opacity-80">
                             Guiding Mahanta Group with wisdom, integrity, and forward-thinking vision

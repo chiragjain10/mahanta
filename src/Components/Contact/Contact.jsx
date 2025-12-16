@@ -127,8 +127,8 @@ const ContactSection = () => {
                     </div>
 
                     <div className="col-12 text-start pt-2">
-                      <button className="btn premium-send-btn px-5 py-3 rounded-3 fw-semibold">
-                        <i className="bi bi-send-fill me-2"></i>
+                      <button className="btn premium-send-btn  py-2 rounded-3 fw-semibold">
+                        {/* <i className="bi bi-send-fill me-2"></i> */}
                         Send Message
                       </button>
                     </div>

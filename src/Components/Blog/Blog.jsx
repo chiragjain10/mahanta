@@ -140,9 +140,7 @@ export default function BlogPage() {
         <section className="vlogs-coming-section light">
           <div className="container">
             <div className="vlogs-content">
-              <span className="vlogs-eyebrow">
-                User Experiences
-              </span>
+             
 
               <h2 className="vlogs-title">
                 Blogs are coming soon
@@ -157,9 +155,7 @@ export default function BlogPage() {
 
               <div className="vlogs-divider"></div>
 
-              <span className="vlogs-note">
-                Launching Soon
-              </span>
+             
             </div>
           </div>
         </section>

@@ -110,7 +110,7 @@ const Team = () => {
           }
         }
       `}</style>
-      <section className="premium-hero">
+      {/* <section className="premium-hero">
         <div className="director-container">
           <div className="hero-content">
             <h1 className="hero-title">
@@ -121,9 +121,9 @@ const Team = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
-      <section className="py-5" style={{ background: "#f8faff" }}>
+      <section className="py-5 mt-5" style={{ background: "#f8faff" }}>
         <div className="container">
 
 

@@ -1,90 +1,87 @@
-import React, { useEffect } from "react";
-import { FaBullseye, FaEye } from "react-icons/fa";
-import "./About.css";
+import React from "react";
+import "./Mission.css";
 
-const MissionVision = () => {
-  useEffect(() => {
-    // 3D tilt effect
-    const cards = document.querySelectorAll(".mv-card");
-
-    cards.forEach((card) => {
-      card.addEventListener("mousemove", (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        card.style.transform = `
-          rotateX(${-(y / 15)}deg)
-          rotateY(${x / 20}deg)
-          scale(1.04)
-        `;
-      });
-
-      card.addEventListener("mouseleave", () => {
-        card.style.transform = "rotateX(0) rotateY(0) scale(1)";
-      });
-    });
-
-    // Scroll reveal effect
-    const revealElements = document.querySelectorAll(".reveal");
-
-    const handleReveal = () => {
-      revealElements.forEach((el) => {
-        const top = el.getBoundingClientRect().top;
-
-        if (top < window.innerHeight - 60) {
-          el.classList.add("reveal-visible");
-        }
-      });
-    };
-
-    handleReveal();
-    window.addEventListener("scroll", handleReveal);
-
-    return () => {
-      window.removeEventListener("scroll", handleReveal);
-    };
-  }, []);
-
+const VisionMissionPage = () => {
   return (
-    <section className="mission-section container reveal">
-      <div className="box-title text-center">
-        <div className="text-subtitle text-primary">Mission & Vision</div>
-        <h3 className="mt-4 title">
-          Clarity, consistency, and customer-first intelligence.
-        </h3>
-      </div>
+    <section className="vm-wrapper container-fluid">
+      <div className="container">
+        <div className="row align-items-center g-5">
 
-      <div className="mission-grid">
-        <article className="mv-card reveal">
-          <div className="mv-icon">
-            <FaBullseye />
-          </div>
-          <h3>Our Mission</h3>
-          <p>
-            Our mission is to redefine the real estate experience in Indore. We
-            leverage our deep local market expertise and client-centric
-            solutions to ensure your property journey is transparent, reliable,
-            and easy. We partner with you every step of the way to turn your
-            property dreams into a lasting reality.
-          </p>
-        </article>
+          {/* LEFT CONTENT */}
+          <div className="col-lg-6">
+            <div className="vm-left">
 
-        <article className="mv-card reveal">
-          <div className="mv-icon">
-            <FaEye />
+              <h2 className="vm-title">
+                <span className="vm-title-main">Our Vision</span>
+                <span className="vm-title-sep">&</span>
+                <span className="vm-title-sub">Mission</span>
+              </h2>
+
+              <p className="vm-desc">
+                To empower businesses globally through intelligent digital
+                solutions that accelerate growth, inspire trust, and create
+                long-term value.
+              </p>
+
+              <p className="vm-desc">
+                Our mission is to build a future-ready ecosystem driven by
+                innovation, transparency, and a relentless customer-first
+                mindset.
+              </p>
+
+              <div className="vm-year-card">
+                <span className="vm-year-label">Target Year</span>
+                <span className="vm-year-value">2027</span>
+              </div>
+            </div>
           </div>
-          <h3>Our Vision</h3>
-          <p>
-            Our vision is clear: to become the most trusted and preferred real
-            estate name in Indore. We aim to create a platform where every
-            family and business can effortlessly find the property options that
-            best match their goals and aspirations.
-          </p>
-        </article>
+
+          {/* RIGHT STATS */}
+          <div className="col-lg-6">
+            <div className="row g-4">
+
+              <div className="col-md-6">
+                <div className="vm-stat highlight">
+                  <i className="bi bi-calendar-event"></i>
+                  <h3>27</h3>
+                  <p>Years of Excellence</p>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="vm-stat">
+                  <i className="bi bi-award"></i>
+                  <h3>2</h3>
+                  <p>Global Awards</p>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="vm-stat">
+                  <i className="bi bi-people"></i>
+                  <h3>20K+</h3>
+                  <p>Business Partners</p>
+                  <span className="vm-badge">Satisfied</span>
+                </div>
+              </div>
+
+              <div className="col-md-6">
+                <div className="vm-stat">
+                  <i className="bi bi-gear"></i>
+                  <h3>10K+</h3>
+                  <p>Core Solutions</p>
+                </div>
+              </div>
+
+             
+
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );
 };
 
-export default MissionVision;
+export default VisionMissionPage;

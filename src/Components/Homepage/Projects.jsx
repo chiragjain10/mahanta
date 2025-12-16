@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight, MapPin, Calendar, Ruler, Users, ArrowRight, 
 const formatLocationSummary = (location) => {
     if (!location) return '';
     if (typeof location === 'string') return location;
-    return location.summary || location.address || '';
+    return location.address || '';
 };
 
 // Check for mobile layout
@@ -290,9 +290,9 @@ const Projects = () => {
                                 </div>
                                 
                                 <div className="project-card__details">
-                                    <p className="project-card__desc">
+                                    {/* <p className="project-card__desc">
                                         {project.description || 'A premium development project with modern amenities and superior craftsmanship.'}
-                                    </p>
+                                    </p> */}
                                     
                                     <div className="card-actions">
                                         <Link
