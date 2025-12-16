@@ -59,6 +59,11 @@ const GallerySection = React.forwardRef(({ title, items, onCardClick, showTitle 
       <div className="gallery-header">
         <div className="box-title text-center wow fadeInUp">
           <h3 className="mt-4 title">{title}</h3>
+          {sectionType === 'achievements' && (
+            <p className="mt-2 text-center" style={{opacity: 0.85}}>
+              Happy To Have So Many Achivements
+            </p>
+          )}
         </div>
       </div>
 

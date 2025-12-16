@@ -403,19 +403,7 @@ function Director() {
       {/* ==========================
            PREMIUM HERO
       ========================== */}
-      <section className="premium-hero">
-        <div className="director-container">
-          <div className="hero-content reveal">
-           
-            <h1 className="hero-title">
-               <strong>Leadership</strong>
-            </h1>
-            <p className="text-white text-lg opacity-80">
-              Guiding Mahanta Group with wisdom, integrity, and forward-thinking vision
-            </p>
-          </div>
-        </div>
-      </section>
+      
 
       {/* ==========================
            DIRECTORS SECTION
