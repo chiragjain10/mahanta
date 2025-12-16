@@ -103,7 +103,10 @@ function Counter() {
     return (
         <section className="compact-counter-section reveal">
             <div className="container">
-                <h3 className="mt-4 title text-center mb-5">  Delivering excellence through measurable results</h3>
+                <h3 className="title text-center mb-5 ">
+                    Delivering excellence through measurable results
+                </h3>
+
                 <div className="compact-grid">
                     {data.map((item, i) => (
                         <div
@@ -121,7 +124,7 @@ function Counter() {
                                 <h3 className="counter-number" data-target={item.value}>
                                     0
                                 </h3>
-                                <p className="card-label text-center mt-2">{item.label}</p>
+                                <p className="card-label text-center mt-3">{item.label}</p>
                             </div>
                         </div>
                     ))}

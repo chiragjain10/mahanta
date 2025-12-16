@@ -8,7 +8,7 @@ const FloatingWhatsApp = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  const whatsappNumber = "919999999999";
+  const whatsappNumber = "916262900000";
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=Hello%20Mahanta%20Group`;
 
   return (

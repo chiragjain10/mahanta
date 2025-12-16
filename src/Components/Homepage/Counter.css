@@ -146,9 +146,6 @@ html, body {
 }
 
 @media (max-width: 768px) {
-    .compact-counter-section {
-        padding: 50px 0;
-    }
     .compact-grid {
         grid-template-columns: 1fr;
         max-width: 420px;
