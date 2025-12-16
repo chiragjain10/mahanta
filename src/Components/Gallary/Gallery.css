@@ -259,6 +259,11 @@
   position: relative;
 }
 
+/* Increase height only for Achievements section cards */
+.achievements-section .gallery-image-wrapper {
+  height: 341px;
+}
+
 .gallery-image {
   width: 100%;
   height: 100%;
@@ -335,6 +340,13 @@
 @media (max-width: 576px) {
   .gallery-image-wrapper {
     height: 200px;
+  }
+}
+
+/* Keep Achievements taller on mobile too, but slightly reduced */
+@media (max-width: 576px) {
+  .achievements-section .gallery-image-wrapper {
+    height: 260px;
   }
 }
 /* ====================================================

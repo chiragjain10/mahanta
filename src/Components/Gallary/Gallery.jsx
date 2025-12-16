@@ -35,7 +35,7 @@ const GalleryCard = React.memo(({ item, onClick }) => {
 
 GalleryCard.displayName = 'GalleryCard';
 
-const GallerySection = React.forwardRef(({ title, items, onCardClick, showTitle = true }, ref) => {
+const GallerySection = React.forwardRef(({ title, items, onCardClick, showTitle = true, sectionType }, ref) => {
   const [expanded, setExpanded] = useState(false);
   const itemsPerPage = 6;
   const displayedItems = expanded ? items : items.slice(0, itemsPerPage);
@@ -55,7 +55,7 @@ const GallerySection = React.forwardRef(({ title, items, onCardClick, showTitle 
   }
 
   return (
-    <div ref={ref} className="container gallery-page mt-5 pt-5">
+    <div ref={ref} className={`container gallery-page mt-5 pt-5 ${sectionType ? sectionType + '-section' : ''}`}>
       <div className="gallery-header">
         <div className="box-title text-center wow fadeInUp">
           <h3 className="mt-4 title">{title}</h3>
@@ -257,6 +257,7 @@ const Gallery = () => {
             items={achievementItems} 
             onCardClick={handleCardClick}
             showTitle={true}
+            sectionType="achievements"
           />
           <GallerySection 
             ref={anniversaryRef}
