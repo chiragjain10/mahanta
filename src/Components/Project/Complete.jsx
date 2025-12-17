@@ -296,7 +296,7 @@ const Complete = () => {
                     }
                 }
             `}</style>
-            <section className="premium-hero">
+            {/* <section className="premium-hero">
                 <div className="director-container">
                     <div className="hero-content">
                         <h1 className="hero-title">
@@ -307,14 +307,14 @@ const Complete = () => {
                         </p>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             <CustomStyles />
 
-            <div className="container py-5">
+            <div className="container py-5 mt-5">
                 <div className="text-center mb-5">
                     <h2 className="fw-bold fs-1">Completed Project Portfolio</h2>
-                    <p className="text-muted fs-5">Browse every milestone we've successfully delivered.</p>
+                    {/* <p className="text-muted fs-5">Browse every milestone we've successfully delivered.</p> */}
                 </div>
 
                 {stateMessage ? (

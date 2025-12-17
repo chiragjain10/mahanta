@@ -1,6 +1,13 @@
 import "./ChooseUs.css"
-
+import { useEffect } from "react";
 function ChooseUs() {
+    useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.lordicon.com/lordicon.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+    
     return (
         <div>
             <section className="mx-5 bg-primary-new radius-30 chooseUs">

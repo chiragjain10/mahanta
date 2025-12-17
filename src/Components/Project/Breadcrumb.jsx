@@ -65,7 +65,7 @@ function Breadcrumb() {
                     }
                 }
             `}</style>
-            <section className="premium-hero">
+            {/* <section className="premium-hero">
                 <div className="director-container">
                     <div className="hero-content">
                         <h1 className="hero-title">
@@ -76,7 +76,10 @@ function Breadcrumb() {
                         </p>
                     </div>
                 </div>
-            </section>
+            </section> */}
+            <div className="gg my-5">
+
+            </div>
         </>
     )
 }

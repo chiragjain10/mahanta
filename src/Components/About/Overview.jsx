@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Overview() {
   useEffect(() => {
@@ -244,13 +245,13 @@ function Overview() {
       `}</style>
 
       {/* PAGE CONTENT */}
-      <section className="about-hero">
+      <section className="about-hero mt-5">
         <div className="about-hero__grid container">
 
           {/* LEFT CONTENT */}
           <div className="about-hero__content reveal">
             <div className="box-title">
-              <div className="text-subtitle text-primary">Welcome To Mahanta Group</div>
+              <div className="text-subtitle text-primary fs-4 mb-2">Welcome To Mahanta Group</div>
               <h3 className="mt-4 title">
                 Built on the trusted legacy of SOS Infrabulls.
               </h3>
@@ -267,8 +268,8 @@ function Overview() {
             </p>
 
             <div className="about-hero__cta">
-              <a href="/contact" className="tf-btn btn-view primary">Talk to our team</a>
-              <a href="/services" className="about-btn ghost">Explore portfolio</a>
+               <Link to=" /contact" className="tf-btn btn-view primary">Talk to our team</Link>
+               <Link to=" /services" className="about-btn ghost">Explore portfolio</Link>
             </div>
           </div>
 

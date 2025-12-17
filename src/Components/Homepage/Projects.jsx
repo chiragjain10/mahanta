@@ -324,7 +324,7 @@ const Projects = () => {
                     ))}
                 </div>
                 <div className="view-all">
-                    <Link to="/projects" className="view-all-link">
+                    <Link to="/projectgallery" className="view-all-link">
                         View All Projects
                         <ChevronRight size={18} />
                     </Link>
