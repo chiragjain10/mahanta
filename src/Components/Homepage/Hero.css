@@ -354,7 +354,7 @@
 
 @media (max-width: 768px) {
     .hero-premium {
-        min-height: 700px;
+        min-height: 500px;
     }
     
     .hero-title-premium {

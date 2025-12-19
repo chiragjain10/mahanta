@@ -387,6 +387,91 @@ function Director() {
             height: 400px;
           }
         }
+          /* ==========================
+   EXTRA MOBILE RESPONSIVENESS
+========================== */
+
+/* Small devices (phones) */
+@media (max-width: 576px) {
+
+  /* Hero */
+  .hero-content {
+    padding: 3rem 1rem;
+  }
+
+  .hero-title {
+    font-size: 2.2rem;
+    line-height: 1.2;
+  }
+
+  .breadcrumb {
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  /* Section spacing */
+  .premium-section {
+    padding: 3rem 0;
+  }
+
+  .director-container {
+    padding: 0 1rem;
+  }
+
+  /* Card layout */
+  .director-card {
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+  }
+
+  /* Image */
+ 
+
+  .photo-frame {
+    display: none; /* cleaner on mobile */
+  }
+
+  .photo-badge {
+    top: 15px;
+    right: 15px;
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+  }
+
+  /* Text */
+  .director-title {
+    font-size: 2rem;
+  }
+
+  .director-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .director-text {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .director-text.highlight {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  /* Signature */
+  .signature-text {
+    font-size: 2rem;
+  }
+}
+
+/* Disable hover tilt on touch devices */
+@media (hover: none) {
+  .tilt-card {
+    transform: none !important;
+  }
+}
+
 
         /* ==========================
            UTILITY CLASSES
@@ -408,7 +493,7 @@ function Director() {
       {/* ==========================
            DIRECTORS SECTION
       ========================== */}
-      <section className="premium-section">
+      <section className="premium-section mt-5 mt-md-0">
         <div className="director-container">
 
           {/* Pawan Tilve */}
@@ -429,10 +514,10 @@ function Director() {
                 Under his guidance, Mahanta Group has redefined real estate standards, focusing on sustainable growth, innovative solutions, and creating lasting value for stakeholders.
               </p>
 
-              <div className="director-signature">
+              {/* <div className="director-signature">
                 <div className="signature-text">Pawan Tilve</div>
                 <div className="signature-name">Founder & Managing Director</div>
-              </div>
+              </div> */}
             </div>
             <div className="director-photo-container">
               <div className="director-photo tilt-card">
@@ -473,10 +558,10 @@ function Director() {
                 "आप और मैं तभी तो कहलायेंगे 'हम'"
               </p>
 
-              <div className="director-signature">
+              {/* <div className="director-signature">
                 <div className="signature-text">Vikas Garg</div>
                 <div className="signature-name">Chairman & Managing Director</div>
-              </div>
+              </div> */}
             </div>
           </div>
 

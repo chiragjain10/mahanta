@@ -92,8 +92,9 @@ function Overview() {
         /* CTA Buttons */
         .about-hero__cta {
           margin-top: 2rem;
-          display: flex;
-          gap: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
         }
 
         .about-btn {
@@ -241,6 +242,41 @@ function Overview() {
             grid-template-columns: 1fr;
           }
         }
+          @media (max-width: 600px) {
+  .about-hero__cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+    .about-hero__grid {
+    gap: 0rem;
+}
+    .about-hero__card ul {
+    margin-top: 0.5rem;
+    padding-left: 0rem;
+    
+    font-size: 0.9rem;
+}
+    .title {
+    color: var(--text-dark);
+    font-weight: 800;
+    font-size: 1.7rem;
+}
+
+
+
+  .about-btn {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+}
+@media (max-width: 900px) {
+  .about-btn {
+    font-size: 1.05rem;
+  }
+}
+
 
       `}</style>
 
@@ -268,9 +304,15 @@ function Overview() {
             </p>
 
             <div className="about-hero__cta">
-               <Link to=" /contact" className="tf-btn btn-view primary">Talk to our team</Link>
-               <Link to=" /services" className="about-btn ghost">Explore portfolio</Link>
+              <Link to="/contact" className="about-btn primary">
+                Talk to our team
+              </Link>
+
+              <Link to="/services" className="about-btn ghost">
+                Explore portfolio
+              </Link>
             </div>
+
           </div>
 
           {/* RIGHT CARD */}
@@ -319,7 +361,7 @@ function Overview() {
         </section> */}
 
         {/* OUR MISSION */}
-        
+
 
 
       </section>

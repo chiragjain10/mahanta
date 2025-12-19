@@ -57,6 +57,10 @@
         width: 160px;
         height: 110px;
     }
+    .project-logo-carousel-section {
+    padding: 1rem 0;
+    
+}
 }
 
 @media (max-width: 480px) {
