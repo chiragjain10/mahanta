@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import "./Contact.css";
 import Breadcrumb from "./Breadcrumb";
 
@@ -20,17 +21,37 @@ const ContactSection = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      alert("Message sent successfully!");
-      setIsSubmitting(false);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
-    }, 1200);
+    emailjs
+      .send(
+        "service_a3cw276g",
+        "template_y529wi6",
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        "vEvugozjO3aQJD-Ic"
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          setIsSubmitting(false);
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            subject: "",
+            message: "",
+          });
+        },
+        (error) => {
+          alert("Failed to send message. Try again!");
+          console.error(error);
+          setIsSubmitting(false);
+        }
+      );
   };
 
   return (
@@ -38,7 +59,6 @@ const ContactSection = () => {
       <Breadcrumb />
 
       <section className="container py-5">
-        {/* HEADER */}
         <div className="text-center mb-5">
           <span className="contact-badge">CONTACT US</span>
           <h1 className="contact-title mt-3">
@@ -50,7 +70,6 @@ const ContactSection = () => {
         </div>
 
         <div className="row g-4">
-          {/* FORM */}
           <div className="col-lg-8">
             <div className="contact-card">
               <h4 className="card-title mb-4">Send a Message</h4>
@@ -58,70 +77,27 @@ const ContactSection = () => {
               <form onSubmit={handleSubmit}>
                 <div className="row g-3">
                   <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Full Name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                    />
+                    <input type="text" className="form-control" placeholder="Full Name" name="name" value={formData.name} onChange={handleChange} required />
                   </div>
 
                   <div className="col-md-6">
-                    <input
-                      type="email"
-                      className="form-control"
-                      placeholder="Email Address"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                    />
+                    <input type="email" className="form-control" placeholder="Email Address" name="email" value={formData.email} onChange={handleChange} required />
                   </div>
 
                   <div className="col-md-6">
-                    <input
-                      type="tel"
-                      className="form-control"
-                      placeholder="Phone Number"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      required
-                    />
+                    <input type="tel" className="form-control" placeholder="Phone Number" name="phone" value={formData.phone} onChange={handleChange} required />
                   </div>
 
                   <div className="col-md-6">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                    />
+                    <input type="text" className="form-control" placeholder="Subject" name="subject" value={formData.subject} onChange={handleChange} />
                   </div>
 
                   <div className="col-12">
-                    <textarea
-                      className="form-control"
-                      placeholder="Your Message"
-                      rows="4"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                    ></textarea>
+                    <textarea className="form-control" placeholder="Your Message" rows="4" name="message" value={formData.message} onChange={handleChange} required></textarea>
                   </div>
 
                   <div className="col-12">
-                    <button
-                      type="submit"
-                      className="btn btn-primary"
-                      disabled={isSubmitting}
-                    >
+                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
                   </div>
@@ -130,7 +106,7 @@ const ContactSection = () => {
             </div>
           </div>
 
-          {/* INFO */}
+
           <div className="col-lg-4">
             <div className="contact-card h-100">
               <h4 className="card-title mb-4">Contact Details</h4>
