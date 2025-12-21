@@ -1,11 +1,3 @@
-/* Custom CSS Variables */
-:root {
-    --fs: clamp(26px, 10vw, 120px); /* Font size */
-    --txt: #dff7ff; /* Primary text color */
-    --accent: #18e0ff; /* Accent color 1 (Cyan/Blue) */
-    --accent2: #78ff99; /* Accent color 2 (Green) */
-}
-
 /* ==========================================================
    MAIN CONTAINER - GAMING HERO
 ========================================================== */

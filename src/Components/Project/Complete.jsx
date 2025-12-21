@@ -15,12 +15,6 @@ const formatLocationSummary = (location) => {
 const CustomStyles = () => (
     <style>
         {`
-      :root {
-        --primary: #0f5fc0;
-        --dark: #1a1a1a;
-        --radius: 22px;
-      }
-
       .event-card {
         width: 100%;
         height: 380px;

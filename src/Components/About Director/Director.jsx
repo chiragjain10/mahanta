@@ -47,18 +47,6 @@ function Director() {
   return (
     <>
       <style>{`
-        :root {
-          --primary: #0A2540;
-          --primary-dark: #061B2E;
-          --primary-light: #1A365D;
-          --accent: linear-gradient(135deg, #1174d6, #0a56a5);
-          --accent-dark: #B89446;
-          --text-dark: #1A1A1A;
-          --text-light: #4A5568;
-          --light-bg: #FAFAFA;
-          --border: rgba(10, 37, 64, 0.1);
-        }
-
         /* ==========================
            PREMIUM ANIMATIONS
         ========================== */

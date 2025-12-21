@@ -1,13 +1,3 @@
-:root {
-  --primary: #1174d6;
-  --primary-soft: rgba(17, 116, 214, 0.1);
-  --text-dark: #1e293b;
-  --text-muted: #64748b;
-  --border-light: #e5e7eb;
-  --bg-light: #f8fafc;
-  --white: #ffffff;
-}
-
 .contact-wrapper {
   background: var(--bg-light);
 }

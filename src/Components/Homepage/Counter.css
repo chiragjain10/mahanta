@@ -1,22 +1,3 @@
-/* GLOBAL SAFETY */
-html, body {
-    width: 100%;
-    overflow-x: hidden;
-}
-
-/* VARIABLES */
-:root {
-    --primary: #1174d6;
-    --primary-light: #4da1ff;
-    --text-main: #2d3748;
-    --text-muted: #4a5568;
-    --bg-light: #f8fafc;
-    --card-bg: #ffffff;
-    --border: #e2e8f0;
-    --shadow: 0 10px 30px rgba(17, 116, 214, 0.15);
-    --gradient: linear-gradient(135deg, #1174d6, #4da1ff);
-}
-
 /* SECTION */
 .compact-counter-section {
     padding: 80px 0;
@@ -76,7 +57,7 @@ html, body {
 .icon-container {
     width: 100%;
     height: 100%;
-    background: var(--gradient);
+    background: var(--accent-gradient);
     border-radius: 18px;
     display: flex;
     align-items: center;
@@ -102,7 +83,7 @@ html, body {
 .counter-number {
     font-size: 2.8rem;
     font-weight: 800;
-    background: var(--gradient);
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     color: transparent;
 }

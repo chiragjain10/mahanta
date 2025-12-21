@@ -1,9 +1,3 @@
-:root {
-  --pro-blue: #1174d6;
-  --pro-dark: #0f172a;
-  --pro-muted: #7b7f85;
-}
-
 /* Section */
 .teampro-section {
   padding: 70px 0;
@@ -16,7 +10,7 @@
 }
 
 .teampro-subtitle {
-  color: var(--pro-blue);
+  color: var(--primary);
   font-weight: 600;
   margin-bottom: 6px;
 }
@@ -24,7 +18,7 @@
 .teampro-title {
   font-size: 1.9rem;
   font-weight: 800;
-  color: var(--pro-dark);
+  color: var(--text-dark);
 }
 
 /* CARD */
@@ -53,7 +47,7 @@
   width: 100%;
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  background: var(--pro-blue);
+  background: var(--primary);
 }
 
 /* HEAD IMAGE */
@@ -82,7 +76,7 @@
 .teampro-name {
   font-size: 1.05rem;
   font-weight: 800;
-  color: var(--pro-dark);
+  color: var(--text-dark);
   margin-top: 20px;
 }
 
@@ -103,7 +97,7 @@
 
 .teampro-icons i {
   font-size: 18px;
-  color: var(--pro-blue);
+  color: var(--primary);
   cursor: pointer;
   transition: 0.2s ease;
 }
@@ -116,7 +110,7 @@
 /* Swiper arrows */
 .swiper-button-next,
 .swiper-button-prev {
-  color: var(--pro-blue) !important;
+  color: var(--primary) !important;
   font-weight: bold;
 }
 
@@ -125,5 +119,5 @@
 }
 
 .swiper-pagination-bullet-active {
-  background: var(--pro-blue) !important;
+  background: var(--primary) !important;
 }

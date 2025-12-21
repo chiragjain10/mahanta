@@ -43,15 +43,6 @@ function Overview() {
   return (
     <>
       <style>{`
-        :root {
-          --primary: #1174d6;
-          --primary-dark: #0d5fb1;
-          --primary-hover: #0a4f94;
-          --primary-light: #e8f2ff;
-          --text-dark: #0f172a;
-          --text-light: #475569;
-        }
-
         /* Reveal animation */
         .reveal {
           opacity: 0;

@@ -72,7 +72,7 @@ const ProjectDetail = () => {
     }
 
     return (
-        <div className="project-detail-page py-5 my-5">
+        <div className="project-detail-page py-5 mb-5">
             <section
                 className="project-hero d-flex align-items-end "
                 style={{
@@ -82,56 +82,62 @@ const ProjectDetail = () => {
                 <div className="project-hero-overlay"></div>
 
                 <div className="container project-hero-content">
-                    <div className="project-hero-card shadow-lg">
-                        <div className="d-flex justify-content-between align-items-center mb-3">
-                            <Link to="/projectgallery" className="back-btn">
-                                ← Back to Projects
-                            </Link>
-
-                            <span
-                                className={`status-badge ${project.status === "completed" ? "completed" : "running"
-                                    }`}
-                            >
-                                {project.status === "completed" ? "Completed" : "Running"}
-                            </span>
-                        </div>
-
-                        <h1 className="hero-title">{project.title}</h1>
-                        <p className="hero-subtitle">
-                            {project.tagline || formatLocationSummary(project.location)}
-                        </p>
-
-                        <div className="row hero-meta mt-4">
-                            <div className="col-md-4 col-6">
-                                <span className="meta-label">Developer</span>
-                                <div className="meta-value">{project.developer || "SOS Infrabulls"}</div>
-                            </div>
-                            <div className="col-md-4 col-6">
-                                <span className="meta-label">Layout</span>
-                                <div className="meta-value">{project.project_layout || "Coming soon"}</div>
-                            </div>
-                            <div className="col-md-4 col-12 mt-md-0 mt-3">
-                                <span className="meta-label">Location</span>
-                                <div className="meta-value">
-                                    {project.location?.address || formatLocationSummary(project.location)}
-                                </div>
-                            </div>
-                        </div>
-
-                        {project.ctaUrl && (
-                            <a
-                                href={project.ctaUrl}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="btn btn-primary mt-4 px-4 py-2"
-                            >
-                                {project.ctaLabel || "Visit Project Site"}
-                            </a>
-                        )}
-                    </div>
                 </div>
             </section>
 
+            <div className="project-hero-card">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <Link to="/projectgallery" className="back-btn">
+                        ← Back to Projects
+                    </Link>
+
+                    <span
+                        className={`status-badge ${project.status === "completed" ? "completed" : "running"
+                            }`}
+                    >
+                        {project.status === "completed" ? "Completed" : "Running"}
+                    </span>
+                </div>
+
+                <h1 className="hero-title">{project.title}</h1>
+                <p className="hero-subtitle">
+                    {project.tagline || formatLocationSummary(project.location)}
+                </p>
+
+                <div className="row mt-4">
+                    <div className="col-md-4 col-6">
+                        <div className="py-2 px-3 m-1 card">
+                            <span className="meta-label">Developer</span>
+                            <div className="meta-value">{project.developer || "SOS Infrabulls"}</div>
+                        </div>
+                    </div>
+                    <div className="col-md-4 col-6">
+                        <div className="py-2 px-3 m-1 card">
+                            <span className="meta-label">Layout</span>
+                            <div className="meta-value">{project.project_layout || "Coming soon"}</div>
+                        </div>
+                    </div>
+                    <div className="col-md-4 col-12 mt-md-0 mt-3">
+                        <div className="py-2 px-3 m-1 card">
+                            <span className="meta-label">Location</span>
+                            <div className="meta-value">
+                                {project.location?.address || formatLocationSummary(project.location)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {project.ctaUrl && (
+                    <a
+                        href={project.ctaUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn btn-primary mt-4 px-4 py-2"
+                    >
+                        {project.ctaLabel || "Visit Project Site"}
+                    </a>
+                )}
+            </div>
 
             <section className="project-detail-body container">
                 <div className="project-detail-intro">

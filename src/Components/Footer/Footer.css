@@ -1,11 +1,5 @@
 /* PremiumFooter.css - Enhanced Premium Footer */
 
-:root {
-    --primary-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    --accent-gradient: linear-gradient(135deg, #1174d6, #0a56a5);
-    --social-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-}
-
 .premium-footer {
     background: var(--primary-gradient);
     color: white;
@@ -35,12 +29,6 @@
     width: 100%;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
 /* Top Section */
@@ -785,6 +773,9 @@
         text-align: center;
         gap: 15px;
     }
+    .premium-contact-details p{
+        text-align: center !important;
+    }
     
     .premium-contact-item:hover {
         transform: translateY(-2px);
@@ -821,6 +812,7 @@
     
     .premium-newsletter-btn {
         justify-content: center;
+        padding: 15px;
     }
     
     .premium-scroll-top {
@@ -841,11 +833,7 @@
     }
 }
 
-@media (max-width: 576px) {
-    .container {
-        padding: 0 15px;
-    }
-    
+@media (max-width: 576px) {    
     .premium-footer {
         text-align: center;
     }
