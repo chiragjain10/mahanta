@@ -452,7 +452,7 @@ const PremiumHeader = () => {
 
 
                     {/* Mobile Actions */}
-                    <div className="premium-mobile-actions">
+                    {/* <div className="premium-mobile-actions">
                         <button className="premium-mobile-auth-btn">
                             <span className="mobile-auth-icon">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -471,7 +471,7 @@ const PremiumHeader = () => {
                             </span>
                             Submit Property
                         </Link>
-                    </div>
+                    </div> */}
 
                     {/* Mobile Contact Info */}
                     <div className="premium-mobile-contact">

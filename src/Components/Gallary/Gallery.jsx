@@ -43,6 +43,14 @@ const GalleryCard = React.memo(({ item, onClick }) => {
           )}
         </div>
 
+        {/* Show location and title below cards only for anniversary items */}
+        {item.type === 'anniversaries' && (
+          <div className="gallery-card-anniversary-info">
+            {item.title && <p className="gallery-card-anniversary-title">{item.title}</p>}
+            {item.location && <p className="gallery-card-anniversary-location">📍 {item.location}</p>}
+          </div>
+        )}
+
         <div className="gallery-card-content">
           {item.title && <h4 className="gallery-card-title">{item.title}</h4>}
           {item.subtitle && <p className="gallery-card-subtitle">{item.subtitle}</p>}
@@ -304,6 +312,9 @@ const Gallery = () => {
               <div>
                 <h3 className="modal-title">{active.title || "Gallery Item"}</h3>
                 {active.date && <p className="modal-date">{active.date}</p>}
+                {active.type === 'anniversaries' && active.location && (
+                  <p className="modal-location">📍 {active.location}</p>
+                )}
               </div>
               <button className="modal-close" onClick={() => setActive(null)}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -329,7 +340,7 @@ const Gallery = () => {
               <img
                 src={active.images ? active.images[activeIndex] : active.image}
                 alt={active.title || "Preview"}
-                className="modal-main-image"
+                className={`modal-main-image ${active.type === 'anniversaries' ? 'anniversary-modal-image' : ''}`}
               />
 
               <button

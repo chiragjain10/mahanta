@@ -89,7 +89,8 @@ const AdminPanel = () => {
     const [galleryForm, setGalleryForm] = useState({
         id: '',
         type: 'achievements',
-        title: ''
+        title: '',
+        location: ''
     });
     const [primaryImageIndex, setPrimaryImageIndex] = useState(null);
     const [firebaseGalleryDocId, setFirebaseGalleryDocId] = useState(null);
@@ -236,7 +237,7 @@ const AdminPanel = () => {
         setGalleryFiles([]);
         setGalleryImagePreviews([]);
         setGalleryUploadProgress(0);
-        setGalleryForm({ id: '', type: 'achievements', title: '' });
+        setGalleryForm({ id: '', type: 'achievements', title: '', location: '' });
         setPrimaryImageIndex(null);
         setFirebaseGalleryDocId(null);
         setEditingGalleryId(null);
@@ -269,7 +270,8 @@ const AdminPanel = () => {
                 const payload = {
                     id: galleryForm.id,
                     type: galleryForm.type,
-                    title: galleryForm.title
+                    title: galleryForm.title,
+                    location: galleryForm.location
                 };
                 if (urls.length) {
                     payload.images = urls;
@@ -285,6 +287,7 @@ const AdminPanel = () => {
                     images: urls,
                     type: galleryForm.type,
                     title: galleryForm.title,
+                    location: galleryForm.location,
                     primaryImageIndex: primaryImageIndex !== null ? primaryImageIndex : 0,
                     createdAt: new Date().toISOString()
                 });
@@ -852,6 +855,7 @@ const AdminPanel = () => {
                                             </div>
                                             <div className="admin-card-content">
                                                 <h3 className="admin-card-title">{property.title}</h3>
+                                                <p className="admin-card-id">ID: {property.id}</p>
                                                 <p className="admin-card-location">📍 {property.location}</p>
                                                 <div className="admin-card-details">
                                                     {(property.type === 'plot' || property.plot_category) ? (
@@ -938,6 +942,7 @@ const AdminPanel = () => {
                                         </div>
                                         <div className="list-main">
                                             <div className="list-title">{project.title}</div>
+                                            <div className="list-sub">ID: {project.id}</div>
                                             <div className="list-sub">{extractProjectLocation(project)}</div>
                                         </div>
                                         <div className="list-meta">
@@ -1074,7 +1079,9 @@ const AdminPanel = () => {
                                         </div>
                                         <div className="list-main">
                                             <div className="list-title">{item.title || 'Gallery Item'}</div>
+                                            <div className="list-sub">ID: {item.id}</div>
                                             <div className="list-sub">{(item.type || '').toString().replace('_', ' ')}</div>
+                                            {item.location && <div className="list-sub">📍 {item.location}</div>}
                                             <div className="list-sub">{new Date(item.createdAt || Date.now()).toLocaleString()}</div>
                                         </div>
                                         <div className="list-right">
@@ -1087,7 +1094,8 @@ const AdminPanel = () => {
                                                     setGalleryForm({
                                                         id: item.id || '',
                                                         type: item.type || 'achievements',
-                                                        title: item.title || ''
+                                                        title: item.title || '',
+                                                        location: item.location || ''
                                                     });
                                                     setGalleryFiles([]);
                                                     setGalleryImagePreviews(item.images || []);
@@ -1134,6 +1142,7 @@ const AdminPanel = () => {
                                         <div className="list-media"><img src={member.image || '/images/agents/agent-1.jpg'} alt={member.name} /></div>
                                         <div className="list-main">
                                             <div className="list-title">{member.name}</div>
+                                            <div className="list-sub">ID: {member.id}</div>
                                             <div className="list-sub">{member.role}</div>
                                             <div className="list-sub">{new Date(member.createdAt || Date.now()).toLocaleString()}</div>
                                         </div>
@@ -1606,6 +1615,11 @@ const AdminPanel = () => {
                                     <label>Title</label>
                                     <input type="text" name="title" placeholder="Optional title" value={galleryForm.title} onChange={handleGalleryInputChange} />
                                 </div>
+                            </div>
+
+                            <div className="form-group">
+                                <label>Location</label>
+                                <input type="text" name="location" placeholder="Optional location" value={galleryForm.location} onChange={handleGalleryInputChange} />
                             </div>
 
                             {galleryImagePreviews && galleryImagePreviews.length > 0 && (

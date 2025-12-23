@@ -277,7 +277,7 @@ function Overview() {
 
           {/* LEFT CONTENT */}
           <div className="about-hero__content reveal">
-            <div className="box-title">
+            <div className="box-title ms-0 ps-0">
               <div className="text-subtitle text-primary fs-4 mb-2">Welcome To Mahanta Group</div>
               <h3 className="mt-4 title">
                 Built on the trusted legacy of SOS Infrabulls.

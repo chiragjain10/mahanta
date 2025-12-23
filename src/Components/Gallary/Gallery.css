@@ -376,6 +376,30 @@
   flex-grow: 1;
 }
 
+.gallery-card-anniversary-info {
+  padding: 1rem 1.5rem;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+}
+
+.gallery-card-anniversary-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0A2540;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.gallery-card-anniversary-location {
+  font-size: 0.9rem;
+  color: #1174d6;
+  margin: 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .gallery-card-footer-info {
   display: flex;
   justify-content: space-between;
@@ -621,6 +645,16 @@
   margin-top: 5px;
 }
 
+.modal-location {
+  color: #1174d6;
+  font-size: 0.95rem;
+  margin-top: 5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 .modal-close {
   background: none;
   border: none;
@@ -656,14 +690,24 @@
   height: 650px;
 }
 
+.anniversary-modal-image {
+  height: 500px !important;
+}
+
 @media (max-width: 992px){
   .modal-main-image {
     height: 500px;
+  }
+  .anniversary-modal-image {
+    height: 400px !important;
   }
 }
 @media (max-width: 768px){
   .modal-main-image {
     height: 400px;
+  }
+  .anniversary-modal-image {
+    height: 300px !important;
   }
 }
 

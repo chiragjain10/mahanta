@@ -221,6 +221,13 @@
     margin: 0 0 0.5rem 0;
 }
 
+.admin-card-id {
+    color: #64748b;
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
 .admin-card-location {
     color: #64748b;
     margin: 0 0 1rem 0;
