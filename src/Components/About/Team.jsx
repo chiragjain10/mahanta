@@ -178,7 +178,7 @@ const Team = () => {
   font-size: 0.8rem;
   color: var(--primary-gold);
   font-weight: 600;
-  text-transform: uppercase;
+  text-transform: capitalize;
   margin-top: 6px;
   letter-spacing: 1px;
   text-align: center;
@@ -255,7 +255,7 @@ const Team = () => {
 
       <section className="team-premium-section">
         <div className="container">
-          <div className="team-header">
+          <div className="team-header m-0">
             <span className="team-subtitle">Meet the Visionaries</span>
             <h2 className="team-title">Our <strong>Core Team</strong></h2>
           </div>
@@ -294,7 +294,7 @@ const Team = () => {
                     
                     <div className="member-info-floating">
                       <h3 className="member-name">{m.name}</h3>
-                      <p className="member-role text-center">{m.role}</p>
+                      <p className="member-role text-center mt-0 pt-0">{m.role.toLowerCase()}</p>
                     </div>
                   </div>
                 </div>

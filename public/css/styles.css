@@ -90,6 +90,7 @@ video {
   font-size: 100%;
   font-style: inherit;
   font-weight: inherit;
+  line-height: 1.3;
 }
 
 article,
@@ -216,7 +217,6 @@ input[type=color] {
   -moz-box-shadow: none;
   box-shadow: none;
   font-size: 14px;
-  line-height: 22px;
   border-radius: 99px;
   padding: 15px 18px;
   width: 100%;
@@ -264,7 +264,6 @@ input[type=color]::placeholder {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
   font-size: 14px;
-  line-height: 19.6px;
 }
 
 textarea {
@@ -308,12 +307,10 @@ video {
 
 .p-12 {
   font-size: 12px;
-  line-height: 18px;
 }
 
 .p-16 {
   font-size: 16px;
-  line-height: 26px;
 }
 
 /* Typography
@@ -332,38 +329,31 @@ h6 {
 
 .title-large {
   font-size: 80px;
-  line-height: 88px;
   font-weight: 800;
 }
 
 h1 {
   font-size: 56px;
-  line-height: 68px;
 }
 
 h2 {
   font-size: 44px;
-  line-height: 62px;
 }
 
 h3 {
   font-size: 36px;
-  line-height: 44px;
 }
 
 h4 {
   font-size: 30px;
-  line-height: 42px;
 }
 
 h5 {
   font-size: 24px;
-  line-height: 30px;
 }
 
 h6 {
   font-size: 18px;
-  line-height: 25.2px;
 }
 
 a {
@@ -409,62 +399,52 @@ label {
 
 .h7 {
   font-size: 20px;
-  line-height: 28px;
   font-weight: 600;
 }
 
 .body-1 {
   font-size: 20px;
   font-weight: 400;
-  line-height: 30px;
 }
 
 .body-2 {
   font-size: 16px;
   font-weight: 400;
-  line-height: 22.4px;
 }
 
 .text-btn {
   font-size: 16px;
-  line-height: 21.86px;
   font-weight: 600;
 }
 
 .text-1 {
   font-size: 18px;
   font-weight: 600;
-  line-height: 25.2px;
 }
 
 .text-2 {
   font-size: 16px;
   font-weight: 700;
-  line-height: 26px;
 }
 
 .text-3 {
   font-size: 14px;
   font-weight: 700;
-  line-height: 24px;
   letter-spacing: 0.8px;
 }
 
 .caption-1 {
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
 }
 
 .caption-2 {
   font-size: 12px;
   font-weight: 400;
-  line-height: 16px;
 }
 
 .text-subheading {
   font-size: 12px;
-  line-height: 19px;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -472,7 +452,6 @@ label {
 
 .text-subtitle {
   font-size: 14px;
-  line-height: 24px;
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -1205,7 +1184,6 @@ label {
   letter-spacing: 0px;
   color: #161e2d;
   font-size: 16px;
-  line-height: 21.86px;
   text-transform: capitalize;
   transition: all 500ms ease;
   -moz-transition: all 500ms ease;
@@ -1363,7 +1341,6 @@ label {
   position: relative;
   padding: 16px 24px;
   display: block;
-  line-height: 19.6px;
   font-weight: 600;
   font-size: 14px;
   text-transform: capitalize;
@@ -1415,7 +1392,6 @@ label {
   width: 10px;
   height: 20px;
   display: block;
-  line-height: 24px;
   font-size: 12px;
   font-weight: 700;
   text-align: center;
@@ -1477,7 +1453,6 @@ label {
   position: relative;
   padding: 16px 24px;
   display: block;
-  line-height: 24px;
   font-weight: 700;
   font-size: 16px;
   text-transform: capitalize;
@@ -1576,7 +1551,6 @@ label {
   height: 30px;
   text-align: center;
   color: #ffffff;
-  line-height: 28px;
   border: 1px solid var(--white-color-opicity-two);
   background-size: 20px;
   cursor: pointer;
@@ -1674,7 +1648,6 @@ label {
   position: fixed;
   right: 16px;
   top: 25px;
-  line-height: 30px;
   width: 30px;
   text-align: center;
   font-size: 16px;
@@ -1724,7 +1697,6 @@ label {
   top: 0px;
   width: 100%;
   text-align: end;
-  line-height: 44px;
   cursor: pointer;
   z-index: 5;
 }
@@ -1797,7 +1769,6 @@ label {
   position: relative;
   display: block;
   font-weight: 600;
-  line-height: 26px;
   padding: 10px 0px;
   font-size: 16px;
   color: #161e2d;
@@ -2018,7 +1989,6 @@ label {
 .header-style-3 .outer-search input {
   padding: 0px 16px;
   font-size: 18px;
-  line-height: 28px;
   color: #a3abb0;
   border: 0;
   border-radius: 0;
@@ -2066,7 +2036,6 @@ label {
 .canvas-menu .menu-outer .nav-link {
   padding: 10px 0px;
   font-size: 16px;
-  line-height: 26px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -2168,7 +2137,6 @@ label {
 .footer .content-footer-bottom .copyright {
   color: #a3abb0;
   font-size: 14px;
-  line-height: 22px;
   font-weight: 400;
 }
 .footer .content-footer-bottom .menu-bottom {
@@ -2179,7 +2147,6 @@ label {
 .footer .content-footer-bottom .menu-bottom a {
   color: #a3abb0;
   font-size: 14px;
-  line-height: 22px;
   font-weight: 400;
 }
 .footer .content-footer-bottom .menu-bottom a:hover {
@@ -2215,7 +2182,6 @@ label {
 .footer .wd-social span {
   font-weight: 600;
   font-size: 14px;
-  line-height: 24px;
   color: #ffffff;
   margin-right: 16px;
 }
@@ -2240,14 +2206,12 @@ label {
   border-radius: 999px;
   font-weight: 400;
   font-size: 14px;
-  line-height: 19.6px;
   color: #a3abb0;
   font-style: unset;
 }
 
 #subscribe-form input::placeholder {
   font-size: 14px;
-  line-height: 19.6px;
   color: #a3abb0;
   font-style: unset;
 }
@@ -2301,7 +2265,6 @@ label {
 .ft-title {
   font-weight: 600;
   font-size: 14px;
-  line-height: 24px;
   margin-bottom: 15px;
 }
 
@@ -2320,7 +2283,6 @@ label {
   padding: 14px 55px;
   border-radius: 99px;
   font-size: 16px;
-  line-height: 20px;
   text-align: center;
   font-weight: 600;
   background-color: transparent;
@@ -2360,7 +2322,6 @@ label {
   padding: 14px 26px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  line-height: 26px;
 }
 .flat-tab-form .nav-tab-form.style-2 .nav-link-item.active, .flat-tab-form .nav-tab-form.style-2 .nav-link-item:hover {
   background: #1174d6;
@@ -2419,7 +2380,6 @@ label {
 }
 .nav-tab-privacy .nav-link-item {
   font-size: 24px;
-  line-height: 30px;
   font-weight: 700;
   padding: 10px 0px 8px 16px;
   margin-bottom: 40px;
@@ -2739,7 +2699,6 @@ label {
 }
 .wrap-search-link a {
   font-size: 14px;
-  line-height: 19.6px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -2922,7 +2881,6 @@ label {
 /*------------ button ---------------- */
 .tf-btn {
   font-size: 16px;
-  line-height: 21.86px;
   font-weight: 600;
   display: inline-flex;
   justify-content: center;
@@ -3084,7 +3042,6 @@ label {
 
 .btn-read-more {
   font-size: 16px;
-  line-height: 26px;
   font-weight: 700;
   color: #161e2d;
   text-transform: capitalize;
@@ -3116,7 +3073,6 @@ label {
 }
 .btn-view .text {
   font-size: 16px;
-  line-height: 26px;
   font-weight: 600;
   color: #161e2d;
   position: relative;
@@ -3314,7 +3270,6 @@ label {
   -moz-box-shadow: none;
   box-shadow: none;
   font-size: 16px;
-  line-height: 26px;
   border-radius: 8px;
   padding: 14px 16px;
   width: 100%;
@@ -3360,7 +3315,6 @@ label {
   position: absolute;
   font-family: "icomoon";
   font-size: 10px;
-  line-height: 12px;
   color: #ffffff;
 }
 .tf-checkbox.style-1 {
@@ -3430,7 +3384,6 @@ label {
   border-radius: 999px;
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
   border: 1px solid #e4e4e4;
   color: #5c6368;
   background-color: #ffffff;
@@ -3459,7 +3412,6 @@ label {
   padding: 4px 6px 4px 20px;
   font-weight: 400;
   font-size: 10px;
-  line-height: 16px;
   content: "Add";
   display: flex;
   align-items: center;
@@ -3524,7 +3476,6 @@ label {
   color: #161e2d;
   font-weight: 600;
   font-size: 16px;
-  line-height: 21.86px;
   padding-right: 45px;
   border-radius: 0;
 }
@@ -3535,7 +3486,6 @@ label {
   color: #161e2d;
   font-weight: 600;
   font-size: 16px;
-  line-height: 21.86px;
 }
 .wd-find-select .inner-group .form-style .nice-select::after {
   right: 20px;
@@ -3664,7 +3614,6 @@ label {
 }
 .wd-search-form.style-2 .box .title-select {
   font-size: 14px;
-  line-height: 24px;
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -3675,7 +3624,6 @@ label {
   padding: 0;
   border: 0;
   font-size: 18px;
-  line-height: 28px;
   font-weight: 700;
 }
 .wd-search-form.style-2 .group-checkbox .amenities-item {
@@ -3703,7 +3651,6 @@ label {
 .wd-filter-select .form-style .form-control,
 .wd-filter-select .form-style .nice-select {
   font-size: 14px;
-  line-height: 22px;
   padding: 15px 18px;
   padding-right: 40px;
 }
@@ -3787,7 +3734,6 @@ label {
   padding: 15px;
   border-radius: 99px;
   font-size: 16px;
-  line-height: 16px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: #161e2d;
@@ -3883,7 +3829,6 @@ label {
 }
 .offcanvas.canvas-filter-mb .wd-find-select .title-price {
   font-size: 14px;
-  line-height: 24px;
   color: #5c6368;
   font-weight: 500;
 }
@@ -4007,7 +3952,6 @@ label {
   display: block;
   /* float: left; */
   font-size: 14px;
-  line-height: 22px;
   font-weight: 400;
   /* text-transform: capitalize; */
   outline: none;
@@ -4099,7 +4043,6 @@ label {
 .nice-select.small {
   font-size: 12px;
   height: 36px;
-  line-height: 34px;
 }
 
 .nice-select.small:after {
@@ -4108,7 +4051,6 @@ label {
 }
 
 .nice-select.small .option {
-  line-height: 34px;
   min-height: 34px;
 }
 
@@ -4183,7 +4125,6 @@ label {
 .nice-select .option {
   cursor: pointer;
   font-weight: 500;
-  line-height: 40px;
   list-style: none;
   min-height: 40px;
   outline: none;
@@ -4926,7 +4867,6 @@ label {
 .flat-blog-item.style-1 .content-box .post-author span {
   color: #ffffff;
   font-size: 14px;
-  line-height: 24px;
 }
 .flat-blog-item.style-1 .date-post {
   left: 20px;
@@ -4996,7 +4936,6 @@ label {
 .flat-blog-list .flat-blog-item .date-post {
   padding: 8px 16px;
   font-size: 14px;
-  line-height: 20.23px;
 }
 .flat-blog-list .flat-blog-item:last-child {
   margin-bottom: 26px;
@@ -5037,7 +4976,6 @@ label {
 }
 .sidebar-blog .recent .recent-post-item .content .subtitle span {
   font-size: 12px;
-  line-height: 17px;
   letter-spacing: 0.8px;
   color: #a3abb0;
 }
@@ -5065,7 +5003,6 @@ label {
 }
 .sidebar-blog .categories ul .categories-item span:first-child {
   font-size: 16px;
-  line-height: 21.86px;
   font-weight: 600;
 }
 .sidebar-blog .categories ul .categories-item span:last-child {
@@ -5141,7 +5078,6 @@ label {
   text-transform: uppercase;
   margin-bottom: 4px;
   font-size: 16px;
-  line-height: 26px;
   letter-spacing: 0.8px;
 }
 .flat-blog-detail .wrap-review {
@@ -5205,7 +5141,6 @@ label {
   text-align: center;
   width: 48px;
   height: 50px;
-  line-height: 50px;
   border-radius: 8px;
   object-fit: cover;
   position: relative;
@@ -5233,7 +5168,6 @@ label {
 }
 .list-review-item .name {
   font-size: 18px;
-  line-height: 25.2px;
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -5245,7 +5179,6 @@ label {
 .list-review-item .action span {
   color: #7c818b;
   font-size: 12px;
-  line-height: 16.8px;
 }
 .list-review-item:not(:last-child) .content {
   padding-bottom: 34px;
@@ -5278,7 +5211,6 @@ label {
 .flag-tag {
   font-weight: 600;
   font-size: 12px;
-  line-height: 28px;
   letter-spacing: 0.8px;
   text-align: center;
   display: inline-block;
@@ -5300,12 +5232,10 @@ label {
   background-color: #ffffff;
   color: #161e2d;
   font-size: 14px;
-  line-height: 24px;
   letter-spacing: 0.8px;
 }
 .flag-tag.style-3 {
   font-size: 16px;
-  line-height: 26px;
 }
 .flag-tag.primary {
   background: #1174d6;
@@ -5357,7 +5287,6 @@ label {
 .info-box .meta-list .item span {
   font-weight: 700;
   font-size: 18px;
-  line-height: 28px;
 }
 .info-box .box-bottom {
   display: flex;
@@ -5423,7 +5352,6 @@ label {
   border-radius: 999px;
   padding-right: 48px;
   font-size: 14px;
-  line-height: 19.6px;
 }
 .flat-filter-search-v2 .flat-tab-form .search-form {
   position: relative;
@@ -5744,11 +5672,9 @@ label {
 }
 .box-location.style-1 .content .sub-title {
   font-size: 14px;
-  line-height: 22px;
 }
 .box-location.style-1 .content .title {
   font-size: 18px;
-  line-height: 28px;
 }
 .box-location.style-1::after {
   height: 220px;
@@ -5948,7 +5874,6 @@ label {
 }
 .box-location-v3 .content .btn-view .text {
   font-size: 14px;
-  line-height: 24px;
   font-weight: 600;
 }
 .box-location-v3 .content .btn-view .text::before {
@@ -6260,13 +6185,11 @@ label {
 }
 .wrap-counter .counter-box .number {
   font-size: 64px;
-  line-height: 66px;
   color: #1174d6;
   font-weight: 600;
 }
 .wrap-counter .counter-box .title-count {
   font-size: 24px;
-  line-height: 30px;
   font-weight: 700;
   letter-spacing: 0.8px;
   color: #161e2d;
@@ -6317,7 +6240,6 @@ label {
 }
 .wrap-benefit-v2 .box-left .description {
   font-size: 16px;
-  line-height: 26px;
 }
 .wrap-benefit-v2 .box-right {
   display: grid;
@@ -6437,7 +6359,6 @@ label {
 }
 .box-agent .content p {
   font-size: 16px;
-  line-height: 26px;
 }
 .box-agent .content .box-icon {
   gap: 8px;
@@ -6734,7 +6655,6 @@ label {
   border-radius: 50%;
   box-sizing: content-box;
   background-clip: content-box;
-  line-height: 46px;
   font-size: 24px;
 }
 
@@ -6796,7 +6716,6 @@ label {
   top: 8px;
   width: 24px;
   height: 24px;
-  line-height: 24px;
   font-size: 12px;
   border-radius: 8px;
   z-index: 9;
@@ -6844,7 +6763,6 @@ label {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  line-height: 19.6px;
   font-family: "Manrope", sans-serif;
 }
 .map-listing-item .inner-box .box-bottom .avt-box img {
@@ -6854,7 +6772,6 @@ label {
 }
 .map-listing-item .inner-box .box-bottom .price {
   font-size: 18px;
-  line-height: 25.2px;
   font-weight: 600;
   font-family: "Manrope", sans-serif;
 }
@@ -6866,7 +6783,6 @@ label {
 .map-listing-item .content .location {
   color: #5c6368;
   font-size: 14px;
-  line-height: 19.6px;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -6884,7 +6800,6 @@ label {
 }
 .map-listing-item .content .title {
   font-size: 18px;
-  line-height: 25.2px;
   text-transform: capitalize;
   margin-top: 4px;
   font-weight: 600;
@@ -6907,7 +6822,6 @@ label {
   align-items: center;
   gap: 4px;
   font-size: 14px;
-  line-height: 19.6px;
   font-family: "Manrope", sans-serif;
 }
 .map-listing-item .content .list-info li .icon {
@@ -6929,7 +6843,6 @@ label {
   top: 8px;
   width: 24px;
   height: 24px;
-  line-height: 24px;
   font-size: 12px;
   border-radius: 8px;
   z-index: 9;
@@ -6944,7 +6857,6 @@ label {
   margin-bottom: 6px;
   font-weight: 600;
   font-size: 16px;
-  line-height: 21.86px;
   color: #1c1c1e;
   font-family: "Manrope", sans-serif;
 }
@@ -6953,7 +6865,6 @@ label {
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  line-height: 19.6px;
   color: #5c6368;
   font-family: "Manrope", sans-serif;
 }
@@ -6973,7 +6884,6 @@ label {
   border-radius: 50%;
   width: 40px !important;
   height: 40px !important;
-  line-height: 40px !important;
   background: #1174d6;
   border: 8px solid rgba(238, 103, 66, 0.1);
   box-shadow: 0 7px 30px rgba(33, 33, 33, 0.3);
@@ -7146,7 +7056,6 @@ label {
 }
 .box-title-listing .box-filter-tab .nice-select {
   padding: 0px 18px;
-  line-height: 48px;
   border-radius: 10px;
   font-family: "Poppins", sans-serif;
 }
@@ -7170,7 +7079,6 @@ label {
 }
 .box-title-listing .box-left .text {
   font-size: 14px;
-  line-height: 21px;
   font-family: "Poppins", sans-serif;
 }
 
@@ -7188,7 +7096,6 @@ label {
   justify-content: center;
   font-weight: 600;
   font-size: 16px;
-  line-height: 21.86px;
   border-radius: 10px;
   border: 1px solid #e4e4e4;
 }
@@ -7377,7 +7284,6 @@ label {
   font-weight: 600;
   opacity: 0.8;
   font-size: 16px;
-  line-height: 21.86px;
 }
 .header-property-detail .content-bottom .info-box .meta {
   display: flex;
@@ -8110,7 +8016,6 @@ label {
 .content-box-privacy p {
   margin-top: 12px;
   font-size: 18px;
-  line-height: 28px;
   color: #5c6368;
 }
 .content-box-privacy .box-list {
@@ -8120,7 +8025,6 @@ label {
   margin-top: 12px;
   display: flex;
   font-size: 18px;
-  line-height: 28px;
 }
 .content-box-privacy .box-list li::before {
   width: 5px;
@@ -8153,7 +8057,6 @@ label {
   padding-right: 60px;
   display: block;
   font-size: 18px;
-  line-height: 25.2px;
   font-weight: 600;
   position: relative;
   text-transform: capitalize;
@@ -8603,7 +8506,6 @@ label {
   content: "\ea3d";
   font-family: "icomoon";
   text-align: center;
-  line-height: 44px;
   font-size: 14px;
   font-weight: 900;
   color: #1174d6;
@@ -8654,7 +8556,6 @@ label {
 .flat-header-wrapper-about .desc {
   margin-top: 30px;
   font-size: 24px;
-  line-height: 33.6px;
 }
 .flat-header-wrapper-about .signature-box {
   margin-top: 45px;
@@ -8714,7 +8615,6 @@ label {
 }
 .sidebar-privacy .contact-box .desc {
   font-size: 16px;
-  line-height: 28.8px;
   color: #1c1c1e;
 }
 .sidebar-privacy .contact-box .tf-btn {
@@ -8723,7 +8623,6 @@ label {
 }
 .sidebar-privacy .contact-box .text-mail {
   font-size: 16px;
-  line-height: 28.8px;
   color: #1c1c1e;
   font-weight: 500;
   text-decoration: underline;
@@ -8762,7 +8661,6 @@ label {
 }
 .header-dashboard .header-account .box-avatar .name {
   font-size: 16px;
-  line-height: 26px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -8799,7 +8697,6 @@ label {
 }
 .header-account .dropdown-menu .dropdown-item {
   padding: 16px 24px;
-  line-height: 26px;
   font-weight: 600;
   font-size: 16px;
   text-transform: capitalize;
@@ -9027,14 +8924,12 @@ label {
 }
 .layout-wrap .flat-counter-v2 .counter-box .title-count {
   font-size: 16px;
-  line-height: 24px;
   margin-bottom: 2px;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 .layout-wrap .flat-counter-v2 .box-count .text {
   font-size: 14px;
-  line-height: 30px;
   font-weight: 800;
   color: #5c6368;
 }
@@ -9047,7 +8942,6 @@ label {
 .layout-wrap .wrap-table thead tr th {
   color: #ffffff;
   font-size: 14px;
-  line-height: 19.6px;
   font-weight: 600;
   padding: 8px 14px;
   padding-right: 30px;
@@ -9115,13 +9009,11 @@ label {
 .layout-wrap .wrap-table .listing-box .content .title {
   margin-bottom: 2px;
   font-size: 16px;
-  line-height: 21.86px;
   font-weight: 600;
 }
 .layout-wrap .wrap-table .listing-box .content .text-date {
   margin-bottom: 9px;
   font-size: 13px;
-  line-height: 16px;
   color: #3a3a3c;
 }
 .layout-wrap .wrap-table .status-wrap .btn-status {
@@ -9129,7 +9021,6 @@ label {
   padding: 0px 6px;
   border-radius: 999px;
   font-size: 13px;
-  line-height: 23px;
   height: 23px;
   font-weight: 800;
   color: #ffffff;
@@ -9241,7 +9132,6 @@ label {
 }
 .layout-wrap .box-agent-account .note {
   font-size: 18px;
-  line-height: 28px;
   padding: 20px;
   border-radius: 8px;
   background-color: #fff3cd;
@@ -9740,7 +9630,6 @@ tr {
     text-transform: capitalize;
     margin-top: 40px;
     font-size: 30px;
-    line-height: 42px;
   }
   .flat-testimonial-v2 .archive-bottom {
     margin-top: 50px;
@@ -9855,7 +9744,6 @@ tr {
   }
   .tf-image-wrap .tag-item span {
     font-size: 18px;
-    line-height: 25.2px;
     font-weight: 600;
   }
   .tf-image-wrap .tag-item .icon {
@@ -10394,7 +10282,6 @@ tr {
   }
   .wd-find-select .inner-group .box-filter .text-1 {
     font-size: 16px;
-    line-height: 26px;
   }
   .wd-find-select .tf-btn {
     min-width: 100px;
@@ -10545,7 +10432,6 @@ tr {
   }
   .flat-img-with-text .box-count .count-item h4 {
     font-size: 18px;
-    line-height: 24px;
   }
   .flat-map .top-map {
     height: 500px;
@@ -10565,7 +10451,6 @@ tr {
   }
   .flat-title-page h2 {
     font-size: 46px;
-    line-height: 58px;
   }
   .flat-section {
     padding: 20px 0px 20px;
@@ -10589,31 +10474,24 @@ tr {
   }
   .title-large {
     font-size: 60px;
-    line-height: 78px;
   }
   h1 {
     font-size: 46px;
-    line-height: 58px;
   }
   h2 {
     font-size: 34px;
-    line-height: 52px;
   }
   h3 {
     font-size: 26px;
-    line-height: 34px;
   }
   h4 {
     font-size: 20px;
-    line-height: 26px;
   }
   h5 {
     font-size: 18px;
-    line-height: 22px;
   }
   h6 {
     font-size: 16px;
-    line-height: 23.2px;
   }
   .flat-slider.home-1 .slider-content {
     padding: 80px 0px;
@@ -11073,7 +10951,6 @@ tr {
   }
   .comment-form .text-checkbox {
     font-size: 14px;
-    line-height: 22px;
   }
   .flat-quote {
     padding: 15px;
@@ -11128,12 +11005,10 @@ tr {
   }
   .wrap-service-v4 .inner-service-left .title {
     font-size: 14px;
-    line-height: 24px;
   }
   .wrap-service-v4 .inner-service-left h6,
   .wrap-service-v4 .inner-service-left h4 {
     font-size: 20px;
-    line-height: 28px;
   }
   .wrap-service-v4 .inner-service-left .box-avatar {
     left: -44px;
@@ -11189,7 +11064,6 @@ tr {
   }
   .homelengo-box.lg .archive-top h5 {
     font-size: 24px;
-    line-height: 30px;
   }
   .homelengo-box.lg .archive-top .content {
     padding-left: 20px;
@@ -11197,11 +11071,9 @@ tr {
   }
   .homelengo-box.lg .archive-top .content .note {
     font-size: 16px;
-    line-height: 26px;
   }
   .homelengo-box.lg .archive-top .content .desc p {
     font-size: 16px;
-    line-height: 26px;
   }
   .homelengo-box.lg .archive-top .content .meta-list {
     column-gap: 20px;
@@ -11223,7 +11095,6 @@ tr {
   }
   .box-test-right .box-tes-item-v2 h5 {
     font-size: 20px;
-    line-height: 32px;
   }
   .wrap-benefit-v2 .box-right {
     grid-template-columns: 1fr;
@@ -11305,11 +11176,9 @@ tr {
   }
   .title-large {
     font-size: 40px;
-    line-height: 58px;
   }
   h1 {
     font-size: 30px;
-    line-height: 42px;
   }
   .layout-wrap .box-agent-avt {
     flex-wrap: wrap;
@@ -11779,7 +11648,6 @@ tr {
 .mv-card p {
   font-size: 15px;
   color: #555;
-  line-height: 1.6;
 }
 
 /* Responsive */

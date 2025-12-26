@@ -413,6 +413,9 @@
     .hero-content-premium {
         padding-top: 80px;
     }
+    .hero-premium {
+        border-radius: 0;
+    }
 }
 
 /* ==========================================================

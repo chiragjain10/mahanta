@@ -9,10 +9,9 @@ import "./Test.css";
 export default function TestimonialPremiumLight() {
 
   const videoTestimonials = [
-    "https://www.youtube.com/embed/onjph0gyd50",
     "https://www.youtube.com/embed/dtYuw2SlOtw",
     "https://www.youtube.com/embed/Eeav-EL8zZ4",
-    "https://www.youtube.com/embed/Ycqs8-ykZwA",
+    "https://www.youtube.com/embed/Ycqs8-ykZwA"
   ];
 
   return (

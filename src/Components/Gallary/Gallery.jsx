@@ -46,8 +46,8 @@ const GalleryCard = React.memo(({ item, onClick }) => {
         {/* Show location and title below cards only for anniversary items */}
         {item.type === 'anniversaries' && (
           <div className="gallery-card-anniversary-info">
-            {item.title && <p className="gallery-card-anniversary-title">{item.title}</p>}
-            {item.location && <p className="gallery-card-anniversary-location">📍 {item.location}</p>}
+            {item.title && <p className="gallery-card-anniversary-title mb-2">{item.title}</p>}
+            {item.location && <p className="gallery-card-anniversary-location"> {item.location}</p>}
           </div>
         )}
 
@@ -313,7 +313,7 @@ const Gallery = () => {
                 <h3 className="modal-title">{active.title || "Gallery Item"}</h3>
                 {active.date && <p className="modal-date">{active.date}</p>}
                 {active.type === 'anniversaries' && active.location && (
-                  <p className="modal-location">📍 {active.location}</p>
+                  <p className="modal-location "> {active.location}</p>
                 )}
               </div>
               <button className="modal-close" onClick={() => setActive(null)}>
