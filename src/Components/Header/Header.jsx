@@ -406,7 +406,7 @@ const PremiumHeader = () => {
                                         <Link to="/about" onClick={closeMobileMenu}>About Company</Link>
                                         <Link to="/aboutdirector" onClick={closeMobileMenu}>About Director</Link>
                                         <Link to="/blog" onClick={closeMobileMenu}>Blog & News</Link>
-                                        <Link to="/services" onClick={closeMobileMenu}>Services</Link>
+                                        <Link to="/team" onClick={closeMobileMenu}>Team Members</Link>
                                     </div>
                                 </div>
                             </li>
