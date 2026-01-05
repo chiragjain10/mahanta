@@ -13,7 +13,7 @@ const CounterCard = ({ item, delay }) => {
           setHasStarted(true);
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     );
 
     if (cardRef.current) observer.observe(cardRef.current);
@@ -26,7 +26,9 @@ const CounterCard = ({ item, delay }) => {
     let start = 0;
     const end = item.value;
     const duration = 2000;
-    const increment = end / (duration / 16);
+    const frameRate = 1000 / 60; // 60fps
+    const totalFrames = Math.round(duration / frameRate);
+    const increment = end / totalFrames;
 
     const timer = setInterval(() => {
       start += increment;
@@ -36,7 +38,7 @@ const CounterCard = ({ item, delay }) => {
       } else {
         setCount(Math.floor(start));
       }
-    }, 16);
+    }, frameRate);
 
     return () => clearInterval(timer);
   }, [hasStarted, item.value]);
@@ -48,18 +50,26 @@ const CounterCard = ({ item, delay }) => {
       style={{ "--pc-delay": `${delay}s` }}
     >
       <div className="pc-card-inner">
-        <div className="pc-icon-box">
-          <i className={`fas fa-${item.icon}`}></i>
-          <div className="pc-icon-glow"></div>
+        {/* Centered Icon Section */}
+        <div className="pc-icon-wrapper">
+          <div className="pc-icon-box">
+            <i className={`fas fa-${item.icon}`}></i>
+          </div>
+          <div className="pc-icon-ring"></div>
         </div>
+
+        {/* Centered Content Section */}
         <div className="pc-content">
           <h2 className="pc-number">
             {count.toLocaleString()}<span>+</span>
           </h2>
+          <div className="pc-divider"></div>
           <p className="pc-label">{item.label}</p>
         </div>
       </div>
-      <div className="pc-shimmer"></div>
+      
+      {/* Premium Decorative Light Leak */}
+      <div className="pc-light-leak"></div>
     </div>
   );
 };
@@ -76,16 +86,16 @@ export default function Counter() {
     <section className="pc-wrapper">
       <div className="pc-container">
         <div className="pc-header">
-          <span className="pc-subtitle">Our Achievement</span>
+          <span className="pc-badge">Performance Metrics</span>
           <h2 className="pc-main-title">
-            Delivering excellence through <br />
-            <span className="pc-gradient-text">measurable results</span>
+            Driving growth with <br />
+            <span className="pc-gradient-text">precision & scale</span>
           </h2>
         </div>
 
         <div className="pc-grid">
           {data.map((item, index) => (
-            <CounterCard key={index} item={item} delay={index * 0.1} />
+            <CounterCard key={index} item={item} delay={index * 0.15} />
           ))}
         </div>
       </div>

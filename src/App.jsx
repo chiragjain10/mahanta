@@ -92,7 +92,7 @@ function App() {
       {/* Floating WhatsApp Button */}
       <FloatingWhatsApp />
       {/* Preloader */}
-      {loading && <PremiumPreloader />}
+      {/* {loading && <PremiumPreloader />} */}
 
       {/* Main content hidden until preloader finishes */}
       <div className={`app-content ${loading ? "hidden-content" : "content-visible"}`}>
