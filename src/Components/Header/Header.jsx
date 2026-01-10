@@ -434,7 +434,16 @@ const PremiumHeader = () => {
                                     </div>
                                 </div>
                             </li>
-
+                            <li className="premium-mobile-nav-item">
+                                <Link
+                                    to="/career"
+                                    className="premium-mobile-nav-link"
+                                    onClick={closeMobileMenu}
+                                >
+                                    <span className="mobile-nav-icon">👨‍💼</span>
+                                    Career
+                                </Link>
+                            </li>
                             {/* Contact */}
                             <li className="premium-mobile-nav-item">
                                 <Link
@@ -446,6 +455,7 @@ const PremiumHeader = () => {
                                     Contact
                                 </Link>
                             </li>
+
 
                         </ul>
                     </nav>
