@@ -102,3 +102,8 @@ export default function Counter() {
     </section>
   );
 }
+
+
+// const SERVICE_ID = "";
+// const TEMPLATE_ID = "";
+// const PUBLIC_KEY = "";

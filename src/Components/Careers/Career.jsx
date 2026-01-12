@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Career.css";
+import emailjs from "@emailjs/browser";
+
 import {
     FaChartLine,
     FaBullhorn,
@@ -8,7 +10,7 @@ import {
 import {
     FaExternalLinkAlt, FaHandshake, FaBullseye, FaUserTie,
     FaBuilding, FaFileInvoiceDollar, FaMoneyCheckAlt,
-    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog,FaFileAlt,
+    FaUsers, FaPhoneAlt, FaUserCheck, FaComments, FaUserCog, FaFileAlt,
     FaSearchDollar, FaPalette, FaFeatherAlt, FaHeadset, FaVideo, FaHeart,
     FaCoins, FaRocket, FaPaperPlane
 } from "react-icons/fa";
@@ -19,6 +21,49 @@ export default function Career() {
     const [showTeamJobs, setShowTeamJobs] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [appliedJob, setAppliedJob] = useState("");
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        emailjs.send(
+            "service_zlyd7te",
+            "template_1vl6qfj",
+            {
+                job_title: appliedJob,
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                email: formData.email,
+                phone: formData.phone,
+                dob: formData.dob,
+                experience: formData.experience
+            },
+            "C8pltD3mWAFOY0FOB"
+        )
+            .then(() => {
+                alert("Application sent successfully!");
+                setShowForm(false);
+            })
+            .catch((error) => {
+                console.error("EmailJS Error:", error);
+                alert("Failed to send application. Try again.");
+            });
+    };
+
+
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        dob: "",
+        experience: ""
+    });
+
 
     const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform";
 
@@ -97,7 +142,7 @@ export default function Career() {
                 <img
                     src="/images/img/bnr.jpeg" // Your image source
                     alt="Banner Background"
-                   
+
                 />
 
                 {/* 2. Light Overlay (Still needed if you want the gradient effect) */}
@@ -112,7 +157,7 @@ export default function Career() {
                 />
 
                 {/* Optional: Content (e.g., a title) placed inside the banner */}
-                
+
             </section>
 
 
@@ -272,28 +317,65 @@ export default function Career() {
                             <p className="applying-for">Post: <span>{appliedJob}</span></p>
                         </div>
 
-                        <form className="modal-form-compact">
+                        <form className="modal-form-compact" onSubmit={handleSubmit}>
                             <div className="form-row">
-                                <input type="text" placeholder="First Name" required />
-                                <input type="text" placeholder="Last Name" required />
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    placeholder="First Name"
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    placeholder="Last Name"
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
+
                             <div className="form-row">
-                                <input type="email" placeholder="Email Address" required />
-                                <input type="tel" placeholder="Contact Number" required />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email Address"
+                                    required
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    placeholder="Contact Number"
+                                    required
+                                    onChange={handleChange}
+                                />
                             </div>
+
                             <div className="form-row">
-                                <input type="date" title="DOB" />
-                                <input type="text" placeholder="Years of Experience" />
+                                <input
+                                    type="date"
+                                    name="dob"
+                                    onChange={handleChange}
+                                />
+                                <input
+                                    type="text"
+                                    name="experience"
+                                    placeholder="Years of Experience"
+                                    onChange={handleChange}
+                                />
                             </div>
-                            <div className="file-area">
-                                <label>Upload Resume (PDF/DOC)</label>
-                                <input type="file" className="file-input" />
-                            </div>
+
                             <div className="btn-row">
-                                <button type="submit" className="btn-submit">Submit Application</button>
-                                <button type="reset" className="btn-reset">Reset</button>
+                                <button type="submit" className="btn-submit">
+                                    Submit Application
+                                </button>
+                                <button type="reset" className="btn-reset">
+                                    Reset
+                                </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             )}
