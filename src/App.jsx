@@ -33,6 +33,7 @@ import Terms from './Components/Legal/Terms';
 import Team from './Components/About/Team';
 import Career from './Components/Careers/Career';
 import "./App.css"
+import Privacy from './Components/Legal/Privacy';
 
 function App() {
 
@@ -116,7 +117,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/team" element={<Team />} />
           <Route path="/career" element={<Career />} />
-          
+          <Route path="/privacy" element={<Privacy />} />
 
           {/* 404 Page Route */}
           <Route path="*" element={<NotFoundPage />} />

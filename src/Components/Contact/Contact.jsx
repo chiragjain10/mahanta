@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import "./Contact.css";
 import Breadcrumb from "./Breadcrumb";
+import { Link } from "react-router-dom";
 
 const ContactSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -19,6 +22,12 @@ const ContactSection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!agreed) {
+      alert("Please agree to the Terms & Conditions to proceed.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     emailjs
@@ -38,6 +47,7 @@ const ContactSection = () => {
         () => {
           alert("Message sent successfully!");
           setIsSubmitting(false);
+          setAgreed(false);
           setFormData({
             name: "",
             email: "",
@@ -53,6 +63,7 @@ const ContactSection = () => {
         }
       );
   };
+
 
   return (
     <div className="contact-wrapper mt-5">
@@ -95,11 +106,39 @@ const ContactSection = () => {
                   <div className="col-12">
                     <textarea className="form-control" placeholder="Your Message" rows="4" name="message" value={formData.message} onChange={handleChange} required></textarea>
                   </div>
+                  <div className="col-12">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id="agree"
+                        checked={agreed}
+                        onChange={(e) => setAgreed(e.target.checked)}
+                        required
+                      />
+                      <label className="form-check-label" htmlFor="agree">
+                        I agree to the{" "}
+                        <Link to="/terms" target="_blank" rel="noopener noreferrer">
+                          Terms & Conditions
+                        </Link>{" "}
+                        and{" "}
+                        <Link to="/privacy" target="_blank" rel="noopener noreferrer">
+                          Privacy Policy
+                        </Link>
+                      </label>
+                    </div>
+                  </div>
+
 
                   <div className="col-12">
-                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={isSubmitting || !agreed}
+                    >
                       {isSubmitting ? "Sending..." : "Send Message"}
                     </button>
+
                   </div>
                 </div>
               </form>

@@ -180,36 +180,6 @@ const Footer = () => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/about">
-                                            <span className="premium-link-icon"></span>About Company
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/aboutdirector">
-                                            <span className="premium-link-icon"></span>Director Message
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/services">
-                                            <span className="premium-link-icon"></span>Our Services
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link to="/contact">
-                                            <span className="premium-link-icon"></span>Contact Us
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            {/* Properties */}
-                            <div className="premium-footer-column">
-                                <h4 className="premium-column-title">
-                                    <span className="premium-title-icon"></span>
-                                    Properties
-                                </h4>
-                                <ul className="premium-footer-links">
-                                    <li>
                                         <Link to="/projectgallery">
                                             <span className="premium-link-icon"></span>Ongoing Projects
                                         </Link>
@@ -231,6 +201,40 @@ const Footer = () => {
                                     </li>
                                 </ul>
                             </div>
+                            <div className="premium-footer-column">
+                                <h4 className="premium-column-title">
+                                    <span className="premium-title-icon"></span>
+                                    About
+                                </h4>
+                                <ul className="premium-footer-links">
+                                    <li>
+                                        <Link to="/about">
+                                            <span className="premium-link-icon"></span>About Company
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/aboutdirector">
+                                            <span className="premium-link-icon"></span>Director Message
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/contact">
+                                            <span className="premium-link-icon"></span>Contact Us
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/privacy">
+                                            <span className="premium-link-icon"></span>Privacy Policy
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/terms">
+                                            <span className="premium-link-icon"></span>Terms & Conditions
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+
 
 
                             {/* Newsletter Subscription */}
@@ -282,7 +286,7 @@ const Footer = () => {
                                 {/* <p className="premium-company-info">Premium Real Estate Services Since 2019</p> */}
                             </div>
                             <div className="premium-legal-links">
-                                
+
                                 <Link to="/terms">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                                         <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM6 20V4H13V9H18V20H6Z" fill="currentColor" />
